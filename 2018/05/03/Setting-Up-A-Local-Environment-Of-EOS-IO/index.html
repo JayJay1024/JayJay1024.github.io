@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Setting Up A Local Environment Of EOS.IO | 饭特稀的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="eos.io的本地环境的搭建主要是参考eos.io在GitHub的Wiki，同时记录一下搭建过程中遇到的坑。">
+<meta name="keywords" content="Blockchain">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Setting Up A Local Environment Of EOS.IO">
+<meta property="og:url" content="http://lucienlau.github.io/2018/05/03/Setting-Up-A-Local-Environment-Of-EOS-IO/index.html">
+<meta property="og:site_name" content="饭特稀的博客">
+<meta property="og:description" content="eos.io的本地环境的搭建主要是参考eos.io在GitHub的Wiki，同时记录一下搭建过程中遇到的坑。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-02T14:12:00.234Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Setting Up A Local Environment Of EOS.IO">
+<meta name="twitter:description" content="eos.io的本地环境的搭建主要是参考eos.io在GitHub的Wiki，同时记录一下搭建过程中遇到的坑。">
+  
+    <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/assets/images/avatar/avatar.png" class="js-avatar show">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">留叶</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">勿忘初心，保持平常心，从心出发</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/categories/随笔">随笔</a></li>
+				        
+							<li><a href="/categories/电影阅读">电影&amp;阅读</a></li>
+				        
+							<li><a href="/categories/世界那么大">世界那么大</a></li>
+				        
+							<li><a href="/categories/攻城狮那些事儿">攻城狮那些事儿</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/LucienLau/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="https://mail.google.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://www.google.com/ncr" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Blockchain/" style="font-size: 20px;">Blockchain</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/eosio/" style="font-size: 15px;">eosio</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/wine/" style="font-size: 10px;">wine</a> <a href="/tags/yilia/" style="font-size: 10px;">yilia</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.qiniu.com/">七牛云</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://duoshuo.com/">多说评论</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://music.163.com">网易云音乐</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/hexojs/hexo/wiki/Themes">Hexo.Themes</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://stackedit.io/">在线MarkDwon</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">留叶</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/assets/images/avatar/avatar.png" class="js-avatar show">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">留叶</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">勿忘初心，保持平常心，从心出发</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/随笔">随笔</a></li>
+		        
+					<li><a href="/categories/电影阅读">电影&amp;阅读</a></li>
+		        
+					<li><a href="/categories/世界那么大">世界那么大</a></li>
+		        
+					<li><a href="/categories/攻城狮那些事儿">攻城狮那些事儿</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/LucienLau/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="https://mail.google.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://www.google.com/ncr" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Setting-Up-A-Local-Environment-Of-EOS-IO" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/03/Setting-Up-A-Local-Environment-Of-EOS-IO/" class="article-date">
+  	<time datetime="2018-05-03T01:34:53.000Z" itemprop="datePublished">2018-05-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Setting Up A Local Environment Of EOS.IO
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>eos.io的本地环境的搭建主要是参考eos.io在GitHub的<a href="https://github.com/EOSIO/eos/wiki/Local-Environment" target="_blank" rel="noopener">Wiki</a>，同时记录一下搭建过程中遇到的坑。<a id="more"></a></p>
+<h2 id="Getting-the-Code"><a href="#Getting-the-Code" class="headerlink" title="Getting the Code"></a>Getting the Code</h2><p>首先需要获得eos.io的source code，通过以下的命令clone到本地：<br><code>git clone https://github.com/EOSIO/eos --recursive</code><br>命令行的<em>–recursive</em>这个flag确保克隆eos仓库和它的子模块，如果clone时没有使用这个flag，则通过下面的命令也可以取得子模块：<br><code>git submodule update --init --recursive</code></p>
+<h2 id="Building-EOSIO"><a href="#Building-EOSIO" class="headerlink" title="Building EOSIO"></a>Building EOSIO</h2><h4 id="Automated-build-script"><a href="#Automated-build-script" class="headerlink" title="Automated build script"></a>Automated build script</h4><p>最简单的方法是使用eos的自动编译脚本，自动编译脚本支持以下的系统：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. Amazon 2017.09 and higher.</span><br><span class="line">2. Centos 7.</span><br><span class="line">3. Fedora 25 and higher (Fedora 27 recommended).</span><br><span class="line">4. Mint 18.</span><br><span class="line">5. Ubuntu 16.04 (Ubuntu 16.10 recommended).</span><br><span class="line">6. MacOS Darwin 10.12 and higher (MacOS 10.13.x recommended).</span><br></pre></td></tr></table></figure></p>
+<h4 id="System-Requirements-all-platforms"><a href="#System-Requirements-all-platforms" class="headerlink" title="System Requirements (all platforms)"></a>System Requirements (all platforms)</h4><p>同时，所有的操作平台，需要满足：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 8GB的可用内存</span><br><span class="line">2. 20GB的可用磁盘</span><br></pre></td></tr></table></figure></p>
+<p>如果内存不满足，脚本将会给出提示并且终止当前编译。</p>
+<h4 id="Run-the-build-script"><a href="#Run-the-build-script" class="headerlink" title="Run the build script"></a>Run the build script</h4><p><code>cd eos</code><br><code>./eosio_build.sh</code><br>脚本会check系统的环境，如果某些依赖不存在，脚本会提示进行安装。<br>如下是博主在macOS Darwin 10.13.4上运行脚本后出现的依赖不存在情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Checking dependencies.</span><br><span class="line">Checking automake ... 		 automake NOT found.</span><br><span class="line">Checking Libtool ... 		 Libtool NOT found.</span><br><span class="line">Checking OpenSSL ... 		 OpenSSL NOT found.</span><br><span class="line">Checking llvm ... 		 llvm NOT found.</span><br><span class="line">Checking wget ... 		 wget NOT found.</span><br><span class="line">Checking CMake ... 		 CMake NOT found.</span><br><span class="line">Checking GMP ... 		 GMP NOT found.</span><br><span class="line">Checking gettext ... 		 gettext NOT found.</span><br><span class="line">Checking MongoDB ... 		 MongoDB NOT found.</span><br><span class="line">Checking Doxygen ... 		 Doxygen NOT found.</span><br><span class="line">Checking Graphviz ... 		 Graphviz NOT found.</span><br><span class="line">Checking LCOV ... 		 LCOV NOT found.</span><br><span class="line">Checking Python3 ... 		 python3 NOT found.</span><br><span class="line"></span><br><span class="line">The following dependencies are required to install EOSIO.</span><br><span class="line"></span><br><span class="line">1. automake</span><br><span class="line">2. Libtool</span><br><span class="line">3. OpenSSL</span><br><span class="line">4. llvm</span><br><span class="line">5. wget</span><br><span class="line">6. CMake</span><br><span class="line">7. GMP</span><br><span class="line">8. gettext</span><br><span class="line">9. MongoDB</span><br><span class="line">10. Doxygen</span><br><span class="line">11. Graphviz</span><br><span class="line">12. LCOV</span><br><span class="line">13. Python 3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Do you wish to install these packages?</span><br><span class="line">1) Yes</span><br><span class="line">2) No</span><br><span class="line">#?</span><br></pre></td></tr></table></figure></p>
+<p>build seccess将会出现以下画面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> _______  _______  _______ _________ _______</span><br><span class="line">(  ____ \(  ___  )(  ____ \\__   __/(  ___  )</span><br><span class="line">| (    \/| (   ) || (    \/   ) (   | (   ) |</span><br><span class="line">| (__    | |   | || (_____    | |   | |   | |</span><br><span class="line">|  __)   | |   | |(_____  )   | |   | |   | |</span><br><span class="line">| (      | |   | |      ) |   | |   | |   | |</span><br><span class="line">| (____/\| (___) |/\____) |___) (___| (___) |</span><br><span class="line">(_______/(_______)\_______)\_______/(_______)</span><br><span class="line"></span><br><span class="line">EOS.IO has been successfully built. 1:6:15</span><br><span class="line"></span><br><span class="line">To verify your installation run the following commands:</span><br><span class="line"></span><br><span class="line">/usr/local/bin/mongod -f /usr/local/etc/mongod.conf &amp;</span><br><span class="line">cd /Users/lauyearh/Blockchain/EOS/eos/build; make test</span><br><span class="line"></span><br><span class="line">For more information:</span><br><span class="line">EOS.IO website: https://eos.io</span><br><span class="line">EOS.IO Telegram channel @ https://t.me/EOSProject</span><br><span class="line">EOS.IO resources: https://eos.io/resources/</span><br><span class="line">EOS.IO wiki: https://github.com/EOSIO/eos/wiki</span><br></pre></td></tr></table></figure></p>
+<h4 id="Build-validation"><a href="#Build-validation" class="headerlink" title="Build validation"></a>Build validation</h4><p>可以通过一组测试用例，验证你的编译。<br>如果是在Linux平台：<br><code>~/opt/mongodb/bin/mongod -f ~/opt/mongodb/mongod.conf &amp;</code><br>如果是在macOS:<br><code>/usr/local/bin/mongod -f /usr/local/etc/mongod.conf &amp;</code><br>然后执行以下命令，不管在Linux还是macOS：<br><code>cd build</code><br><code>make test</code><br>最后出现这样的提示说明测试通过：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">100% tests passed, 0 tests failed out of 33</span><br><span class="line"></span><br><span class="line">Total Test time (real) = 806.70 sec</span><br></pre></td></tr></table></figure></p>
+<h4 id="Install-the-executables"><a href="#Install-the-executables" class="headerlink" title="Install the executables"></a>Install the executables</h4><p>通过安装可执行档案，可以在系统中方便操作eos，相当于把cmd写到PATH变量中，但是其实是把内容安装到/usr/local：<br><code>cd build</code><br><code>sudo make install</code></p>
+<h2 id="Creating-and-Launching-a-Single-Node-Testnet"><a href="#Creating-and-Launching-a-Single-Node-Testnet" class="headerlink" title="Creating and Launching a Single Node Testnet"></a>Creating and Launching a Single Node Testnet</h2><p>运行下面的命令，将启动一个简单的节点：<br><code>cd build/programs/nodeos</code><br><code>./nodeos -e -p eosio --plugin eosio::wallet_api_plugin --plugin eosio::chain_api_plugin --plugin eosio::account_history_api_plugin</code><br>这个时候，默认的config路径，在macOS上是<em>\$HOME/Library/Application Support/eosio/nodeos/config</em>，里面包含<em>config.ini</em>和<em>genesis.json</em>两个文件。当然，你也可以在启动nodeos时通过<em>--config-dir</em>指定<em>config</em>路径，并且需要建立ini和json两个文件。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>博主build时用的是macOS，同时系统配置满足要求，使用自动编译脚本的时候没遇到什么坑，顺利build通过。Source code是<em>master</em> branch，commit id是<em>19227c9b0a095683c1df3668c110cef2d91cbb15</em>。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/EOSIO/eos/wiki/Local-Environment" target="_blank" rel="noopener">https://github.com/EOSIO/eos/wiki/Local-Environment</a></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/03/EOSIO宪法草案/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          EOSIO宪法草案
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/27/说说以太猫/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">说说以太猫</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Setting-Up-A-Local-Environment-Of-EOS-IO" data-title="Setting Up A Local Environment Of EOS.IO" data-url="http://lucienlau.github.io/2018/05/03/Setting-Up-A-Local-Environment-Of-EOS-IO/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"smfy"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 留叶
+			<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+			</script>
+			<span id="busuanzi_container_site_uv">
+				 | 本站总访问量 <span id="busuanzi_value_site_pv"></span> 人次
+			</span>
+		</div>
+      	<div class="footer-right">
+					<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="//music.163.com/outchain/player?type=2&id=864650750&auto=1&height=32"></iframe>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

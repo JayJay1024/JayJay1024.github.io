@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>说说eosio.token合约 | 饭特稀的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、eosio.token合约的请用 使用账户 hily 部署系统的 eosio.token 合约 \$ cleos set contract hily build/contracts/eosio.token -p hily">
+<meta name="keywords" content="Blockchain">
+<meta property="og:type" content="article">
+<meta property="og:title" content="说说eosio.token合约">
+<meta property="og:url" content="http://lucienlau.github.io/2018/05/15/说说eosio-token合约/index.html">
+<meta property="og:site_name" content="饭特稀的博客">
+<meta property="og:description" content="一、eosio.token合约的请用 使用账户 hily 部署系统的 eosio.token 合约 \$ cleos set contract hily build/contracts/eosio.token -p hily">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-02T14:12:00.236Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="说说eosio.token合约">
+<meta name="twitter:description" content="一、eosio.token合约的请用 使用账户 hily 部署系统的 eosio.token 合约 \$ cleos set contract hily build/contracts/eosio.token -p hily">
+  
+    <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/assets/images/avatar/avatar.png" class="js-avatar show">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">留叶</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">勿忘初心，保持平常心，从心出发</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/categories/随笔">随笔</a></li>
+				        
+							<li><a href="/categories/电影阅读">电影&amp;阅读</a></li>
+				        
+							<li><a href="/categories/世界那么大">世界那么大</a></li>
+				        
+							<li><a href="/categories/攻城狮那些事儿">攻城狮那些事儿</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/LucienLau/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="https://mail.google.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://www.google.com/ncr" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Blockchain/" style="font-size: 20px;">Blockchain</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/eosio/" style="font-size: 15px;">eosio</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/wine/" style="font-size: 10px;">wine</a> <a href="/tags/yilia/" style="font-size: 10px;">yilia</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.qiniu.com/">七牛云</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://duoshuo.com/">多说评论</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://music.163.com">网易云音乐</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/hexojs/hexo/wiki/Themes">Hexo.Themes</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://stackedit.io/">在线MarkDwon</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">留叶</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/assets/images/avatar/avatar.png" class="js-avatar show">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">留叶</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">勿忘初心，保持平常心，从心出发</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/随笔">随笔</a></li>
+		        
+					<li><a href="/categories/电影阅读">电影&amp;阅读</a></li>
+		        
+					<li><a href="/categories/世界那么大">世界那么大</a></li>
+		        
+					<li><a href="/categories/攻城狮那些事儿">攻城狮那些事儿</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/LucienLau/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="https://mail.google.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://www.google.com/ncr" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-说说eosio-token合约" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/15/说说eosio-token合约/" class="article-date">
+  	<time datetime="2018-05-15T02:55:39.000Z" itemprop="datePublished">2018-05-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      说说eosio.token合约
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、eosio-token合约的请用"><a href="#一、eosio-token合约的请用" class="headerlink" title="一、eosio.token合约的请用"></a>一、eosio.token合约的请用</h1><ul>
+<li>使用账户 <em>hily</em> 部署系统的 <em>eosio.token</em> 合约<blockquote>
+<p>\$ cleos set contract hily build/contracts/eosio.token -p hily</p>
+</blockquote>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p>使用账户 <em>hily</em> 创建 <em>HH</em> 币，发行总量100000个</p>
+<blockquote>
+<p>\$ cleos push action hily create ‘[“hily”,”100000.0000 HH”,1,1,1]’ -p hily</p>
+</blockquote>
+</li>
+<li><p>向账户 <em>hily</em> 空投100个 <em>HH</em></p>
+<blockquote>
+<p>\$ cleos push action hily issue ‘[“hily”,”100.0000 HH”,”memo”]’ -p hily</p>
+</blockquote>
+</li>
+<li><p>查询账户 <em>hily</em> 的余额</p>
+<blockquote>
+<p>\$ cleos get table hily hily accounts</p>
+</blockquote>
+</li>
+<li><p>从账户 <em>hily</em> 转账10 <em>HH</em> 给 <em>jay</em></p>
+<blockquote>
+<p>\$ cleos  push action hily transfer ‘[“hily”,”jay”,”10.0000 HH”,”memo”]’ -p hily</p>
+</blockquote>
+</li>
+<li><p>查看账户 <em>jay</em> 的余额</p>
+<blockquote>
+<p>\$ cleos get table hily jay accounts</p>
+</blockquote>
+</li>
+<li><p>使用 <em>hily</em> 部署 <em>token</em> 合约后，可以像上面一样， <em>hily</em> 自己创建一个 <em>HH</em> 币，同时账户 <em>jay</em> 也可以创建他的 <em>JAY</em> 币</p>
+<blockquote>
+<p>\$ cleos push action hily create ‘[“jay”,”10000.0000 JAY”,1,1,1]’ -p hily</p>
+</blockquote>
+</li>
+<li><p>空投 <em>jay</em> 的 <em>JAY</em> 币到 <em>jack</em> 时，要注意命令中各个账户的使用</p>
+<blockquote>
+<p>\$ cleos push action hily issue ‘[“jack”,”20.0000 JAY”,”memo”]’ -p jay</p>
+</blockquote>
+</li>
+<li><p>这时查看 <em>jack</em> 账户时，可以看到拥有的 <em>JAY</em> 币余额</p>
+<blockquote>
+<p>\$ cleos get table hily jack accounts</p>
+</blockquote>
+</li>
+<li><p>如果 <em>jack</em> 除了拥有 <em>JAY</em> 币外，还有拥有其他币，则上面的命令的结果将会显示 <em>jack</em> 不同的币的余额。</p>
+</li>
+</ul>
+<h1 id="二、问题"><a href="#二、问题" class="headerlink" title="二、问题"></a>二、问题</h1><ul>
+<li>比如上面我们将会发行10000个 <em>JAY</em> 币，并且空投了20个到 <em>jack</em> 账户，那么我们如何获得 <em>JAY</em> 币的剩余发行量（10000 - 20 = 9980）？</li>
+</ul>
+<h1 id="三、eosio-token源码分析"><a href="#三、eosio-token源码分析" class="headerlink" title="三、eosio.token源码分析"></a>三、eosio.token源码分析</h1><p>构造函数：使用 <em>hily</em> 账户部署 <em>token</em> 合约时（ <code>cleos set contract hily build/contracts/eosio.token -p hily</code> ）， <em>hily</em> 将传给 <em>self</em> ，而该 <em>self</em> 传到父类 <em>contract</em> 中时，将会存到到父类的 <em>_self</em> 属性中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">token( account_name self ):contract(self)&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>create函数：创建加密币，对应到这个命令 <code>cleos push action hily create &#39;[&quot;hily&quot;,&quot;100000.0000 HH&quot;,1,1,1]&#39; -p hily</code> 。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">void token::create( account_name issuer,</span><br><span class="line">                    asset        maximum_supply,</span><br><span class="line">                    uint8_t      issuer_can_freeze,</span><br><span class="line">                    uint8_t      issuer_can_recall,</span><br><span class="line">                    uint8_t      issuer_can_whitelist )</span><br><span class="line">&#123;</span><br><span class="line">    // 这里的 _self 就是部署合约时的 hily ，所以上面的 create 命令需要加上 &quot;-p hily&quot;</span><br><span class="line">    require_auth( _self );</span><br><span class="line"></span><br><span class="line">    auto sym = maximum_supply.symbol;</span><br><span class="line">    eosio_assert( sym.is_valid(), &quot;invalid symbol name&quot; ); // 这里检查代币符合是否合法，比如上面的&quot;HH&quot;</span><br><span class="line">    eosio_assert( maximum_supply.is_valid(), &quot;invalid supply&quot;);</span><br><span class="line">    eosio_assert( maximum_supply.amount &gt; 0, &quot;max-supply must be positive&quot;);  // 这里检查代币的数量必须大于0，比如上面是100000.0000</span><br><span class="line"></span><br><span class="line">    stats statstable( _self, sym.name() );</span><br><span class="line">    auto existing = statstable.find( sym.name() );  // 根据代币的符号，比如上面命令中的&quot;HH&quot;，在合约中进行查找</span><br><span class="line">    eosio_assert( existing == statstable.end(), &quot;token with symbol already exists&quot; );  // 保证在这个合约中之前没有创建过这样的代币(&quot;HH&quot;)</span><br><span class="line"></span><br><span class="line">    // 把参数存放到statstable中</span><br><span class="line">    statstable.emplace( _self, [&amp;]( auto&amp; s ) &#123;</span><br><span class="line">       s.supply.symbol = maximum_supply.symbol;</span><br><span class="line">       s.max_supply    = maximum_supply;</span><br><span class="line">       s.issuer        = issuer;</span><br><span class="line">       s.can_freeze    = issuer_can_freeze;</span><br><span class="line">       s.can_recall    = issuer_can_recall;</span><br><span class="line">       s.can_whitelist = issuer_can_whitelist;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>issue：空投或者发币<code>cleos push action hily issue ‘[“jack“,”20.0000 JAY”,”memo”]’ -p jay</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">void token::issue( account_name to, asset quantity, string memo )</span><br><span class="line">&#123;</span><br><span class="line">    print( &quot;issue&quot; );</span><br><span class="line">    auto sym = quantity.symbol;</span><br><span class="line">    eosio_assert( sym.is_valid(), &quot;invalid symbol name&quot; );  // 首先确保正确的代币</span><br><span class="line"></span><br><span class="line">    auto sym_name = sym.name();</span><br><span class="line">    stats statstable( _self, sym_name );</span><br><span class="line">    auto existing = statstable.find( sym_name );</span><br><span class="line">    eosio_assert( existing != statstable.end(), &quot;token with symbol does not exist, create token before issue&quot; );  // 确保该代币，比如&quot;JAY&quot;，是存在的</span><br><span class="line">    const auto&amp; st = *existing;</span><br><span class="line"></span><br><span class="line">    require_auth( st.issuer );  // 通过代币&quot;JAY&quot;找到对应的发行者是&quot;jay&quot;，所以上面的issue需要加上&quot;-p jay&quot;</span><br><span class="line">    eosio_assert( quantity.is_valid(), &quot;invalid quantity&quot; );</span><br><span class="line">    eosio_assert( quantity.amount &gt; 0, &quot;must issue positive quantity&quot; );</span><br><span class="line"></span><br><span class="line">    eosio_assert( quantity.symbol == st.supply.symbol, &quot;symbol precision mismatch&quot; );</span><br><span class="line">    eosio_assert( quantity.amount &lt;= st.max_supply.amount - st.supply.amount, &quot;quantity exceeds available supply&quot;);  // 确保空投的数量不能超过剩余的可发行量</span><br><span class="line"></span><br><span class="line">    statstable.modify( st, 0, [&amp;]( auto&amp; s ) &#123;</span><br><span class="line">       s.supply += quantity;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // 这里有点意思，你会发现在这里jay账户会增加20 JAY，虽然上面的命令是空投20 JAY到jack账户</span><br><span class="line">    add_balance( st.issuer, quantity, st, st.issuer );</span><br><span class="line"></span><br><span class="line">    // 到这里的时候，因为to是jack，st.issue是jay，所以不相等</span><br><span class="line">    if( to != st.issuer ) &#123;</span><br><span class="line">       // 这里call transfer的时候，就会先call sub_balance然后call sub_balance</span><br><span class="line">       // 实作就是把jay账户减去20（因为上面加了20到jay，而实际需要加到jack的），然后把jack账户增加20 JAY</span><br><span class="line">       SEND_INLINE_ACTION( *this, transfer, &#123;st.issuer,N(active)&#125;, &#123;st.issuer, to, quantity, memo&#125; );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>transfer：转账<code>cleos push action hily transfer ‘[“jay”,”jack”,”10.0000 HH”,”memo”]’ -p jay</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">void token::transfer( account_name from,</span><br><span class="line">                      account_name to,</span><br><span class="line">                      asset        quantity,</span><br><span class="line">                      string       /*memo*/ )</span><br><span class="line">&#123;</span><br><span class="line">    print( &quot;transfer from &quot;, eosio::name&#123;from&#125;, &quot; to &quot;, eosio::name&#123;to&#125;, &quot; &quot;, quantity, &quot;\n&quot; );</span><br><span class="line">    eosio_assert( from != to, &quot;cannot transfer to self&quot; );  // 杜绝自己给自己转账，每个人都这么干将会造成EOS拥堵</span><br><span class="line">    require_auth( from );  // 在这里就可以知道上面的命令为什么加上&quot;-p jay&quot;了</span><br><span class="line">    eosio_assert( is_account( to ), &quot;to account does not exist&quot;);  // 检查账户合法性</span><br><span class="line">    auto sym = quantity.symbol.name();</span><br><span class="line">    stats statstable( _self, sym );</span><br><span class="line">    const auto&amp; st = statstable.get( sym );</span><br><span class="line"></span><br><span class="line">    require_recipient( from );</span><br><span class="line">    require_recipient( to );</span><br><span class="line"></span><br><span class="line">    // 检查转账的数量和代币正常性</span><br><span class="line">    eosio_assert( quantity.is_valid(), &quot;invalid quantity&quot; );</span><br><span class="line">    eosio_assert( quantity.amount &gt; 0, &quot;must transfer positive quantity&quot; );</span><br><span class="line">    eosio_assert( quantity.symbol == st.supply.symbol, &quot;symbol precision mismatch&quot; );</span><br><span class="line"></span><br><span class="line">    // 从from账户中减去指定的币额并加到to账户</span><br><span class="line">    sub_balance( from, quantity, st );</span><br><span class="line">    add_balance( to, quantity, st, from );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/05/eosio的multi-index/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          eosio的multi_index
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/08/nodeos与config-ini/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nodeos与config.ini</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="说说eosio-token合约" data-title="说说eosio.token合约" data-url="http://lucienlau.github.io/2018/05/15/说说eosio-token合约/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"smfy"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 留叶
+			<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+			</script>
+			<span id="busuanzi_container_site_uv">
+				 | 本站总访问量 <span id="busuanzi_value_site_pv"></span> 人次
+			</span>
+		</div>
+      	<div class="footer-right">
+					<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="//music.163.com/outchain/player?type=2&id=864650750&auto=1&height=32"></iframe>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

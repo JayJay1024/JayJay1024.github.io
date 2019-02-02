@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>如何利用GitHub Pages和Hexo快速搭建个人博客 | 饭特稀的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="为什么是GitHub Pages：GitHub Pages提供建立静态的站点，非常适合个人主页、博客等不需要太多动态交互、不太需要数据库支持的网站，而且GitHub上有很多模板和主题，不需要太专业的知识就可以快速搭建一个网站，同时可以用Git管理我们的代码，上传到GitHub托管，最主要还是。。。。。。GitHub Pages免费。">
+<meta name="keywords" content="Hexo,yilia">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何利用GitHub Pages和Hexo快速搭建个人博客">
+<meta property="og:url" content="http://lucienlau.github.io/2016/09/03/如何利用GitHub Pages和Hexo快速搭建个人博客/index.html">
+<meta property="og:site_name" content="饭特稀的博客">
+<meta property="og:description" content="为什么是GitHub Pages：GitHub Pages提供建立静态的站点，非常适合个人主页、博客等不需要太多动态交互、不太需要数据库支持的网站，而且GitHub上有很多模板和主题，不需要太专业的知识就可以快速搭建一个网站，同时可以用Git管理我们的代码，上传到GitHub托管，最主要还是。。。。。。GitHub Pages免费。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_0">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_1">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_2">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/_config_deply">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/hexo_deploy_success">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/duoshuo_0">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/duoshuo_1">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/footer_left">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/music163_0">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/music163_1">
+<meta property="og:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/footer_right">
+<meta property="og:updated_time" content="2019-02-02T14:12:00.236Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何利用GitHub Pages和Hexo快速搭建个人博客">
+<meta name="twitter:description" content="为什么是GitHub Pages：GitHub Pages提供建立静态的站点，非常适合个人主页、博客等不需要太多动态交互、不太需要数据库支持的网站，而且GitHub上有很多模板和主题，不需要太专业的知识就可以快速搭建一个网站，同时可以用Git管理我们的代码，上传到GitHub托管，最主要还是。。。。。。GitHub Pages免费。">
+<meta name="twitter:image" content="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_0">
+  
+    <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/assets/images/avatar/avatar.png" class="js-avatar show">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">留叶</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">勿忘初心，保持平常心，从心出发</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/categories/随笔">随笔</a></li>
+				        
+							<li><a href="/categories/电影阅读">电影&amp;阅读</a></li>
+				        
+							<li><a href="/categories/世界那么大">世界那么大</a></li>
+				        
+							<li><a href="/categories/攻城狮那些事儿">攻城狮那些事儿</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/LucienLau/" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="https://mail.google.com" title="mail">mail</a>
+					        
+								<a class="google" target="_blank" href="https://www.google.com/ncr" title="google">google</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Blockchain/" style="font-size: 20px;">Blockchain</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/eosio/" style="font-size: 15px;">eosio</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/wine/" style="font-size: 10px;">wine</a> <a href="/tags/yilia/" style="font-size: 10px;">yilia</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.qiniu.com/">七牛云</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://duoshuo.com/">多说评论</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://music.163.com">网易云音乐</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/hexojs/hexo/wiki/Themes">Hexo.Themes</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://stackedit.io/">在线MarkDwon</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">留叶</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/assets/images/avatar/avatar.png" class="js-avatar show">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">留叶</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">勿忘初心，保持平常心，从心出发</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/随笔">随笔</a></li>
+		        
+					<li><a href="/categories/电影阅读">电影&amp;阅读</a></li>
+		        
+					<li><a href="/categories/世界那么大">世界那么大</a></li>
+		        
+					<li><a href="/categories/攻城狮那些事儿">攻城狮那些事儿</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/LucienLau/" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="https://mail.google.com" title="mail">mail</a>
+			        
+						<a class="google" target="_blank" href="https://www.google.com/ncr" title="google">google</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-如何利用GitHub Pages和Hexo快速搭建个人博客" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/03/如何利用GitHub Pages和Hexo快速搭建个人博客/" class="article-date">
+  	<time datetime="2016-09-03T05:14:17.000Z" itemprop="datePublished">2016-09-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何利用GitHub Pages和Hexo快速搭建个人博客
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yilia/">yilia</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="为什么是GitHub-Pages："><a href="#为什么是GitHub-Pages：" class="headerlink" title="为什么是GitHub Pages："></a>为什么是GitHub Pages：</h2><p>GitHub Pages提供建立静态的站点，非常适合个人主页、博客等不需要太多动态交互、不太需要数据库支持的网站，而且GitHub上有很多模板和主题，不需要太专业的知识就可以快速搭建一个网站，同时可以用Git管理我们的代码，上传到GitHub托管，最主要还是。。。。。。GitHub Pages免费。</p>
+<a id="more"></a>
+<h2 id="两种模式："><a href="#两种模式：" class="headerlink" title="两种模式："></a>两种模式：</h2><ol>
+<li>User/Organization 个人或公司站点<ul>
+<li>每个GitHub账户只能建一个</li>
+<li>资源命名必须为：username/username.github.io</li>
+<li>远程仓库的master分支被用来构建和发布页面</li>
+</ul>
+</li>
+<li>Project Pages 项目站点<ul>
+<li>ph-pages分支用于构建和发布页面</li>
+<li>多个项目可以建立多个站点</li>
+</ul>
+</li>
+</ol>
+<h2 id="系统环境配置："><a href="#系统环境配置：" class="headerlink" title="系统环境配置："></a>系统环境配置：</h2><ul>
+<li><p>安装Git：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装Hexo：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>Note:</p>
+<ul>
+<li>安装Hexo出现“this failure might be due to the use of legacy binary node”，执行一下”sudo apt-get install nodejs-legacy“然后重新安装</li>
+<li>也可以使用Jekyll，Hexo和Jekyll都是生成静态网页的工具，只是听说Hexo渲染比Jekyll好，主题多、切换方便</li>
+</ul>
+</blockquote>
+<h2 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir GitHubPages</span><br><span class="line">cd GitHubPages</span><br><span class="line">hexo init HexoBlog</span><br><span class="line">cd HexoBlog</span><br><span class="line">hexo generate</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+<p>此时用浏览器打开<em><a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a></em>可以看到一篇内置的Blog了</p>
+<blockquote>
+<p>Note:</p>
+<ul>
+<li>hexo generate/g：生成静态文件，会在当前目录下生成一个新的叫做public的文件夹</li>
+<li>hexo server/s：启动本地web服务，用于博客的预览</li>
+<li>hexo deploy/d：部署博客到远端（比如github, heroku等平台）</li>
+<li>hexo clean：清理，包括public文件夹</li>
+</ul>
+</blockquote>
+<h2 id="部署到GitHub-Pages："><a href="#部署到GitHub-Pages：" class="headerlink" title="部署到GitHub Pages："></a>部署到GitHub Pages：</h2><ul>
+<li><p>在GitHub上建立站点：<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_0" alt="github_0"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_1" alt="github_1"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_2" alt="github_2"></p>
+</li>
+<li><p>配置本地站点的_config.yml：<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/_config_deply" alt="_config_deply"></p>
+</li>
+<li><p>部署到GitHub Pages：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd GitHubPages/HexoBlog</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>踩坑提醒：需要提前安装一个扩展：<br>npm install hexo-deployer-git –save</p>
+</blockquote>
+<ul>
+<li>部署成功如下，此时在浏览器输入<em><a href="http://lucienlau.github.io">http://lucienlau.github.io</a></em>可以访问页面了<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/hexo_deploy_success" alt="hexo_deploy_success"></li>
+</ul>
+<h2 id="新建博客："><a href="#新建博客：" class="headerlink" title="新建博客："></a>新建博客：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;blogName&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Note</strong>:这种方式建立的页面会显示在主页上，新建博客文章也是用的这种方式，默认会在站点的source/_post目录下生成”blogName.md”文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page &quot;pageName&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Note</strong>:这种方式建立的是一个新的页面，会在站点source文件夹下生成一个”pageName”文件夹，可以用这种方式建立一个新的”about”页面，然后把about链接链到这里</p>
+</blockquote>
+<h2 id="MarkDown编辑器："><a href="#MarkDown编辑器：" class="headerlink" title="MarkDown编辑器："></a>MarkDown编辑器：</h2><p>这种方式搭建的博客，很多时候都是用markdown写博文，这里介绍两款比较好用的markdown编辑器</p>
+<ul>
+<li><a href="http://pad.haroopress.com/user.html" target="_blank" rel="noopener">haroopad</a>：左边编辑右边预览，有markdown语法的提示，支持Windows、Linux、Mac等平台，这篇博文就是用haroopad完成的</li>
+<li><a href="https://stackedit.io/" target="_blank" rel="noopener">StackEdit</a>：一款在线的markdown编辑器，有markdown语法提示，能导出为pdf、md、html格式文件，支持同步到google drive</li>
+</ul>
+<h2 id="主题设置："><a href="#主题设置：" class="headerlink" title="主题设置："></a>主题设置：</h2><p>hexo init生成的默认主题是landscape，以设置<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">yilia</a>主题为例（<a href="https://github.com/hexojs/hexo/wiki/Themes" target="_blank" rel="noopener">更多主题</a>）：</p>
+<ul>
+<li><p>主题下载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置：<br>打开站点下的_config.yml文件，找到theme标签，改为yilia</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong>:yilia主题issue<a href="https://github.com/litten/hexo-theme-yilia/issues" target="_blank" rel="noopener">请看这里</a></p>
+</blockquote>
+<h2 id="文章摘要："><a href="#文章摘要：" class="headerlink" title="文章摘要："></a>文章摘要：</h2><p>在需要显示摘要的地方添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">以上是摘要</span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line">以下是余下全文</span><br></pre></td></tr></table></figure></p>
+<p>more以上是文章摘要，在主页显示，more以下内容点击”more”链接才显示（如果不添加摘要，主页将会显示文章的全部内容）</p>
+<h2 id="网站图标："><a href="#网站图标：" class="headerlink" title="网站图标："></a>网站图标：</h2><p>制作一个ico图标，命名为favicon.ico并放到工程根目录即站点source目录下。可以在<a href="http://www.faviconer.com/" target="_blank" rel="noopener">Faviconer</a>制作ico图标，国内有<a href="http://www.bitbug.net/" target="_blank" rel="noopener">比特虫</a></p>
+<h2 id="域名绑定："><a href="#域名绑定：" class="headerlink" title="域名绑定："></a>域名绑定：</h2><ul>
+<li>打开终端，ping lucienlau.github.io，得到ip</li>
+<li>申请域名并添加域名解析，记录类型选择A，记录值填刚得到的ip</li>
+<li>在站点source文件夹下建立CNAME文件，写上自己的域名，然后部署到GitHub Pages</li>
+<li>几分钟后，应该可以通过自己的域名访问博客了</li>
+</ul>
+<h2 id="设置自己的评论系统："><a href="#设置自己的评论系统：" class="headerlink" title="设置自己的评论系统："></a>设置自己的评论系统：</h2><p>由于这是静态网站，评论系统需要用第三方的，以<a href="http://duoshuo.com/" target="_blank" rel="noopener">多说</a>为例：</p>
+<ul>
+<li><p>注册多说并安装<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/duoshuo_0" alt="duoshuo_0"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/duoshuo_1" alt="duoshuo_1"></p>
+</li>
+<li><p>打开主题下的_config.yml配置文件，找到”duoshuo”标签，改为”test1”，原来的可能是”true”，其实不是”true”或”false”，是作者的就叫”true”</p>
+</li>
+</ul>
+<h2 id="网站访问统计："><a href="#网站访问统计：" class="headerlink" title="网站访问统计："></a>网站访问统计：</h2><p>评论有“多说”，计数有“<a href="http://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜</a>”。不蒜子目前还没开放注册，不过仍然可以使用，只需两行代码。比如要在页脚靠左显示访问情况，则修改主题下的layout/_partial/footer.ejs文件（<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="noopener">更多设置</a>）<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/footer_left" alt="footer_left"></p>
+<h2 id="设置博客音乐："><a href="#设置博客音乐：" class="headerlink" title="设置博客音乐："></a>设置博客音乐：</h2><ul>
+<li><p>登录网易云音乐web版，选择歌曲并按提示生成外链（有的歌有版权，不能生成外链，想选一首周杰伦的，发现由于有版权保护不能生成外链）<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/music163_0" alt="music163_0"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/music163_1" alt="music163_1"></p>
+</li>
+<li><p>选择需要插入的位置，比如页脚靠右，则修改主题下的layout/_partial/footer.ejs<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/footer_right" alt="footer_right"></p>
+</li>
+</ul>
+<h2 id="使用图床："><a href="#使用图床：" class="headerlink" title="使用图床："></a>使用图床：</h2><p>图床其实就是存放图片等的地方，GitHub提供的空间有限，可以把一些图片等放到别的地方，以<a href="http://www.qiniu.com/" target="_blank" rel="noopener">七牛云</a>为例，注册七牛云，上传图片，七牛云会为每张图片提供一个外链，然后在需要显示图片的地方插入链接即可</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><em><a href="http://sunwhut.com/2015/10/30/buildBlog/" target="_blank" rel="noopener">http://sunwhut.com/2015/10/30/buildBlog/</a></em></li>
+<li><em><a href="http://jiji262.github.io/2016/04/15/2016-04-15-hexo-github-pages-blog/" target="_blank" rel="noopener">http://jiji262.github.io/2016/04/15/2016-04-15-hexo-github-pages-blog/</a></em></li>
+<li><em><a href="http://ibruce.info/2013/11/22/hexo-your-blog/" target="_blank" rel="noopener">http://ibruce.info/2013/11/22/hexo-your-blog/</a></em></li>
+<li><em><a href="http://fupinyou.com/2016/02/19/%E4%BD%BF%E7%94%A8hexo-github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" target="_blank" rel="noopener">http://fupinyou.com/2016/02/19/%E4%BD%BF%E7%94%A8hexo-github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</a></em></li>
+<li><em><a href="http://blog.csdn.net/hitwhylz/article/details/42646197" target="_blank" rel="noopener">http://blog.csdn.net/hitwhylz/article/details/42646197</a></em></li>
+<li><em><a href="http://www.cnblogs.com/purediy/archive/2013/03/07/2948892.html" target="_blank" rel="noopener">http://www.cnblogs.com/purediy/archive/2013/03/07/2948892.html</a></em></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/09/04/MarkDown语法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          MarkDown语法
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="如何利用GitHub Pages和Hexo快速搭建个人博客" data-title="如何利用GitHub Pages和Hexo快速搭建个人博客" data-url="http://lucienlau.github.io/2016/09/03/如何利用GitHub Pages和Hexo快速搭建个人博客/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"smfy"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 留叶
+			<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+			</script>
+			<span id="busuanzi_container_site_uv">
+				 | 本站总访问量 <span id="busuanzi_value_site_pv"></span> 人次
+			</span>
+		</div>
+      	<div class="footer-right">
+					<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="//music.163.com/outchain/player?type=2&id=864650750&auto=1&height=32"></iframe>
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+	}
+</script>
+<script src="//7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>
