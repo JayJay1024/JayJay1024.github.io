@@ -4,20 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>EOSIO笔记 | 饭特稀的博客</title>
+  <title>screen | 饭特稀的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="action 对应的 function 返回值为 void 命名长度不能超过12位 命名须由 .12345abcdefghijklmnopqrstuvwxyz 构成">
-<meta name="keywords" content="eosio">
+  <meta name="description" content="简介：当我们远程登录服务器，正在执行某些操作，比如正在编译源代码到60%，如果因为网络等各种原因断开了与服务器的链接，那么编译过程可能会被中断，我们重新链接服务器时需要从从头进行编译。如果执行编译前使用了screen，链接断开时编译工作不会中断，重连后登录之前的screen会话，就可以回到当时的环境。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="EOSIO笔记">
-<meta property="og:url" content="http://lucienlau.github.io/2019/02/02/EOSIO笔记/index.html">
+<meta property="og:title" content="screen">
+<meta property="og:url" content="http://lucienlau.github.io/2019/02/06/screen/index.html">
 <meta property="og:site_name" content="饭特稀的博客">
-<meta property="og:description" content="action 对应的 function 返回值为 void 命名长度不能超过12位 命名须由 .12345abcdefghijklmnopqrstuvwxyz 构成">
+<meta property="og:description" content="简介：当我们远程登录服务器，正在执行某些操作，比如正在编译源代码到60%，如果因为网络等各种原因断开了与服务器的链接，那么编译过程可能会被中断，我们重新链接服务器时需要从从头进行编译。如果执行编译前使用了screen，链接断开时编译工作不会中断，重连后登录之前的screen会话，就可以回到当时的环境。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-02T14:40:54.079Z">
+<meta property="og:updated_time" content="2019-02-06T14:30:28.949Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="EOSIO笔记">
-<meta name="twitter:description" content="action 对应的 function 返回值为 void 命名长度不能超过12位 命名须由 .12345abcdefghijklmnopqrstuvwxyz 构成">
+<meta name="twitter:title" content="screen">
+<meta name="twitter:description" content="简介：当我们远程登录服务器，正在执行某些操作，比如正在编译源代码到60%，如果因为网络等各种原因断开了与服务器的链接，那么编译过程可能会被中断，我们重新链接服务器时需要从从头进行编译。如果执行编译前使用了screen，链接断开时编译工作不会中断，重连后登录之前的screen会话，就可以回到当时的环境。">
   
     <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
   
@@ -217,11 +216,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-EOSIO笔记" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-screen" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/02/02/EOSIO笔记/" class="article-date">
-  	<time datetime="2019-02-02T14:34:55.000Z" itemprop="datePublished">2019-02-02</time>
+      <a href="/2019/02/06/screen/" class="article-date">
+  	<time datetime="2019-02-06T14:15:16.000Z" itemprop="datePublished">2019-02-06</time>
 </a>
     </div>
   
@@ -234,7 +233,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      EOSIO笔记
+      screen
     </h1>
   
 
@@ -242,10 +241,6 @@
       
       <div class="article-info article-info-post">
         
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
-	</div>
-
         
 
         <div class="clearfix"></div>
@@ -254,11 +249,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="action"><a href="#action" class="headerlink" title="action"></a>action</h2><ul>
-<li>对应的 function 返回值为 void</li>
-<li>命名长度不能超过12位</li>
-<li>命名须由 <code>.12345abcdefghijklmnopqrstuvwxyz</code> 构成</li>
+        <h2 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h2><p>当我们远程登录服务器，正在执行某些操作，比如正在编译源代码到60%，如果因为网络等各种原因断开了与服务器的链接，那么编译过程可能会被中断，我们重新链接服务器时需要从从头进行编译。<br>如果执行编译前使用了<code>screen</code>，链接断开时编译工作不会中断，重连后登录之前的<code>screen</code>会话，就可以回到当时的环境。</p>
+<a id="more"></a>
+<h2 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h2><ul>
+<li>screen -S XXX：创建名为XXX的后台会话</li>
+<li>screnn -ls：查看所有后台会话</li>
+<li>screen -r XXX：恢复名为XXX的后台会话</li>
 </ul>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html" target="_blank" rel="noopener">http://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html</a></p>
 
       
     </div>
@@ -268,18 +266,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/02/06/screen/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          screen
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/02/02/HomeBrew/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">HomeBrew</div>
+    <a href="/2019/02/02/EOSIO笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">EOSIO笔记</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -314,7 +303,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="EOSIO笔记" data-title="EOSIO笔记" data-url="http://lucienlau.github.io/2019/02/02/EOSIO笔记/"></div>
+	<div class="ds-thread" data-thread-key="screen" data-title="screen" data-url="http://lucienlau.github.io/2019/02/06/screen/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
