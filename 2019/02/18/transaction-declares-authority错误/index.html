@@ -4,18 +4,20 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Archives | 饭特稀的博客</title>
+  <title>transaction declares authority错误 | 饭特稀的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="饭特稀 | GitHub Pages | Hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="饭特稀的博客">
-<meta property="og:url" content="http://lucienlau.github.io/archives/index.html">
+  <meta name="description" content="概述：push action 或者 transaction 的时候，出现类似以下错误：1transaction declares authority &amp;apos;&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;active&amp;quot;&amp;#125;&amp;apos;, but does not ha">
+<meta name="keywords" content="eosio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="transaction declares authority错误">
+<meta property="og:url" content="http://lucienlau.github.io/2019/02/18/transaction-declares-authority错误/index.html">
 <meta property="og:site_name" content="饭特稀的博客">
-<meta property="og:description" content="饭特稀 | GitHub Pages | Hexo">
+<meta property="og:description" content="概述：push action 或者 transaction 的时候，出现类似以下错误：1transaction declares authority &amp;apos;&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;active&amp;quot;&amp;#125;&amp;apos;, but does not ha">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-18T06:17:36.444Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="饭特稀的博客">
-<meta name="twitter:description" content="饭特稀 | GitHub Pages | Hexo">
+<meta name="twitter:title" content="transaction declares authority错误">
+<meta name="twitter:description" content="概述：push action 或者 transaction 的时候，出现类似以下错误：1transaction declares authority &amp;apos;&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;active&amp;quot;&amp;#125;&amp;apos;, but does not ha">
   
     <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
   
@@ -215,212 +217,112 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-transaction-declares-authority错误" class="article article-type-post" itemscope="" itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2019/02/18/transaction-declares-authority错误/" class="article-date">
+  	<time datetime="2019-02-18T06:09:32.000Z" itemprop="datePublished">2019-02-18</time>
+</a>
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      transaction declares authority错误
+    </h1>
+  
+
+      </header>
       
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/transaction-declares-authority错误/" class="archive-article-date">
-  	<time datetime="2019-02-18T06:09:32.000Z" itemprop="datePublished">Feb 18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/transaction-declares-authority错误/">transaction declares authority错误</a>
-    </h1>
-  
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>push action 或者 transaction 的时候，出现类似以下错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transaction declares authority &apos;&#123;&quot;actor&quot;:&quot;myaccount111&quot;,&quot;permission&quot;:&quot;active&quot;&#125;&apos;, but does not have signatures for it under a provided delay of 0 ms, provided permissions [&#123;&quot;actor&quot;:&quot;myaccount111&quot;,&quot;permission&quot;:&quot;eosio.code&quot;&#125;], and provided keys []</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p>检查部署<code>myaccount111</code>的合约代码，看看是不是使用了内联 action 或 defer ，这需要你的<code>myaccount111</code>具有<code>eosio.code</code>权限</p>
+<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><p>给<code>myaccount111</code>赋予<code>eosio.code</code>权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 这里 EOS5RZcioUTeXNWCUehqtSHpzcXEj4auyRQiD3qwsjCQjWqmH8Qgs 是你 myaccount111 的公钥</span><br><span class="line">$: cleos set account permission myaccount111 active &apos;&#123;&quot;threshold&quot;:1, &quot;keys&quot;:[&#123;&quot;key&quot;:&quot;EOS5RZcioUTeXNWCUehqtSHpzcXEj4auyRQiD3qwsjCQjWqmH8Qgs&quot;, &quot;weight&quot;:1&#125;], &quot;accounts&quot;: [&#123;&quot;permission&quot;:&#123;&quot;actor&quot;:&quot;myaccount111&quot;,&quot;permission&quot;:&quot;eosio.code&quot;&#125;,&quot;weight&quot;:1&#125;]&#125;&apos; owner -p myaccount111</span><br></pre></td></tr></table></figure></p>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/节点rpc无法访问/" class="archive-article-date">
-  	<time datetime="2019-02-18T05:39:45.000Z" itemprop="datePublished">Feb 18</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/节点rpc无法访问/">节点rpc无法访问</a>
-    </h1>
   
+    <a href="/2019/02/18/节点rpc无法访问/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">节点rpc无法访问</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/eos合约action命名/" class="archive-article-date">
-  	<time datetime="2019-02-18T03:53:32.000Z" itemprop="datePublished">Feb 18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/eos合约action命名/">eos合约action命名</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/config-ini中的signature-provider/" class="archive-article-date">
-  	<time datetime="2019-02-18T03:30:25.000Z" itemprop="datePublished">Feb 18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/config-ini中的signature-provider/">config.ini中的signature-provider</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
-	</div>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="transaction-declares-authority错误" data-title="transaction declares authority错误" data-url="http://lucienlau.github.io/2019/02/18/transaction-declares-authority错误/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"smfy"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/eosio计算ram价格/" class="archive-article-date">
-  	<time datetime="2019-02-18T03:02:19.000Z" itemprop="datePublished">Feb 18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/eosio计算ram价格/">eosio计算ram价格</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/eosio获取账号actions/" class="archive-article-date">
-  	<time datetime="2019-02-18T02:33:21.000Z" itemprop="datePublished">Feb 18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/eosio获取账号actions/">eosio获取账号actions</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 </div>
       <footer id="footer">
@@ -452,8 +354,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
