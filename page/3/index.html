@@ -125,7 +125,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Blockchain/" style="font-size: 20px;">Blockchain</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/HomeBrew/" style="font-size: 10px;">HomeBrew</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/eosio/" style="font-size: 20px;">eosio</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/wine/" style="font-size: 10px;">wine</a> <a href="/tags/yilia/" style="font-size: 10px;">yilia</a>
+						<a href="/tags/Blockchain/" style="font-size: 15px;">Blockchain</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/HomeBrew/" style="font-size: 10px;">HomeBrew</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/eosio/" style="font-size: 20px;">eosio</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/wine/" style="font-size: 10px;">wine</a> <a href="/tags/yilia/" style="font-size: 10px;">yilia</a>
 					</div>
 				</section>
 				
@@ -216,6 +216,70 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-EOSIO通过插件存储账号余额到Mongo" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/12/03/EOSIO通过插件存储账号余额到Mongo/" class="article-date">
+  	<time datetime="2018-12-03T14:36:33.000Z" itemprop="datePublished">2018-12-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/03/EOSIO通过插件存储账号余额到Mongo/">EOSIO通过插件存储账号余额到Mongo</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="通过mongo-db-plugin存储账号余额到mongodb"><a href="#通过mongo-db-plugin存储账号余额到mongodb" class="headerlink" title="通过mongo_db_plugin存储账号余额到mongodb"></a>通过mongo_db_plugin存储账号余额到mongodb</h2><p>我们这里以存储<code>eosio.token</code>的<code>EOS</code>余额为例，思路是在发生<code>transfer</code>的时候，我们捕获该<code>action</code>，然后更新双方的余额。<br>
+      
+    </p></div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a href="/2018/12/03/EOSIO通过插件存储账号余额到Mongo/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-EOSIO的Mongo插件的使用" class="article article-type-post" itemscope="" itemprop="blogPost">
   
@@ -540,74 +604,9 @@
 
 
   
-    <article id="post-合约编写部署和执行" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/07/合约编写部署和执行/" class="article-date">
-  	<time datetime="2018-05-07T13:23:35.000Z" itemprop="datePublished">2018-05-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/07/合约编写部署和执行/">合约编写部署和执行</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>假设你已经安装了EOSIO并且启动了nodeos。</p>
-<h2 id="创建钱包"><a href="#创建钱包" class="headerlink" title="创建钱包"></a>创建钱包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cleos wallet create -n mywallet</span><br><span class="line">Creating wallet: mywallet</span><br><span class="line">Save password to use in the future to unlock this wallet.</span><br><span class="line">Without password imported keys will not be retrievable.</span><br><span class="line">&quot;PW5KTrGBhmMeDAZxM69PgZxcHXaT2aaebFRWriZq5PDshPUaowpJF&quot;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a href="/2018/05/07/合约编写部署和执行/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>

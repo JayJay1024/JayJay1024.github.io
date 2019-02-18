@@ -125,7 +125,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Blockchain/" style="font-size: 20px;">Blockchain</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/HomeBrew/" style="font-size: 10px;">HomeBrew</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/eosio/" style="font-size: 20px;">eosio</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/wine/" style="font-size: 10px;">wine</a> <a href="/tags/yilia/" style="font-size: 10px;">yilia</a>
+						<a href="/tags/Blockchain/" style="font-size: 15px;">Blockchain</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/HomeBrew/" style="font-size: 10px;">HomeBrew</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/eosio/" style="font-size: 20px;">eosio</a> <a href="/tags/macOS/" style="font-size: 10px;">macOS</a> <a href="/tags/wine/" style="font-size: 10px;">wine</a> <a href="/tags/yilia/" style="font-size: 10px;">yilia</a>
 					</div>
 				</section>
 				
@@ -216,6 +216,66 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-scatter交易missing-required-accounts" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/02/18/scatter交易missing-required-accounts/" class="article-date">
+  	<time datetime="2019-02-18T07:39:23.000Z" itemprop="datePublished">2019-02-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/18/scatter交易missing-required-accounts/">scatter交易missing required accounts</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>使用<code>scatter js sdk</code>发起一笔交易，请求<code>scatter</code>确认时，出现如下错误提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Missing required accounts, repull the identity</span><br></pre></td></tr></table></figure></p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a href="/2019/02/18/scatter交易missing-required-accounts/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-eosio-token的transfer的memo长度" class="article article-type-post" itemscope="" itemprop="blogPost">
   
@@ -517,69 +577,9 @@
 
 
   
-    <article id="post-eosio计算ram价格" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/18/eosio计算ram价格/" class="article-date">
-  	<time datetime="2019-02-18T03:02:19.000Z" itemprop="datePublished">2019-02-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/18/eosio计算ram价格/">eosio计算ram价格</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="首先获取多索引表rammarket的数据："><a href="#首先获取多索引表rammarket的数据：" class="headerlink" title="首先获取多索引表rammarket的数据："></a>首先获取多索引表<code>rammarket</code>的数据：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$: cleos -u https://nodes.get-scatter.com:443 get table eosio eosio rammarket</span><br><span class="line">&#123;</span><br><span class="line">  &quot;rows&quot;: [&#123;</span><br><span class="line">      &quot;supply&quot;: &quot;10000000000.0000 RAMCORE&quot;,</span><br><span class="line">      &quot;base&quot;: &#123;</span><br><span class="line">        &quot;balance&quot;: &quot;70910488246 RAM&quot;,</span><br><span class="line">        &quot;weight&quot;: &quot;0.50000000000000000&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;quote&quot;: &#123;</span><br><span class="line">        &quot;balance&quot;: &quot;1722420.0326 EOS&quot;,</span><br><span class="line">        &quot;weight&quot;: &quot;0.50000000000000000&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;more&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eosio/">eosio</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a href="/2019/02/18/eosio计算ram价格/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
