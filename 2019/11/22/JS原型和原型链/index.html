@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Category: 攻城狮那些事儿 | 饭特稀的博客</title>
+  <title>JS原型和原型链 | 饭特稀的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="饭特稀 | GitHub Pages | Hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="饭特稀的博客">
-<meta property="og:url" content="http://lucienlau.github.io/categories/攻城狮那些事儿/page/2/index.html">
+  <meta name="description" content="背景有时代码敲得再多，项目做的再多，面试时还是会被一些简单的问题难倒">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS原型和原型链">
+<meta property="og:url" content="http://lucienlau.github.io/2019/11/22/JS原型和原型链/index.html">
 <meta property="og:site_name" content="饭特稀的博客">
-<meta property="og:description" content="饭特稀 | GitHub Pages | Hexo">
+<meta property="og:description" content="背景有时代码敲得再多，项目做的再多，面试时还是会被一些简单的问题难倒">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-22T15:32:18.004Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="饭特稀的博客">
-<meta name="twitter:description" content="饭特稀 | GitHub Pages | Hexo">
+<meta name="twitter:title" content="JS原型和原型链">
+<meta name="twitter:description" content="背景有时代码敲得再多，项目做的再多，面试时还是会被一些简单的问题难倒">
   
     <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
   
@@ -215,236 +216,111 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-JS原型和原型链" class="article article-type-post" itemscope="" itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2019/11/22/JS原型和原型链/" class="article-date">
+  	<time datetime="2019-11-22T15:23:07.000Z" itemprop="datePublished">2019-11-22</time>
+</a>
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS原型和原型链
+    </h1>
+  
+
+      </header>
       
+      <div class="article-info article-info-post">
+        
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/15/说说eosio-token合约/" class="archive-article-date">
-  	<time datetime="2018-05-15T02:55:39.000Z" itemprop="datePublished">May 15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/15/说说eosio-token合约/">说说eosio.token合约</a>
-    </h1>
-  
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时代码敲得再多，项目做的再多，面试时还是会被一些简单的问题难倒</p>
+<a id="more"></a>
+<h2 id="JS原型和原型链"><a href="#JS原型和原型链" class="headerlink" title="JS原型和原型链"></a>JS原型和原型链</h2><p>读取某个属性，首先会在对象里面看看有没有，没有就会去对象的原型里面看看，以此直到最上层的<code>Object</code>对象的原型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function Animal() &#123;</span><br><span class="line">	// 实例化后属于实例的属性</span><br><span class="line">	// 如果这里不定义，则和 let animal = new Animal(); animal.name = &quot;I am an animal&quot; 是一样的</span><br><span class="line">	this.name = &quot;I am an animal&quot;;</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype.name = &quot;Hey, this is an animal&quot;;  // 对象原型的属性</span><br><span class="line"></span><br><span class="line">let animal = new Animal();</span><br><span class="line">console.log(animal.name);  // 打印 &quot;I am an animal&quot;</span><br><span class="line"></span><br><span class="line">delete animal.name;</span><br><span class="line">console.log(animal.name);  // 打印 &quot;Hey, this is an animal&quot;</span><br><span class="line"></span><br><span class="line">console.log(animal.__proto__ === Animal.prototype);  // true</span><br><span class="line">console.log(Animal.prototype.__proto__ === Object.prototype);  // true  Animal的上一层是Object</span><br><span class="line">console.log(Animal.prototype.constructor === Animal);  // true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 一般地</span><br><span class="line">let obj = new Object();</span><br><span class="line">console.log(obj.__proto__ === Object.prototype);  // true</span><br><span class="line">console.log(Object.prototype.__proto__ === null);  // true  原型链顶层</span><br><span class="line">console.log(Object.prototype.constructor === Object);  // true</span><br></pre></td></tr></table></figure></p>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/15/《伟大的博弈》读后/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">《伟大的博弈》读后</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/08/nodeos与config-ini/" class="archive-article-date">
-  	<time datetime="2018-05-08T08:15:11.000Z" itemprop="datePublished">May 8</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/08/nodeos与config-ini/">nodeos与config.ini</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
-	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/07/合约编写部署和执行/" class="archive-article-date">
-  	<time datetime="2018-05-07T13:23:35.000Z" itemprop="datePublished">May 7</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/07/合约编写部署和执行/">合约编写部署和执行</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/03/EOSIO宪法草案/" class="archive-article-date">
-  	<time datetime="2018-05-03T12:58:12.000Z" itemprop="datePublished">May 3</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/03/EOSIO宪法草案/">EOSIO宪法草案</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/03/Setting-Up-A-Local-Environment-Of-EOS-IO/" class="archive-article-date">
-  	<time datetime="2018-05-03T01:34:53.000Z" itemprop="datePublished">May 3</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/03/Setting-Up-A-Local-Environment-Of-EOS-IO/">Setting Up A Local Environment Of EOS.IO</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
-	</div>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JS原型和原型链" data-title="JS原型和原型链" data-url="http://lucienlau.github.io/2019/11/22/JS原型和原型链/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"smfy"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/27/说说以太猫/" class="archive-article-date">
-  	<time datetime="2018-04-27T03:19:43.000Z" itemprop="datePublished">Apr 27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/27/说说以太猫/">说说以太猫</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blockchain/">Blockchain</a></li></ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/categories/攻城狮那些事儿/">&laquo; Prev</a><a class="page-number" href="/categories/攻城狮那些事儿/">1</a><span class="page-number current">2</span><a class="page-number" href="/categories/攻城狮那些事儿/page/3/">3</a><a class="page-number" href="/categories/攻城狮那些事儿/page/4/">4</a><a class="extend next" rel="next" href="/categories/攻城狮那些事儿/page/3/">Next &raquo;</a>
-    </nav>
-  
 
 </div>
       <footer id="footer">
@@ -476,10 +352,10 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 	}
 </script>
