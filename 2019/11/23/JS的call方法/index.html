@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Archives | 饭特稀的博客</title>
+  <title>JS的call方法 | 饭特稀的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="饭特稀 | GitHub Pages | Hexo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="饭特稀的博客">
-<meta property="og:url" content="http://lucienlau.github.io/archives/page/7/index.html">
+  <meta name="description" content="概述foo.call(this, args...)，指明foo函数或方法的this和参数，然后运行foo。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS的call方法">
+<meta property="og:url" content="http://lucienlau.github.io/2019/11/23/JS的call方法/index.html">
 <meta property="og:site_name" content="饭特稀的博客">
-<meta property="og:description" content="饭特稀 | GitHub Pages | Hexo">
+<meta property="og:description" content="概述foo.call(this, args...)，指明foo函数或方法的this和参数，然后运行foo。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-22T17:44:40.927Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="饭特稀的博客">
-<meta name="twitter:description" content="饭特稀 | GitHub Pages | Hexo">
+<meta name="twitter:title" content="JS的call方法">
+<meta name="twitter:description" content="概述foo.call(this, args...)，指明foo函数或方法的this和参数，然后运行foo。">
   
     <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
   
@@ -215,189 +216,112 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-JS的call方法" class="article article-type-post" itemscope="" itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2019/11/23/JS的call方法/" class="article-date">
+  	<time datetime="2019-11-22T17:39:43.000Z" itemprop="datePublished">2019-11-23</time>
+</a>
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS的call方法
+    </h1>
+  
+
+      </header>
       
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/10/《还没长大就老了》/" class="archive-article-date">
-  	<time datetime="2016-09-10T05:29:19.000Z" itemprop="datePublished">Sep 10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/10/《还没长大就老了》/">《还没长大就老了》</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/电影阅读/">电影阅读</a>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/10/苹果2016秋季发布会/" class="archive-article-date">
-  	<time datetime="2016-09-10T01:29:05.000Z" itemprop="datePublished">Sep 10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/10/苹果2016秋季发布会/">苹果2016秋季发布会</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/随笔/">随笔</a>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/10/一叶轻舟/" class="archive-article-date">
-  	<time datetime="2016-09-10T00:57:56.000Z" itemprop="datePublished">Sep 10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/10/一叶轻舟/">一叶轻舟</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/随笔/">随笔</a>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/04/MarkDown语法/" class="archive-article-date">
-  	<time datetime="2016-09-04T07:42:05.000Z" itemprop="datePublished">Sep 4</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/04/MarkDown语法/">MarkDown语法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MarkDown/">MarkDown</a></li></ul>
-	</div>
-
-          
+      <div class="article-info article-info-post">
+        
+        
 	<div class="article-category tagcloud">
 	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
 	</div>
 
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><code>foo.call(this, args...)</code>，指明<code>foo</code>函数或方法的<code>this</code>和参数，然后运行<code>foo</code>。</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function Animal(name) &#123;</span><br><span class="line">	console.log(`animal&apos;s name is $&#123;name&#125;, color is $&#123;this.color&#125;`);</span><br><span class="line">&#125;</span><br><span class="line">function Dog() &#123;</span><br><span class="line">	this.color = &quot;dog&apos;s color is white&quot;;</span><br><span class="line">	Animal.call(this, &quot;dog&quot;);</span><br><span class="line">&#125;</span><br><span class="line">new Dog();  // 打印 &quot;animal&apos;s name is dog, color is dog&apos;s color is white&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="为自己打call"><a href="#为自己打call" class="headerlink" title="为自己打call"></a>为自己打<code>call</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.mycall = function(ctx) &#123;</span><br><span class="line">	// ctx也就是传过来的this(同arguments[0])，传null则为window(nodejs可以用global)</span><br><span class="line">	ctx = ctx || (typeof window === &quot;undefined&quot; ? global : window);</span><br><span class="line">	ctx.foo = this;  // 这个this是调用mycall的那个函数或方法</span><br><span class="line"></span><br><span class="line">	let args = [];</span><br><span class="line">	for (let i = 1; i &lt; arguments.length; i++) &#123;</span><br><span class="line">		args.push(arguments[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	ctx.foo(...args);</span><br><span class="line">	delete ctx.foo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Animal2(name) &#123;</span><br><span class="line">	console.log(`animal&apos;s name is $&#123;name&#125;, color is $&#123;this.color&#125;`);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Dog2() &#123;</span><br><span class="line">	this.color = &quot;black&quot;;</span><br><span class="line">	Animal2.mycall(this, &quot;dogdog&quot;);</span><br><span class="line">&#125;</span><br><span class="line">new Dog2();  // 打印 &quot;animal&apos;s name is dogdog, color is black&quot;</span><br><span class="line"></span><br><span class="line">let Cat = &#123;</span><br><span class="line">	color: &quot;white&quot;</span><br><span class="line">&#125;</span><br><span class="line">Animal2.mycall(Cat, &quot;catcat&quot;);  // 打印 &quot;animal&apos;s name is catcat, color is white&quot;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/22/JS原型和原型链/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS原型和原型链</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/03/如何利用GitHub Pages和Hexo快速搭建个人博客/" class="archive-article-date">
-  	<time datetime="2016-09-03T05:14:17.000Z" itemprop="datePublished">Sep 3</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/03/如何利用GitHub Pages和Hexo快速搭建个人博客/">如何利用GitHub Pages和Hexo快速搭建个人博客</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yilia/">yilia</a></li></ul>
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-          
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/攻城狮那些事儿/">攻城狮那些事儿</a>
-	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/6/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span>
-    </nav>
-  
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="JS的call方法" data-title="JS的call方法" data-url="http://lucienlau.github.io/2019/11/23/JS的call方法/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"smfy"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 </div>
       <footer id="footer">
@@ -429,8 +353,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
