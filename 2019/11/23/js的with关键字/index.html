@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>JS的call方法 | 饭特稀的博客</title>
+  <title>js的with关键字 | 饭特稀的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="概述foo.call(this, args...)，指明foo函数或方法的this和参数，然后运行foo。">
+  <meta name="description" content="使用1234567891011let obj = &amp;#123;	a: &amp;apos;aaa&amp;apos;,	b: &amp;apos;bbb&amp;apos;,	c: &amp;apos;ccc&amp;apos;&amp;#125;console.log(obj.a, obj.b, obj.c);// 使用 withwith (obj) &amp;#123;	console.log(a, b, c);&amp;#125;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS的call方法">
-<meta property="og:url" content="http://lucienlau.github.io/2019/11/23/JS的call方法/index.html">
+<meta property="og:title" content="js的with关键字">
+<meta property="og:url" content="http://lucienlau.github.io/2019/11/23/js的with关键字/index.html">
 <meta property="og:site_name" content="饭特稀的博客">
-<meta property="og:description" content="概述foo.call(this, args...)，指明foo函数或方法的this和参数，然后运行foo。">
+<meta property="og:description" content="使用1234567891011let obj = &amp;#123;	a: &amp;apos;aaa&amp;apos;,	b: &amp;apos;bbb&amp;apos;,	c: &amp;apos;ccc&amp;apos;&amp;#125;console.log(obj.a, obj.b, obj.c);// 使用 withwith (obj) &amp;#123;	console.log(a, b, c);&amp;#125;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-23T06:35:51.424Z">
+<meta property="og:updated_time" content="2019-11-23T08:02:24.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS的call方法">
-<meta name="twitter:description" content="概述foo.call(this, args...)，指明foo函数或方法的this和参数，然后运行foo。">
+<meta name="twitter:title" content="js的with关键字">
+<meta name="twitter:description" content="使用1234567891011let obj = &amp;#123;	a: &amp;apos;aaa&amp;apos;,	b: &amp;apos;bbb&amp;apos;,	c: &amp;apos;ccc&amp;apos;&amp;#125;console.log(obj.a, obj.b, obj.c);// 使用 withwith (obj) &amp;#123;	console.log(a, b, c);&amp;#125;">
   
     <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
   
@@ -216,11 +216,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-JS的call方法" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-js的with关键字" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/11/23/JS的call方法/" class="article-date">
-  	<time datetime="2019-11-22T17:39:43.000Z" itemprop="datePublished">2019-11-23</time>
+      <a href="/2019/11/23/js的with关键字/" class="article-date">
+  	<time datetime="2019-11-23T07:22:39.000Z" itemprop="datePublished">2019-11-23</time>
 </a>
     </div>
   
@@ -233,7 +233,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JS的call方法
+      js的with关键字
     </h1>
   
 
@@ -253,12 +253,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><code>foo.call(this, args...)</code>，指明<code>foo</code>函数或方法的<code>this</code>和参数，然后运行<code>foo</code>。</p>
+        <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">	a: &apos;aaa&apos;,</span><br><span class="line">	b: &apos;bbb&apos;,</span><br><span class="line">	c: &apos;ccc&apos;</span><br><span class="line">&#125;</span><br><span class="line">console.log(obj.a, obj.b, obj.c);</span><br><span class="line"></span><br><span class="line">// 使用 with</span><br><span class="line">with (obj) &#123;</span><br><span class="line">	console.log(a, b, c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function Animal(name) &#123;</span><br><span class="line">	console.log(`animal&apos;s name is $&#123;name&#125;, color is $&#123;this.color&#125;`);</span><br><span class="line">&#125;</span><br><span class="line">function Dog() &#123;</span><br><span class="line">	this.color = &quot;dog&apos;s color is white&quot;;</span><br><span class="line">	Animal.call(this, &quot;dog&quot;);</span><br><span class="line">&#125;</span><br><span class="line">new Dog();  // 打印 &quot;animal&apos;s name is dog, color is dog&apos;s color is white&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="为自己打call"><a href="#为自己打call" class="headerlink" title="为自己打call"></a>为自己打<code>call</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.mycall = function(ctx) &#123;</span><br><span class="line">	// ctx也就是传过来的this(同arguments[0])，传null则为window(nodejs可以用global)</span><br><span class="line">	ctx = ctx || (typeof window === &quot;undefined&quot; ? global : window);</span><br><span class="line">	ctx.foo = this;  // 这个this是调用mycall的那个函数或方法</span><br><span class="line"></span><br><span class="line">	let args = [];</span><br><span class="line">	for (let i = 1; i &lt; arguments.length; i++) &#123;</span><br><span class="line">		args.push(arguments[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	ctx.foo(...args);</span><br><span class="line">	delete ctx.foo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Animal2(name) &#123;</span><br><span class="line">	console.log(`animal&apos;s name is $&#123;name&#125;, color is $&#123;this.color&#125;`);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Dog2() &#123;</span><br><span class="line">	this.color = &quot;black&quot;;</span><br><span class="line">	Animal2.mycall(this, &quot;dogdog&quot;);</span><br><span class="line">&#125;</span><br><span class="line">new Dog2();  // 打印 &quot;animal&apos;s name is dogdog, color is black&quot;</span><br><span class="line"></span><br><span class="line">let Cat = &#123;</span><br><span class="line">	color: &quot;white&quot;</span><br><span class="line">&#125;</span><br><span class="line">Animal2.mycall(Cat, &quot;catcat&quot;);  // 打印 &quot;animal&apos;s name is catcat, color is white&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="apply呢"><a href="#apply呢" class="headerlink" title="apply呢"></a><code>apply</code>呢</h2><p>上面的<code>call</code>，调用的时候，需要对应每个参数，而<code>apply</code>一共只有两个参数，第一个和<code>call</code>是一样的，而第二个参数传的是参数数组，这用于不确定参数时很方便。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function fn(arg1, arg2) &#123;</span><br><span class="line">	console.log.call(console, arg1, arg2);</span><br><span class="line">&#125;</span><br><span class="line">fn(&quot;what&quot;, 666);  // 打印 &quot;what 666&quot;</span><br><span class="line"></span><br><span class="line">function fn2() &#123;</span><br><span class="line">	console.log.apply(console, arguments);</span><br><span class="line">&#125;</span><br><span class="line">fn2(12, &quot;haha&quot;, 1234);  // 打印 &quot;12 haha 1234&quot;</span><br><span class="line">fn2(12, &quot;haha&quot;, 1234, &quot;what&quot;, &quot;why&quot;);  // 打印 &quot;12 haha 1234 what why&quot;</span><br></pre></td></tr></table></figure></p>
-<h2 id="总的"><a href="#总的" class="headerlink" title="总的"></a>总的</h2><p>总的来说，<code>call</code>和<code>apply</code>都是为了动态改变<code>this</code>的指向。</p>
+<p><code>with</code>用来改变作用域，上面的<code>a, b, c</code>首先会被认为是局部变量，然后会查<code>obj</code>中有没有同名的，有就指向该同名属性</p>
+<h2 id="然而"><a href="#然而" class="headerlink" title="然而"></a>然而</h2><p>一般是不推荐使用<code>with</code>的，而且<code>strict</code>模式下是不能使用的，为什么呢？主要是性能问题，以及语意不明容易出现<code>bug</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">	a: &apos;aaa&apos;,</span><br><span class="line">	b: &apos;bbb&apos;,</span><br><span class="line">	c: &apos;ccc&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function fn1() &#123;</span><br><span class="line">	console.time(&quot;without&quot;);</span><br><span class="line">	for (let i = 0; i &lt; 10000; i++) &#123;</span><br><span class="line">		let ta = obj.a;</span><br><span class="line">		let tb = obj.b;</span><br><span class="line">		let tc = obj.c;</span><br><span class="line">	&#125;</span><br><span class="line">	console.timeEnd(&quot;without&quot;);</span><br><span class="line">&#125;</span><br><span class="line">function fn2() &#123;</span><br><span class="line">	console.time(&quot;with&quot;);</span><br><span class="line">	for (let i = 0; i &lt; 10000; i++) &#123;</span><br><span class="line">		with (obj) &#123;</span><br><span class="line">			let ta = a;</span><br><span class="line">			let tb = b;</span><br><span class="line">			let tc = c;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	console.timeEnd(&quot;with&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn1();  // 0.343ms</span><br><span class="line">fn2();  // 6.114ms</span><br></pre></td></tr></table></figure></p>
+<p>因为<code>js</code>代码执行有一个编译阶段，使用<code>with</code>后<code>js</code>引擎不知道这些<code>a, b, c</code>是<code>obj</code>上的属性，无法对它们进行静态分析，就无法对这段代码进行优化；另外，一些<code>js</code>压缩工具也无法对这段代码进行压缩。这些是影响其性能的主要原因。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">let objName = &#123;</span><br><span class="line">	name: &quot;apple&quot;</span><br><span class="line">&#125;</span><br><span class="line">let objColor = &#123;</span><br><span class="line">	color: &quot;white&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function foo(obj) &#123;</span><br><span class="line">	with (obj) &#123;</span><br><span class="line">		name = &quot;dog&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// console.log(name);  // 此时将出错，ReferenceError: name is not defined</span><br><span class="line"></span><br><span class="line">console.log(objName.name);  // apple</span><br><span class="line">foo(objName);</span><br><span class="line">console.log(objName.name);  // dog</span><br><span class="line"></span><br><span class="line">console.log(objColor.color);  // white</span><br><span class="line">foo(objColor);</span><br><span class="line">console.log(objColor.color);  // white</span><br><span class="line"></span><br><span class="line">console.log(objColor.name);  // undefined</span><br><span class="line">console.log(name);  // dog</span><br></pre></td></tr></table></figure>
+<p>上面这段代码很容易出错和难以调试。</p>
 
       
     </div>
@@ -268,18 +269,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/11/23/js的with关键字/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          js的with关键字
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/11/22/JS原型和原型链/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JS原型和原型链</div>
+    <a href="/2019/11/23/JS的call方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS的call方法</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -314,7 +306,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="JS的call方法" data-title="JS的call方法" data-url="http://lucienlau.github.io/2019/11/23/JS的call方法/"></div>
+	<div class="ds-thread" data-thread-key="js的with关键字" data-title="js的with关键字" data-url="http://lucienlau.github.io/2019/11/23/js的with关键字/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
