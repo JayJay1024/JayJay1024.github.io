@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>js的bind函数 | 饭特稀的博客</title>
+  <title>js实现继承 | 饭特稀的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="概述由Function.prototype.bind()，所以bind()是函数或方法的一个属性。bind()将创建一个新的函数，调用bind()的时候，新函数的this被bind()的第一个参数指定，bind()的其余参数将作为新函数的参数供调用时使用。">
+  <meta name="description" content="一、js继承问题es6引入了class和extends，从而可以像c++那样理解继承，但本质上这只是一个语法糖。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js的bind函数">
-<meta property="og:url" content="http://lucienlau.github.io/2019/11/23/js的bind函数/index.html">
+<meta property="og:title" content="js实现继承">
+<meta property="og:url" content="http://lucienlau.github.io/2019/11/24/js实现继承/index.html">
 <meta property="og:site_name" content="饭特稀的博客">
-<meta property="og:description" content="概述由Function.prototype.bind()，所以bind()是函数或方法的一个属性。bind()将创建一个新的函数，调用bind()的时候，新函数的this被bind()的第一个参数指定，bind()的其余参数将作为新函数的参数供调用时使用。">
+<meta property="og:description" content="一、js继承问题es6引入了class和extends，从而可以像c++那样理解继承，但本质上这只是一个语法糖。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-23T15:36:31.111Z">
+<meta property="og:updated_time" content="2019-11-24T09:42:05.629Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="js的bind函数">
-<meta name="twitter:description" content="概述由Function.prototype.bind()，所以bind()是函数或方法的一个属性。bind()将创建一个新的函数，调用bind()的时候，新函数的this被bind()的第一个参数指定，bind()的其余参数将作为新函数的参数供调用时使用。">
+<meta name="twitter:title" content="js实现继承">
+<meta name="twitter:description" content="一、js继承问题es6引入了class和extends，从而可以像c++那样理解继承，但本质上这只是一个语法糖。">
   
     <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
   
@@ -216,11 +216,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-js的bind函数" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-js实现继承" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/11/23/js的bind函数/" class="article-date">
-  	<time datetime="2019-11-23T10:24:05.000Z" itemprop="datePublished">2019-11-23</time>
+      <a href="/2019/11/24/js实现继承/" class="article-date">
+  	<time datetime="2019-11-24T09:18:23.000Z" itemprop="datePublished">2019-11-24</time>
 </a>
     </div>
   
@@ -233,7 +233,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      js的bind函数
+      js实现继承
     </h1>
   
 
@@ -253,10 +253,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>由<code>Function.prototype.bind()</code>，所以<code>bind()</code>是函数或方法的一个属性。<code>bind()</code>将创建一个新的函数，调用<code>bind()</code>的时候，新函数的<code>this</code>被<code>bind()</code>的第一个参数指定，<code>bind()</code>的其余参数将作为新函数的参数供调用时使用。</p>
+        <h2 id="一、js继承问题"><a href="#一、js继承问题" class="headerlink" title="一、js继承问题"></a>一、<code>js</code>继承问题</h2><p><code>es6</code>引入了<code>class</code>和<code>extends</code>，从而可以像<code>c++</code>那样理解继承，但本质上这只是一个语法糖。</p>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const obj = &#123;</span><br><span class="line">	x: 12,</span><br><span class="line">	getX: function() &#123; return this.x; &#125;,</span><br><span class="line">	setX: function(x) &#123; this.x = x; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(obj.getX());  // 12</span><br><span class="line"></span><br><span class="line">const unboundGetX = obj.getX;</span><br><span class="line">// console.log(unboundGetX());  // TypeError: Cannot read property &apos;x&apos; of undefined</span><br><span class="line"></span><br><span class="line">const boundGetX = unboundGetX.bind(obj);</span><br><span class="line">console.log(boundGetX());  // 12</span><br><span class="line"></span><br><span class="line">const boundSetX = obj.setX.bind(obj, 89);</span><br><span class="line">boundSetX();  // 这时传不传参数不影响obj.x=89的事实</span><br><span class="line">console.log(boundGetX());  // 89</span><br><span class="line"></span><br><span class="line">const boundSetX2 = obj.setX.bind(obj);</span><br><span class="line">boundSetX2(999);  // 这时如果不传参数obj.x将是undefined</span><br><span class="line">console.log(boundGetX());  // 999</span><br></pre></td></tr></table></figure>
-<h2 id="实现自己的bind"><a href="#实现自己的bind" class="headerlink" title="实现自己的bind()"></a>实现自己的<code>bind()</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const obj2 = &#123;</span><br><span class="line">	name: &quot;this is obj2&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function foo(color) &#123;</span><br><span class="line">	console.log(color);</span><br><span class="line">	return this.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const bindFoo = foo.bind(obj2, &quot;black&quot;);</span><br><span class="line">// black</span><br><span class="line">// this is obj2</span><br><span class="line">console.log(bindFoo());</span><br><span class="line"></span><br><span class="line">// 构造函数时</span><br><span class="line">const nbfoo = new bindFoo();  // black，传入的参数依然生效</span><br><span class="line">console.log(nbfoo.name);  // undefined，传入的obj2失效，this指向的是nbfoo而不是obj2了</span><br><span class="line"></span><br><span class="line">// TODO: new bindFoo()的时候，this指向的是new出来的而不是obj2，这个效果</span><br><span class="line">Function.prototype.mybind = function(ctx) &#123;</span><br><span class="line">	const fn = this;</span><br><span class="line">	const args = Array.prototype.slice.call(arguments, 1);  // 去掉第0个</span><br><span class="line">	return function() &#123;</span><br><span class="line">		return fn.apply(ctx, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const mybindFoo = foo.mybind(obj2, &quot;white&quot;);</span><br><span class="line">// white</span><br><span class="line">// this is obj2</span><br><span class="line">console.log(mybindFoo());</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Parent &#123;</span><br><span class="line">	constructor(name) &#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">class Children extends Parent &#123;</span><br><span class="line">	constructor(name) &#123;</span><br><span class="line">		super(name);  // 子类没有自己的this，不进行super，得不到继承自父类的this，将出错</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">const children = new Children(&quot;children&quot;);</span><br><span class="line">console.log(children.name);  // children</span><br></pre></td></tr></table></figure>
+<h2 id="二、自己如何实现继承"><a href="#二、自己如何实现继承" class="headerlink" title="二、自己如何实现继承"></a>二、自己如何实现继承</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function Animal(color) &#123;</span><br><span class="line">	this.name = &quot;animal&quot;;</span><br><span class="line">	this.color = color;</span><br><span class="line">	this.type = [&apos;pic&apos;, &apos;cat&apos;];</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype.sayName = function() &#123;</span><br><span class="line">	console.log(`Hey, I am $&#123;this.name&#125;`);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1、继承方式1：原型链"><a href="#1、继承方式1：原型链" class="headerlink" title="1、继承方式1：原型链"></a>1、继承方式1：原型链</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function Dog() &#123;&#125;</span><br><span class="line">Dog.prototype = new Animal(&quot;white&quot;);</span><br><span class="line">const dog = new Dog();</span><br><span class="line">console.log(dog.name, &quot;:&quot;, dog.color);  // animal : white</span><br></pre></td></tr></table></figure>
+<p>此种方式缺陷1：引用缺陷<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const dog1 = new Dog();</span><br><span class="line">dog1.type.push(&apos;dog&apos;);</span><br><span class="line">const dog2 = new Dog();</span><br><span class="line">console.log(dog2.type);  // [ &apos;pic&apos;, &apos;cat&apos;, &apos;dog&apos; ]</span><br></pre></td></tr></table></figure></p>
+<p>此种方式缺陷2：对于继承来的属性，无法为不同的实例初始化为不同的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">function Cat() &#123;&#125;</span><br><span class="line">Cat.prototype = new Animal(&quot;black&quot;);  // 所有的Cat实例初始化时都是black色</span><br></pre></td></tr></table></figure></p>
+<h4 id="2、继承方式2：借用构造函数-也叫经典继承"><a href="#2、继承方式2：借用构造函数-也叫经典继承" class="headerlink" title="2、继承方式2：借用构造函数(也叫经典继承)"></a>2、继承方式2：借用构造函数(也叫经典继承)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function Pic(color) &#123;</span><br><span class="line">	Animal.apply(this, arguments);</span><br><span class="line">&#125;</span><br><span class="line">const pic = new Pic(&quot;white&quot;);</span><br><span class="line">console.log(pic.name, &quot;:&quot;, pic.color);  // animal : white</span><br></pre></td></tr></table></figure>
+<p>此种方式缺陷：无法获取父类通过原型绑定的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pic.sayName();  // TypeError: pic.sayName is not a function</span><br></pre></td></tr></table></figure></p>
+<h4 id="3、继承方式3：组合继承-就是组合上面两种，可以避免上面的缺陷。氮素，会调用两次父类构造函数"><a href="#3、继承方式3：组合继承-就是组合上面两种，可以避免上面的缺陷。氮素，会调用两次父类构造函数" class="headerlink" title="3、继承方式3：组合继承(就是组合上面两种，可以避免上面的缺陷。氮素，会调用两次父类构造函数)"></a>3、继承方式3：组合继承(就是组合上面两种，可以避免上面的缺陷。氮素，会调用两次父类构造函数)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Monkey(color) &#123;</span><br><span class="line">	Animal.apply(this, arguments);</span><br><span class="line">&#125;</span><br><span class="line">Monkey.prototype = new Animal();</span><br><span class="line">const monkey = new Monkey(&quot;gray&quot;);</span><br><span class="line">console.log(monkey.name, &quot;:&quot;, monkey.color);  // animal : gray</span><br><span class="line">monkey.sayName();  // Hey, I am animal</span><br></pre></td></tr></table></figure>
+<h4 id="4、继承方式4：寄生组合继承-避免调用两次父类构造函数的问题"><a href="#4、继承方式4：寄生组合继承-避免调用两次父类构造函数的问题" class="headerlink" title="4、继承方式4：寄生组合继承(避免调用两次父类构造函数的问题)"></a>4、继承方式4：寄生组合继承(避免调用两次父类构造函数的问题)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function Tiger(color) &#123;</span><br><span class="line">	Animal.apply(this, arguments);</span><br><span class="line">&#125;</span><br><span class="line">Tiger.prototype = Object.create(Animal.prototype);  // 使用Object.create进行浅拷贝，少了一次调用父类的构造函数</span><br><span class="line">Tiger.prototype.constructor = Tiger;  // 上面浅拷贝后Tiger.prototype的constructor被重写了，所以要修复一下</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -266,18 +273,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/11/24/js实现继承/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          js实现继承
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/11/23/js的with关键字/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">js的with关键字</div>
+    <a href="/2019/11/23/js的bind函数/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">js的bind函数</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -312,7 +310,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="js的bind函数" data-title="js的bind函数" data-url="http://lucienlau.github.io/2019/11/23/js的bind函数/"></div>
+	<div class="ds-thread" data-thread-key="js实现继承" data-title="js实现继承" data-url="http://lucienlau.github.io/2019/11/24/js实现继承/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
