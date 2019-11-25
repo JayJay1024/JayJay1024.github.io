@@ -243,9 +243,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<h3 id="实现监听器模式，不使用EventEmitter"><a href="#实现监听器模式，不使用EventEmitter" class="headerlink" title="实现监听器模式，不使用EventEmitter"></a>实现监听器模式，不使用<code>EventEmitter</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">class MyEventEmitter &#123;</span><br><span class="line">	constructor() &#123;</span><br><span class="line">		this.handles = Object.create(null);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	on(evt, cb) &#123;</span><br><span class="line">		if (typeof cb !== &apos;function&apos;) &#123;</span><br><span class="line">			console.log(&apos;cb must be a function&apos;);</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if (!this.handles[evt]) &#123;</span><br><span class="line">			this.handles[evt] = [];</span><br><span class="line">		&#125;</span><br><span class="line">		this.handles[evt].push(cb);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	emit(evt, ...args) &#123;</span><br><span class="line">		if (!!this.handles[evt]) &#123;</span><br><span class="line">			this.handles[evt].forEach((item) =&gt; &#123;</span><br><span class="line">				Reflect.apply(item, this, args);</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const emitter = new MyEventEmitter();</span><br><span class="line">emitter.on(&apos;say&apos;, (name) =&gt; &#123;</span><br><span class="line">	console.log(&apos;Hello, &apos;, name);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">	emitter.emit(&apos;say&apos;, &apos;Jay&apos;);</span><br><span class="line">&#125;, 1500);</span><br></pre></td></tr></table></figure>
-
+        <p>实现监听器模式，不使用<code>EventEmitter</code></p>
       
     </div>
     
@@ -258,6 +256,10 @@
 	</div>
 
 
+      
+        <p class="article-more-link">
+          <a href="/2019/11/25/《简单实现自己的监听器模式》/#more">more >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
