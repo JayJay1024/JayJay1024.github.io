@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>《简单实现自己的监听器模式》 | 饭特稀的博客</title>
+  <title>C++碎碎念 | 饭特稀的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="实现监听器模式，不使用EventEmitter">
+  <meta name="description" content="头文件中ifndef/define/endif的作用保证即使头文件被包含多次，也只定义一次，起到预编译保护作用。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《简单实现自己的监听器模式》">
-<meta property="og:url" content="http://lucienlau.github.io/2019/11/25/《简单实现自己的监听器模式》/index.html">
+<meta property="og:title" content="C++碎碎念">
+<meta property="og:url" content="http://lucienlau.github.io/2019/11/25/C-碎碎念/index.html">
 <meta property="og:site_name" content="饭特稀的博客">
-<meta property="og:description" content="实现监听器模式，不使用EventEmitter">
+<meta property="og:description" content="头文件中ifndef/define/endif的作用保证即使头文件被包含多次，也只定义一次，起到预编译保护作用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-25T05:33:09.334Z">
+<meta property="og:updated_time" content="2019-11-26T11:00:43.584Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《简单实现自己的监听器模式》">
-<meta name="twitter:description" content="实现监听器模式，不使用EventEmitter">
+<meta name="twitter:title" content="C++碎碎念">
+<meta name="twitter:description" content="头文件中ifndef/define/endif的作用保证即使头文件被包含多次，也只定义一次，起到预编译保护作用。">
   
     <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
   
@@ -216,11 +216,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-《简单实现自己的监听器模式》" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-C-碎碎念" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/11/25/《简单实现自己的监听器模式》/" class="article-date">
-  	<time datetime="2019-11-25T04:57:09.000Z" itemprop="datePublished">2019-11-25</time>
+      <a href="/2019/11/25/C-碎碎念/" class="article-date">
+  	<time datetime="2019-11-25T10:22:52.000Z" itemprop="datePublished">2019-11-25</time>
 </a>
     </div>
   
@@ -233,7 +233,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      《简单实现自己的监听器模式》
+      C++碎碎念
     </h1>
   
 
@@ -253,9 +253,37 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>实现监听器模式，不使用<code>EventEmitter</code></p>
+        <h3 id="头文件中ifndef-define-endif的作用"><a href="#头文件中ifndef-define-endif的作用" class="headerlink" title="头文件中ifndef/define/endif的作用"></a>头文件中<code>ifndef/define/endif</code>的作用</h3><p>保证即使头文件被包含多次，也只定义一次，起到预编译保护作用。</p>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">class MyEventEmitter &#123;</span><br><span class="line">	constructor() &#123;</span><br><span class="line">		this.handles = Object.create(null);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	on(evt, cb) &#123;</span><br><span class="line">		if (typeof cb !== &apos;function&apos;) &#123;</span><br><span class="line">			console.log(&apos;cb must be a function&apos;);</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if (!this.handles[evt]) &#123;</span><br><span class="line">			this.handles[evt] = [];</span><br><span class="line">		&#125;</span><br><span class="line">		this.handles[evt].push(cb);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	emit(evt, ...args) &#123;</span><br><span class="line">		if (!!this.handles[evt]) &#123;</span><br><span class="line">			this.handles[evt].forEach((item) =&gt; &#123;</span><br><span class="line">				Reflect.apply(item, this, args);</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const emitter = new MyEventEmitter();</span><br><span class="line">emitter.on(&apos;say&apos;, (name) =&gt; &#123;</span><br><span class="line">	console.log(&apos;Hello, &apos;, name);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">	emitter.emit(&apos;say&apos;, &apos;Jay&apos;);</span><br><span class="line">&#125;, 1500);</span><br></pre></td></tr></table></figure>
+<h3 id="extern-“C”"><a href="#extern-“C”" class="headerlink" title="extern “C”"></a><code>extern “C”</code></h3><p>程序中的变量或函数，经<code>C</code>和<code>C++</code>编译器编译后后，符号不一样，会导致编译后的<code>C</code>代码在符号库中找不到。<code>extern “C”</code>告诉编译器这是<code>C</code>代码，按照<code>C</code>的方式编译。<br>所以，<code>extern “C”</code>的目的是解决符号匹配问题，实现<code>C</code>和<code>C++</code>混合编程。</p>
+<h3 id="const和-define"><a href="#const和-define" class="headerlink" title="const和#define"></a><code>const</code>和<code>#define</code></h3><ul>
+<li>都可以定义常量，<code>const</code>用途更广，比如修饰函数返回值和参数</li>
+<li><code>const</code>有数据类型，编译器可以对其进行类型安全检查，对<code>#define</code>只会进行字符替换</li>
+</ul>
+<h3 id="sizeof与strlen"><a href="#sizeof与strlen" class="headerlink" title="sizeof与strlen"></a><code>sizeof</code>与<code>strlen</code></h3><ul>
+<li><code>sizeof</code>是运算符，<code>strlen</code>是函数</li>
+<li><code>sizeof</code>可以用类型做参数，<code>strlen</code>只能用<code>\0</code>结尾的<code>char *</code></li>
+</ul>
+<h3 id="指针和引用"><a href="#指针和引用" class="headerlink" title="指针和引用"></a>指针和引用</h3><ul>
+<li>定义指针时可以不初始化；定义引用时必须初始化</li>
+<li>指针赋值是把指针指向另一个对象；引用赋值是修改引用绑定的对象的值<br>在底层，引用变量由指针按照指针常量的方式实现，所以<code>int i = 2;int* const gi = &amp;i;</code>和<code>int i = 2;int &amp;gi = i;</code>是一致的。</li>
+</ul>
+<h3 id="空指针、野指针和悬垂指针"><a href="#空指针、野指针和悬垂指针" class="headerlink" title="空指针、野指针和悬垂指针"></a>空指针、野指针和悬垂指针</h3><ul>
+<li>空指针：指向地址为空的指针(NULL指针)。可以被多次<code>delete</code></li>
+<li>野指针：指向垃圾内存的指针。产生原因是创建时未初始化，它将会随意指向一个内存地址</li>
+<li>悬垂指针：动态创建的对象被释放或回收了，但是指向该对象的指针未做任何修改，仍旧指向已经回收的内存地址</li>
+</ul>
+<h3 id="malloc-free和new-delete"><a href="#malloc-free和new-delete" class="headerlink" title="malloc/free和new/delete"></a><code>malloc/free</code>和<code>new/delete</code></h3><ul>
+<li><code>malloc/free</code>是<code>C/C++</code>标准库函数，<code>new/delete</code>是<code>C++</code>运算符</li>
+<li>申请的是堆里面的内存空间</li>
+<li><code>malloc</code>不会做初始化，<code>new</code>有默认的初始化同时可以指定初始化。对于类类型而言，对象在创建的时候要自动执行构造函数，消亡之前要调用析构函数，<code>malloc/free</code>不能满足要求。<code>malloc/free</code>是库函数而不是运算符，不在编译器控制之内，不能把执行构造函数和析构函数的任务强加给它，因此，<code>C++</code>还需要<code>malloc/free</code></li>
+</ul>
+<h3 id="pragma-once和-ifndef-define-endif"><a href="#pragma-once和-ifndef-define-endif" class="headerlink" title="#pragma once和#ifndef/#define/#endif"></a><code>#pragma once</code>和<code>#ifndef/#define/#endif</code></h3><ul>
+<li><code>#pragma once</code>是编译相关，某些编译器可能不能用，移植性差一些；<code>#ifndef/#define/#endif</code>是语言相关</li>
+<li><code>#ifndef/#define/#endif</code>依赖于宏名字不能冲突，这不光可以保证同一个文件不会被包含多次，也能保证内容完全相同的两个文件不会被不小心同时包含；缺点是如果不同头文件的宏名不小心“撞车”，可能会导致头文件明明存在，编译器却说找不到声明的状况</li>
+<li><code>#pragma once</code>由编译器提供保证同一个文件不会被包含多次。“同一个文件”是指物理上的一个文件，而不是指内容相同的两个文件，所以对应的缺点就是如果某个头文件有多份拷贝，将不能保证他们不被重复包含。当然，相比宏名碰撞引发的“找不到声明”的问题，重复包含更容易被发现并修正</li>
+</ul>
+<h3 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h3><p>最主要是为了解决内存释放问题。对于一个大型项目，我们在这里申请了一块内存，而在离这里很远的各个地方需要我们释放这块内存的时候，我们常常忘记这个操作，而且有时发现问题还很难排查出来。智能指针的目的就是让程序自动销毁这块内存，而不是靠程序员手动销毁。</p>
 
       
     </div>
@@ -265,18 +293,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/11/25/C-碎碎念/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          C++碎碎念
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/11/25/Object-create-null-和/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Object.create(null)和{}</div>
+    <a href="/2019/11/25/《简单实现自己的监听器模式》/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">《简单实现自己的监听器模式》</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -311,7 +330,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="《简单实现自己的监听器模式》" data-title="《简单实现自己的监听器模式》" data-url="http://lucienlau.github.io/2019/11/25/《简单实现自己的监听器模式》/"></div>
+	<div class="ds-thread" data-thread-key="C-碎碎念" data-title="C++碎碎念" data-url="http://lucienlau.github.io/2019/11/25/C-碎碎念/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
