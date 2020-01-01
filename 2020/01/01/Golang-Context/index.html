@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Golang Context | 饭特稀的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="相比在参数中传递用于控制流程的自定义管道变量，Context可以更方便地串联、管理多个Goroutine，在大型项目中发挥着重要的作用。">
+  <meta name="description" content="写在前面相比在参数中传递用于控制流程的自定义管道变量，Context可以更方便地串联、管理多个Goroutine，在大型项目中发挥着重要的作用。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Golang Context">
 <meta property="og:url" content="http://lucienlau.github.io/2020/01/01/Golang-Context/index.html">
 <meta property="og:site_name" content="饭特稀的博客">
-<meta property="og:description" content="相比在参数中传递用于控制流程的自定义管道变量，Context可以更方便地串联、管理多个Goroutine，在大型项目中发挥着重要的作用。">
+<meta property="og:description" content="写在前面相比在参数中传递用于控制流程的自定义管道变量，Context可以更方便地串联、管理多个Goroutine，在大型项目中发挥着重要的作用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-01T11:34:59.158Z">
+<meta property="og:updated_time" content="2020-01-01T11:37:29.959Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang Context">
-<meta name="twitter:description" content="相比在参数中传递用于控制流程的自定义管道变量，Context可以更方便地串联、管理多个Goroutine，在大型项目中发挥着重要的作用。">
+<meta name="twitter:description" content="写在前面相比在参数中传递用于控制流程的自定义管道变量，Context可以更方便地串联、管理多个Goroutine，在大型项目中发挥着重要的作用。">
   
     <link rel="alternative" href="/atom.xml" title="饭特稀的博客" type="application/atom+xml">
   
@@ -253,9 +253,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>相比在参数中传递用于控制流程的自定义管道变量，<code>Context</code>可以更方便地串联、管理多个<code>Goroutine</code>，在大型项目中发挥着重要的作用。</p>
+        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>相比在参数中传递用于控制流程的自定义管道变量，<code>Context</code>可以更方便地串联、管理多个<code>Goroutine</code>，在大型项目中发挥着重要的作用。</p>
 <a id="more"></a>
-<h4 id="WithCancel"><a href="#WithCancel" class="headerlink" title="WithCancel"></a>WithCancel</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithCancel</span><span class="params">(parent Context)</span> <span class="params">(ctx Context, cancel CancelFunc)</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="New-Context"><a href="#New-Context" class="headerlink" title="New Context"></a>New Context</h2><h4 id="WithCancel"><a href="#WithCancel" class="headerlink" title="WithCancel"></a>WithCancel</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithCancel</span><span class="params">(parent Context)</span> <span class="params">(ctx Context, cancel CancelFunc)</span></span></span><br></pre></td></tr></table></figure>
 <p>返回一个携带一个新的<code>Done</code>管道的<code>parent</code>副本，<code>parent</code>的<code>cancel</code>被执行或<code>parent</code>的<code>Done</code>被<code>close</code>的时候，副本的<code>Done</code>会被<code>close</code>。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	stoping := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> check(ctx, stoping)</span><br><span class="line">	time.Sleep(<span class="number">3</span> * time.Second)</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"after 3s"</span>)</span><br><span class="line">	cancel()</span><br><span class="line"></span><br><span class="line">	&lt;-stoping</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(ctx context.Context, stoping <span class="keyword">chan</span> <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">"[check] start..."</span>)</span><br><span class="line">	&lt;-ctx.Done()</span><br><span class="line">	fmt.Println(<span class="string">"[check] end..."</span>)</span><br><span class="line">	stoping &lt;- <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>输出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[check] start...</span><br><span class="line">after 3s</span><br><span class="line">[check] end...</span><br></pre></td></tr></table></figure></p>
