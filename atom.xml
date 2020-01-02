@@ -17,7 +17,7 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Golang Context</title>
+    <title>为什么要用Context(上下文)</title>
     <link href="http://lucienlau.github.io/2020/01/01/Golang-Context/"/>
     <id>http://lucienlau.github.io/2020/01/01/Golang-Context/</id>
     <published>2020-01-01T10:30:54.000Z</published>
