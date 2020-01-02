@@ -1,0 +1,1301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Golang Context</title>
+    <url>/2020/01/01/Golang-Context/</url>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>相比在参数中传递用于控制流程的自定义管道变量，<code>Context</code>可以更方便地串联、管理多个<code>Goroutine</code>，在大型项目中发挥着重要的作用。</p>
+<a id="more"></a>
+
+<h2 id="New-Context"><a href="#New-Context" class="headerlink" title="New Context"></a>New Context</h2><h4 id="WithCancel"><a href="#WithCancel" class="headerlink" title="WithCancel"></a>WithCancel</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithCancel</span><span class="params">(parent Context)</span> <span class="params">(ctx Context, cancel CancelFunc)</span></span></span><br></pre></td></tr></table></figure>
+<p>返回一个携带一个新的<code>Done</code>管道的<code>parent</code>副本，<code>parent</code>的<code>cancel</code>被执行或<code>parent</code>的<code>Done</code>被<code>close</code>的时候，副本的<code>Done</code>会被<code>close</code>。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	stoping := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> check(ctx, stoping)</span><br><span class="line">	time.Sleep(<span class="number">3</span> * time.Second)</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">"after 3s"</span>)</span><br><span class="line">	cancel()</span><br><span class="line"></span><br><span class="line">	&lt;-stoping</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(ctx context.Context, stoping <span class="keyword">chan</span> <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">"[check] start..."</span>)</span><br><span class="line">	&lt;-ctx.Done()</span><br><span class="line">	fmt.Println(<span class="string">"[check] end..."</span>)</span><br><span class="line">	stoping &lt;- <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[check] start...</span><br><span class="line">after 3s</span><br><span class="line">[check] end...</span><br></pre></td></tr></table></figure>
+
+<h4 id="WithDeadline"><a href="#WithDeadline" class="headerlink" title="WithDeadline"></a>WithDeadline</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithDeadline</span><span class="params">(parent Context, deadline time.Time)</span> <span class="params">(Context, CancelFunc)</span></span></span><br></pre></td></tr></table></figure>
+<p>副本<code>deadline</code>或<code>cancel</code>的时候，或<code>parent</code>的<code>Done</code>被<code>close</code>的时候，副本的<code>Done</code>将<code>close</code></p>
+<h4 id="WithTimeout"><a href="#WithTimeout" class="headerlink" title="WithTimeout"></a>WithTimeout</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithTimeout</span><span class="params">(parent Context, timeout time.Duration)</span> <span class="params">(Context, CancelFunc)</span></span></span><br></pre></td></tr></table></figure>
+<p>返回<code>WithDeadline(parent, time.Now().Add(timeout))</code>。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ctx, _ := context.WithTimeout(context.Background(), <span class="number">2</span>*time.Second)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> check(ctx, <span class="number">1</span>*time.Second)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">		fmt.Println(<span class="string">"[main] "</span>, ctx.Err())</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(ctx context.Context, timeout time.Duration)</span></span> &#123;</span><br><span class="line">	<span class="keyword">select</span> &#123;</span><br><span class="line">	<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">		fmt.Println(<span class="string">"[check] "</span>, ctx.Err())</span><br><span class="line">	<span class="keyword">case</span> &lt;-time.After(timeout):</span><br><span class="line">		fmt.Println(<span class="string">"[check] timeout"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[check] timeout</span><br><span class="line">[main]  context deadline exceeded</span><br></pre></td></tr></table></figure>
+
+<h4 id="WithValue"><a href="#WithValue" class="headerlink" title="WithValue"></a>WithValue</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithValue</span><span class="params">(parent Context, key <span class="keyword">interface</span>&#123;&#125;, val <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">Context</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	stoping := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</span><br><span class="line">	ctx := context.WithValue(context.Background(), <span class="string">"name"</span>, <span class="string">"Jack"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> check(ctx, stoping)</span><br><span class="line">	&lt;-stoping</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(ctx context.Context, stoping <span class="keyword">chan</span> <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">"[check] Hi"</span>, ctx.Value(<span class="string">"name"</span>))</span><br><span class="line">	stoping &lt;- <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[check] Hi Jack</span><br></pre></td></tr></table></figure>
+
+<h4 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h4><p><code>Background returns a non-nil, empty Context. It is never canceled, has no values, and has no deadline</code>。这个一般在<code>main</code>函数、初始化、测试和顶层使用，然后通过它往后派生。</p>
+<h4 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h4><p>几乎是<code>Background</code>的别名般的存在，但相比<code>Background</code>，一些静态分析工具可以通过<code>TODO</code>分析<code>Context</code>有没有正确地传递。一般在对<code>Context</code>的使用还不清晰的地方使用。</p>
+<h2 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h2><ul>
+<li><code>Context</code>被<code>cancel</code>的时候，关联的资源也会被释放</li>
+<li>不要在<code>struct</code>中存储<code>Context</code>实例，明确地通过函数参数传递，并且一般作为第一个参数</li>
+<li>即使函数运行，也不要传递<code>nil Context</code>，如果不确定传递的<code>Context</code>将来有什么用处，可以传递一个<code>context.TODO</code></li>
+<li>通过<code>Context</code>携带参数一般只用于请求域数据，可选参数应该明确通过函数参数传递</li>
+<li>同一个<code>Context</code>可运行于不同<code>Goroutines</code>中的函数，<code>Context</code>可以在多个<code>Goroutines</code>间同步</li>
+</ul>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Golang</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++碎碎念</title>
+    <url>/2019/11/25/C-%E7%A2%8E%E7%A2%8E%E5%BF%B5/</url>
+    <content><![CDATA[<h3 id="头文件中ifndef-define-endif的作用"><a href="#头文件中ifndef-define-endif的作用" class="headerlink" title="头文件中ifndef/define/endif的作用"></a>头文件中<code>ifndef/define/endif</code>的作用</h3><p>保证即使头文件被包含多次，也只定义一次，起到预编译保护作用。</p>
+<a id="more"></a>
+
+<h3 id="extern-“C”"><a href="#extern-“C”" class="headerlink" title="extern “C”"></a><code>extern “C”</code></h3><p>程序中的变量或函数，经<code>C</code>和<code>C++</code>编译器编译后后，符号不一样，会导致编译后的<code>C</code>代码在符号库中找不到。<code>extern “C”</code>告诉编译器这是<code>C</code>代码，按照<code>C</code>的方式编译。<br>所以，<code>extern “C”</code>的目的是解决符号匹配问题，实现<code>C</code>和<code>C++</code>混合编程。</p>
+<h3 id="const和-define"><a href="#const和-define" class="headerlink" title="const和#define"></a><code>const</code>和<code>#define</code></h3><ul>
+<li>都可以定义常量，<code>const</code>用途更广，比如修饰函数返回值和参数</li>
+<li><code>const</code>有数据类型，编译器可以对其进行类型安全检查，对<code>#define</code>只会进行字符替换</li>
+</ul>
+<h3 id="sizeof与strlen"><a href="#sizeof与strlen" class="headerlink" title="sizeof与strlen"></a><code>sizeof</code>与<code>strlen</code></h3><ul>
+<li><code>sizeof</code>是运算符，<code>strlen</code>是函数</li>
+<li><code>sizeof</code>可以用类型做参数，<code>strlen</code>只能用<code>\0</code>结尾的<code>char *</code></li>
+</ul>
+<h3 id="指针和引用"><a href="#指针和引用" class="headerlink" title="指针和引用"></a>指针和引用</h3><ul>
+<li>定义指针时可以不初始化；定义引用时必须初始化</li>
+<li>指针赋值是把指针指向另一个对象；引用赋值是修改引用绑定的对象的值<br>在底层，引用变量由指针按照指针常量的方式实现，所以<code>int i = 2;int* const gi = &amp;i;</code>和<code>int i = 2;int &amp;gi = i;</code>是一致的。</li>
+</ul>
+<h3 id="空指针、野指针和悬垂指针"><a href="#空指针、野指针和悬垂指针" class="headerlink" title="空指针、野指针和悬垂指针"></a>空指针、野指针和悬垂指针</h3><ul>
+<li>空指针：指向地址为空的指针(NULL指针)。可以被多次<code>delete</code></li>
+<li>野指针：指向垃圾内存的指针。产生原因是创建时未初始化，它将会随意指向一个内存地址</li>
+<li>悬垂指针：动态创建的对象被释放或回收了，但是指向该对象的指针未做任何修改，仍旧指向已经回收的内存地址</li>
+</ul>
+<h3 id="malloc-free和new-delete"><a href="#malloc-free和new-delete" class="headerlink" title="malloc/free和new/delete"></a><code>malloc/free</code>和<code>new/delete</code></h3><ul>
+<li><code>malloc/free</code>是<code>C/C++</code>标准库函数，<code>new/delete</code>是<code>C++</code>运算符</li>
+<li>申请的是堆里面的内存空间</li>
+<li><code>malloc</code>不会做初始化，<code>new</code>有默认的初始化同时可以指定初始化。对于类类型而言，对象在创建的时候要自动执行构造函数，消亡之前要调用析构函数，<code>malloc/free</code>不能满足要求。<code>malloc/free</code>是库函数而不是运算符，不在编译器控制之内，不能把执行构造函数和析构函数的任务强加给它，因此，<code>C++</code>还需要<code>malloc/free</code></li>
+</ul>
+<h3 id="pragma-once和-ifndef-define-endif"><a href="#pragma-once和-ifndef-define-endif" class="headerlink" title="#pragma once和#ifndef/#define/#endif"></a><code>#pragma once</code>和<code>#ifndef/#define/#endif</code></h3><ul>
+<li><code>#pragma once</code>是编译相关，某些编译器可能不能用，移植性差一些；<code>#ifndef/#define/#endif</code>是语言相关</li>
+<li><code>#ifndef/#define/#endif</code>依赖于宏名字不能冲突，这不光可以保证同一个文件不会被包含多次，也能保证内容完全相同的两个文件不会被不小心同时包含；缺点是如果不同头文件的宏名不小心“撞车”，可能会导致头文件明明存在，编译器却说找不到声明的状况</li>
+<li><code>#pragma once</code>由编译器提供保证同一个文件不会被包含多次。“同一个文件”是指物理上的一个文件，而不是指内容相同的两个文件，所以对应的缺点就是如果某个头文件有多份拷贝，将不能保证他们不被重复包含。当然，相比宏名碰撞引发的“找不到声明”的问题，重复包含更容易被发现并修正</li>
+</ul>
+<h3 id="NULL和nullptr"><a href="#NULL和nullptr" class="headerlink" title="NULL和nullptr"></a><code>NULL</code>和<code>nullptr</code></h3><p>在<code>C</code>中，<code>NULL</code>通常定义为<code>#define NULL ((void *)0)</code>，<code>void *</code>可以隐式转换成其他类型<br>而<code>C++</code>是强类型的，<code>void *</code>不能隐式转换成其他指针类型，所以通常情况下编译器在头文件中会这样定义<code>NULL</code>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#ifdef __cplusplus</span><br><span class="line">#define NULL 0</span><br><span class="line">#else</span><br><span class="line">#define NULL ((void *)0)</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>所以<code>C++</code>中用<code>0</code>表示空指针。不过还是有缺陷不完美，处理重载函数的时候会出现问题。于是<code>C++11</code>引入了<code>nullptr</code>表示空指针</p>
+<h3 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h3><p>最主要是为了解决内存释放问题。对于一个大型项目，我们在这里申请了一块内存，而在离这里很远的各个地方需要我们释放这块内存的时候，我们常常忘记这个操作，而且有时发现问题还很难排查出来。智能指针的目的就是让程序自动销毁这块内存，而不是靠程序员手动销毁。(未完待续)</p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>《简单实现自己的监听器模式》</title>
+    <url>/2019/11/25/%E3%80%8A%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%8B/</url>
+    <content><![CDATA[<p>实现监听器模式，不使用<code>EventEmitter</code></p>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class MyEventEmitter &#123;</span><br><span class="line">	constructor() &#123;</span><br><span class="line">		this.handles &#x3D; Object.create(null);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	on(evt, cb) &#123;</span><br><span class="line">		if (typeof cb !&#x3D;&#x3D; &#39;function&#39;) &#123;</span><br><span class="line">			console.log(&#39;cb must be a function&#39;);</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if (!this.handles[evt]) &#123;</span><br><span class="line">			this.handles[evt] &#x3D; [];</span><br><span class="line">		&#125;</span><br><span class="line">		this.handles[evt].push(cb);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	emit(evt, ...args) &#123;</span><br><span class="line">		if (!!this.handles[evt]) &#123;</span><br><span class="line">			this.handles[evt].forEach((item) &#x3D;&gt; &#123;</span><br><span class="line">				Reflect.apply(item, this, args);</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const emitter &#x3D; new MyEventEmitter();</span><br><span class="line">emitter.on(&#39;say&#39;, (name) &#x3D;&gt; &#123;</span><br><span class="line">	console.log(&#39;Hello, &#39;, name);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">	emitter.emit(&#39;say&#39;, &#39;Jay&#39;);</span><br><span class="line">&#125;, 1500);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Object.create(null)和{}</title>
+    <url>/2019/11/25/Object-create-null-%E5%92%8C/</url>
+    <content><![CDATA[<p><code>let a = {}</code>和<code>let b = Object.create(null)</code>有什么区别呢？</p>
+<a id="more"></a>
+
+<p>在浏览器开发者工具查看<code>console.log(a)</code>和<code>console.log(b)</code>可以看到，<code>a</code>继承了<code>Object</code>的一些东西(基于原型链)，而<code>b</code>是干净的空的。</p>
+<p>所以<code>b</code>的方式不用担心自己定义属性的话会和原型链上的冲突；另外某些循环中，不需要去遍历原型链上的属性，可以提升一丢丢性能。<br>当然，这么做另一方面是丢掉了原型链上提供的所有属性或功能。</p>
+<p>参考：<a href="https://juejin.im/post/5acd8ced6fb9a028d444ee4e" target="_blank" rel="noopener">https://juejin.im/post/5acd8ced6fb9a028d444ee4e</a></p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>js实现继承</title>
+    <url>/2019/11/24/js%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF/</url>
+    <content><![CDATA[<h2 id="一、js继承问题"><a href="#一、js继承问题" class="headerlink" title="一、js继承问题"></a>一、<code>js</code>继承问题</h2><p><code>es6</code>引入了<code>class</code>和<code>extends</code>，从而可以像<code>c++</code>那样理解继承，但本质上这只是一个语法糖。</p>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Parent &#123;</span><br><span class="line">	constructor(name) &#123;</span><br><span class="line">		this.name &#x3D; name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">class Children extends Parent &#123;</span><br><span class="line">	constructor(name) &#123;</span><br><span class="line">		super(name);  &#x2F;&#x2F; 子类没有自己的this，不进行super，得不到继承自父类的this，将出错</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">const children &#x3D; new Children(&quot;children&quot;);</span><br><span class="line">console.log(children.name);  &#x2F;&#x2F; children</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、自己如何实现继承"><a href="#二、自己如何实现继承" class="headerlink" title="二、自己如何实现继承"></a>二、自己如何实现继承</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Animal(color) &#123;</span><br><span class="line">	this.name &#x3D; &quot;animal&quot;;</span><br><span class="line">	this.color &#x3D; color;</span><br><span class="line">	this.type &#x3D; [&#39;pic&#39;, &#39;cat&#39;];</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype.sayName &#x3D; function() &#123;</span><br><span class="line">	console.log(&#96;Hey, I am $&#123;this.name&#125;&#96;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1、继承方式1：原型链"><a href="#1、继承方式1：原型链" class="headerlink" title="1、继承方式1：原型链"></a>1、继承方式1：原型链</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Dog() &#123;&#125;</span><br><span class="line">Dog.prototype &#x3D; new Animal(&quot;white&quot;);</span><br><span class="line">const dog &#x3D; new Dog();</span><br><span class="line">console.log(dog.name, &quot;:&quot;, dog.color);  &#x2F;&#x2F; animal : white</span><br></pre></td></tr></table></figure>
+<p>此种方式缺陷1：引用缺陷</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const dog1 &#x3D; new Dog();</span><br><span class="line">dog1.type.push(&#39;dog&#39;);</span><br><span class="line">const dog2 &#x3D; new Dog();</span><br><span class="line">console.log(dog2.type);  &#x2F;&#x2F; [ &#39;pic&#39;, &#39;cat&#39;, &#39;dog&#39; ]</span><br></pre></td></tr></table></figure>
+<p>此种方式缺陷2：对于继承来的属性，无法为不同的实例初始化为不同的值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Cat() &#123;&#125;</span><br><span class="line">Cat.prototype &#x3D; new Animal(&quot;black&quot;);  &#x2F;&#x2F; 所有的Cat实例初始化时都是black色</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、继承方式2：借用构造函数-也叫经典继承"><a href="#2、继承方式2：借用构造函数-也叫经典继承" class="headerlink" title="2、继承方式2：借用构造函数(也叫经典继承)"></a>2、继承方式2：借用构造函数(也叫经典继承)</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Pic(color) &#123;</span><br><span class="line">	Animal.apply(this, arguments);</span><br><span class="line">&#125;</span><br><span class="line">const pic &#x3D; new Pic(&quot;white&quot;);</span><br><span class="line">console.log(pic.name, &quot;:&quot;, pic.color);  &#x2F;&#x2F; animal : white</span><br></pre></td></tr></table></figure>
+<p>此种方式缺陷：无法获取父类通过原型绑定的方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pic.sayName();  &#x2F;&#x2F; TypeError: pic.sayName is not a function</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、继承方式3：组合继承-就是组合上面两种，可以避免上面的缺陷。氮素，会调用两次父类构造函数"><a href="#3、继承方式3：组合继承-就是组合上面两种，可以避免上面的缺陷。氮素，会调用两次父类构造函数" class="headerlink" title="3、继承方式3：组合继承(就是组合上面两种，可以避免上面的缺陷。氮素，会调用两次父类构造函数)"></a>3、继承方式3：组合继承(就是组合上面两种，可以避免上面的缺陷。氮素，会调用两次父类构造函数)</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Monkey(color) &#123;</span><br><span class="line">	Animal.apply(this, arguments);</span><br><span class="line">&#125;</span><br><span class="line">Monkey.prototype &#x3D; new Animal();</span><br><span class="line">const monkey &#x3D; new Monkey(&quot;gray&quot;);</span><br><span class="line">console.log(monkey.name, &quot;:&quot;, monkey.color);  &#x2F;&#x2F; animal : gray</span><br><span class="line">monkey.sayName();  &#x2F;&#x2F; Hey, I am animal</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、继承方式4：寄生组合继承-避免调用两次父类构造函数的问题"><a href="#4、继承方式4：寄生组合继承-避免调用两次父类构造函数的问题" class="headerlink" title="4、继承方式4：寄生组合继承(避免调用两次父类构造函数的问题)"></a>4、继承方式4：寄生组合继承(避免调用两次父类构造函数的问题)</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Tiger(color) &#123;</span><br><span class="line">	Animal.apply(this, arguments);</span><br><span class="line">&#125;</span><br><span class="line">Tiger.prototype &#x3D; Object.create(Animal.prototype);  &#x2F;&#x2F; 使用Object.create进行浅拷贝，少了一次调用父类的构造函数</span><br><span class="line">Tiger.prototype.constructor &#x3D; Tiger;  &#x2F;&#x2F; 上面浅拷贝后Tiger.prototype的constructor被重写了，所以要修复一下</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>js的bind函数</title>
+    <url>/2019/11/23/js%E7%9A%84bind%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>由<code>Function.prototype.bind()</code>，所以<code>bind()</code>是函数或方法的一个属性。<code>bind()</code>将创建一个新的函数，调用<code>bind()</code>的时候，新函数的<code>this</code>被<code>bind()</code>的第一个参数指定，<code>bind()</code>的其余参数将作为新函数的参数供调用时使用。</p>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const obj &#x3D; &#123;</span><br><span class="line">	x: 12,</span><br><span class="line">	getX: function() &#123; return this.x; &#125;,</span><br><span class="line">	setX: function(x) &#123; this.x &#x3D; x; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(obj.getX());  &#x2F;&#x2F; 12</span><br><span class="line"></span><br><span class="line">const unboundGetX &#x3D; obj.getX;</span><br><span class="line">&#x2F;&#x2F; console.log(unboundGetX());  &#x2F;&#x2F; TypeError: Cannot read property &#39;x&#39; of undefined</span><br><span class="line"></span><br><span class="line">const boundGetX &#x3D; unboundGetX.bind(obj);</span><br><span class="line">console.log(boundGetX());  &#x2F;&#x2F; 12</span><br><span class="line"></span><br><span class="line">const boundSetX &#x3D; obj.setX.bind(obj, 89);</span><br><span class="line">boundSetX();  &#x2F;&#x2F; 这时传不传参数不影响obj.x&#x3D;89的事实</span><br><span class="line">console.log(boundGetX());  &#x2F;&#x2F; 89</span><br><span class="line"></span><br><span class="line">const boundSetX2 &#x3D; obj.setX.bind(obj);</span><br><span class="line">boundSetX2(999);  &#x2F;&#x2F; 这时如果不传参数obj.x将是undefined</span><br><span class="line">console.log(boundGetX());  &#x2F;&#x2F; 999</span><br></pre></td></tr></table></figure>
+
+<h2 id="实现自己的bind"><a href="#实现自己的bind" class="headerlink" title="实现自己的bind()"></a>实现自己的<code>bind()</code></h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const obj2 &#x3D; &#123;</span><br><span class="line">	name: &quot;this is obj2&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function foo(color) &#123;</span><br><span class="line">	console.log(color);</span><br><span class="line">	return this.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const bindFoo &#x3D; foo.bind(obj2, &quot;black&quot;);</span><br><span class="line">&#x2F;&#x2F; black</span><br><span class="line">&#x2F;&#x2F; this is obj2</span><br><span class="line">console.log(bindFoo());</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 构造函数时</span><br><span class="line">const nbfoo &#x3D; new bindFoo();  &#x2F;&#x2F; black，传入的参数依然生效</span><br><span class="line">console.log(nbfoo.name);  &#x2F;&#x2F; undefined，传入的obj2失效，this指向的是nbfoo而不是obj2了</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; TODO: new bindFoo()的时候，this指向的是new出来的而不是obj2，这个效果</span><br><span class="line">Function.prototype.mybind &#x3D; function(ctx) &#123;</span><br><span class="line">	const fn &#x3D; this;</span><br><span class="line">	const args &#x3D; Array.prototype.slice.call(arguments, 1);  &#x2F;&#x2F; 去掉第0个</span><br><span class="line">	return function() &#123;</span><br><span class="line">		return fn.apply(ctx, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const mybindFoo &#x3D; foo.mybind(obj2, &quot;white&quot;);</span><br><span class="line">&#x2F;&#x2F; white</span><br><span class="line">&#x2F;&#x2F; this is obj2</span><br><span class="line">console.log(mybindFoo());</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>js的with关键字</title>
+    <url>/2019/11/23/js%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/</url>
+    <content><![CDATA[<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let obj &#x3D; &#123;</span><br><span class="line">	a: &#39;aaa&#39;,</span><br><span class="line">	b: &#39;bbb&#39;,</span><br><span class="line">	c: &#39;ccc&#39;</span><br><span class="line">&#125;</span><br><span class="line">console.log(obj.a, obj.b, obj.c);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 使用 with</span><br><span class="line">with (obj) &#123;</span><br><span class="line">	console.log(a, b, c);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p><code>with</code>用来改变作用域，上面的<code>a, b, c</code>首先会被认为是局部变量，然后会查<code>obj</code>中有没有同名的，有就指向该同名属性</p>
+<h2 id="然而"><a href="#然而" class="headerlink" title="然而"></a>然而</h2><p>一般是不推荐使用<code>with</code>的，而且<code>strict</code>模式下是不能使用的，为什么呢？主要是性能问题，以及语意不明容易出现<code>bug</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let obj &#x3D; &#123;</span><br><span class="line">	a: &#39;aaa&#39;,</span><br><span class="line">	b: &#39;bbb&#39;,</span><br><span class="line">	c: &#39;ccc&#39;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function fn1() &#123;</span><br><span class="line">	console.time(&quot;without&quot;);</span><br><span class="line">	for (let i &#x3D; 0; i &lt; 10000; i++) &#123;</span><br><span class="line">		let ta &#x3D; obj.a;</span><br><span class="line">		let tb &#x3D; obj.b;</span><br><span class="line">		let tc &#x3D; obj.c;</span><br><span class="line">	&#125;</span><br><span class="line">	console.timeEnd(&quot;without&quot;);</span><br><span class="line">&#125;</span><br><span class="line">function fn2() &#123;</span><br><span class="line">	console.time(&quot;with&quot;);</span><br><span class="line">	for (let i &#x3D; 0; i &lt; 10000; i++) &#123;</span><br><span class="line">		with (obj) &#123;</span><br><span class="line">			let ta &#x3D; a;</span><br><span class="line">			let tb &#x3D; b;</span><br><span class="line">			let tc &#x3D; c;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	console.timeEnd(&quot;with&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn1();  &#x2F;&#x2F; 0.343ms</span><br><span class="line">fn2();  &#x2F;&#x2F; 6.114ms</span><br></pre></td></tr></table></figure>
+<p>因为<code>js</code>代码执行有一个编译阶段，使用<code>with</code>后<code>js</code>引擎不知道这些<code>a, b, c</code>是<code>obj</code>上的属性，无法对它们进行静态分析，就无法对这段代码进行优化；另外，一些<code>js</code>压缩工具也无法对这段代码进行压缩。这些是影响其性能的主要原因。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let objName &#x3D; &#123;</span><br><span class="line">	name: &quot;apple&quot;</span><br><span class="line">&#125;</span><br><span class="line">let objColor &#x3D; &#123;</span><br><span class="line">	color: &quot;white&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function foo(obj) &#123;</span><br><span class="line">	with (obj) &#123;</span><br><span class="line">		name &#x3D; &quot;dog&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; console.log(name);  &#x2F;&#x2F; 此时将出错，ReferenceError: name is not defined</span><br><span class="line"></span><br><span class="line">console.log(objName.name);  &#x2F;&#x2F; apple</span><br><span class="line">foo(objName);</span><br><span class="line">console.log(objName.name);  &#x2F;&#x2F; dog</span><br><span class="line"></span><br><span class="line">console.log(objColor.color);  &#x2F;&#x2F; white</span><br><span class="line">foo(objColor);</span><br><span class="line">console.log(objColor.color);  &#x2F;&#x2F; white</span><br><span class="line"></span><br><span class="line">console.log(objColor.name);  &#x2F;&#x2F; undefined</span><br><span class="line">console.log(name);  &#x2F;&#x2F; dog</span><br></pre></td></tr></table></figure>
+<p>上面这段代码很容易出错和难以调试。</p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JS的call方法</title>
+    <url>/2019/11/23/JS%E7%9A%84call%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><code>foo.call(this, args...)</code>，指明<code>foo</code>函数或方法的<code>this</code>和参数，然后运行<code>foo</code>。</p>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Animal(name) &#123;</span><br><span class="line">	console.log(&#96;animal&#39;s name is $&#123;name&#125;, color is $&#123;this.color&#125;&#96;);</span><br><span class="line">&#125;</span><br><span class="line">function Dog() &#123;</span><br><span class="line">	this.color &#x3D; &quot;dog&#39;s color is white&quot;;</span><br><span class="line">	Animal.call(this, &quot;dog&quot;);</span><br><span class="line">&#125;</span><br><span class="line">new Dog();  &#x2F;&#x2F; 打印 &quot;animal&#39;s name is dog, color is dog&#39;s color is white&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="为自己打call"><a href="#为自己打call" class="headerlink" title="为自己打call"></a>为自己打<code>call</code></h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Function.prototype.mycall &#x3D; function(ctx) &#123;</span><br><span class="line">	&#x2F;&#x2F; ctx也就是传过来的this(同arguments[0])，传null则为window(nodejs可以用global)</span><br><span class="line">	ctx &#x3D; ctx || (typeof window &#x3D;&#x3D;&#x3D; &quot;undefined&quot; ? global : window);</span><br><span class="line">	ctx.foo &#x3D; this;  &#x2F;&#x2F; 这个this是调用mycall的那个函数或方法</span><br><span class="line"></span><br><span class="line">	let args &#x3D; [];</span><br><span class="line">	for (let i &#x3D; 1; i &lt; arguments.length; i++) &#123;</span><br><span class="line">		args.push(arguments[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	ctx.foo(...args);</span><br><span class="line">	delete ctx.foo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Animal2(name) &#123;</span><br><span class="line">	console.log(&#96;animal&#39;s name is $&#123;name&#125;, color is $&#123;this.color&#125;&#96;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Dog2() &#123;</span><br><span class="line">	this.color &#x3D; &quot;black&quot;;</span><br><span class="line">	Animal2.mycall(this, &quot;dogdog&quot;);</span><br><span class="line">&#125;</span><br><span class="line">new Dog2();  &#x2F;&#x2F; 打印 &quot;animal&#39;s name is dogdog, color is black&quot;</span><br><span class="line"></span><br><span class="line">let Cat &#x3D; &#123;</span><br><span class="line">	color: &quot;white&quot;</span><br><span class="line">&#125;</span><br><span class="line">Animal2.mycall(Cat, &quot;catcat&quot;);  &#x2F;&#x2F; 打印 &quot;animal&#39;s name is catcat, color is white&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="apply呢"><a href="#apply呢" class="headerlink" title="apply呢"></a><code>apply</code>呢</h2><p>上面的<code>call</code>，调用的时候，需要对应每个参数，而<code>apply</code>一共只有两个参数，第一个和<code>call</code>是一样的，而第二个参数传的是参数数组，这用于不确定参数时很方便。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn(arg1, arg2) &#123;</span><br><span class="line">	console.log.call(console, arg1, arg2);</span><br><span class="line">&#125;</span><br><span class="line">fn(&quot;what&quot;, 666);  &#x2F;&#x2F; 打印 &quot;what 666&quot;</span><br><span class="line"></span><br><span class="line">function fn2() &#123;</span><br><span class="line">	console.log.apply(console, arguments);</span><br><span class="line">&#125;</span><br><span class="line">fn2(12, &quot;haha&quot;, 1234);  &#x2F;&#x2F; 打印 &quot;12 haha 1234&quot;</span><br><span class="line">fn2(12, &quot;haha&quot;, 1234, &quot;what&quot;, &quot;why&quot;);  &#x2F;&#x2F; 打印 &quot;12 haha 1234 what why&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总的"><a href="#总的" class="headerlink" title="总的"></a>总的</h2><p>总的来说，<code>call</code>和<code>apply</code>都是为了动态改变<code>this</code>的指向。</p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>JS原型和原型链</title>
+    <url>/2019/11/22/JS%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时代码敲得再多，项目做的再多，面试时还是会被一些简单的问题难倒</p>
+<a id="more"></a>
+
+<h2 id="JS原型和原型链"><a href="#JS原型和原型链" class="headerlink" title="JS原型和原型链"></a>JS原型和原型链</h2><p>读取某个属性，首先会在对象里面看看有没有，没有就会去对象的原型里面看看，以此直到最上层的<code>Object</code>对象的原型</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Animal() &#123;</span><br><span class="line">	&#x2F;&#x2F; 实例化后属于实例的属性</span><br><span class="line">	&#x2F;&#x2F; 如果这里不定义，则和 let animal &#x3D; new Animal(); animal.name &#x3D; &quot;I am an animal&quot; 是一样的</span><br><span class="line">	this.name &#x3D; &quot;I am an animal&quot;;</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype.name &#x3D; &quot;Hey, this is an animal&quot;;  &#x2F;&#x2F; 对象原型的属性</span><br><span class="line"></span><br><span class="line">let animal &#x3D; new Animal();</span><br><span class="line">console.log(animal.name);  &#x2F;&#x2F; 打印 &quot;I am an animal&quot;</span><br><span class="line"></span><br><span class="line">delete animal.name;</span><br><span class="line">console.log(animal.name);  &#x2F;&#x2F; 打印 &quot;Hey, this is an animal&quot;</span><br><span class="line"></span><br><span class="line">console.log(animal.__proto__ &#x3D;&#x3D;&#x3D; Animal.prototype);  &#x2F;&#x2F; true</span><br><span class="line">console.log(Animal.prototype.__proto__ &#x3D;&#x3D;&#x3D; Object.prototype);  &#x2F;&#x2F; true  Animal的上一层是Object</span><br><span class="line">console.log(Animal.prototype.constructor &#x3D;&#x3D;&#x3D; Animal);  &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 一般地</span><br><span class="line">let obj &#x3D; new Object();</span><br><span class="line">console.log(obj.__proto__ &#x3D;&#x3D;&#x3D; Object.prototype);  &#x2F;&#x2F; true</span><br><span class="line">console.log(Object.prototype.__proto__ &#x3D;&#x3D;&#x3D; null);  &#x2F;&#x2F; true  原型链顶层</span><br><span class="line">console.log(Object.prototype.constructor &#x3D;&#x3D;&#x3D; Object);  &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>《伟大的博弈》读后</title>
+    <url>/2019/11/15/%E3%80%8A%E4%BC%9F%E5%A4%A7%E7%9A%84%E5%8D%9A%E5%BC%88%E3%80%8B%E8%AF%BB%E5%90%8E/</url>
+    <content><![CDATA[<p>《伟大的博弈》讲的是华尔街的历史，讲述了华尔街从无到有，讲述了华尔街经历的战乱、灾难、成长，讲述了资本市场的腥风血雨、跌宕起伏。长投学堂的小熊老师说看完这本书，你对我们A股股市的波动就不会感到惊讶，因为和华尔街相比，A股的波动真的算不上波动了。</p>
+<a id="more"></a>
+
+<p>读完这本书后，我感觉有点喜欢上读历史了，这真的是本很有趣的书。</p>
+]]></content>
+      <categories>
+        <category>电影阅读</category>
+      </categories>
+      <tags>
+        <tag>读书</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《聪明的投资者》读后</title>
+    <url>/2019/11/10/%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85%E3%80%8B%E8%AF%BB%E5%90%8E/</url>
+    <content><![CDATA[<p>《聪明的投资者》是巴菲特的老师格雷厄姆出的一本书，巴菲特据说很少向别人推荐什么书，可能是很多书不能入他老人家的法眼吧，却唯独这一本是他非常推崇的。这本书也是长投学堂的小熊老师说读了很多次的书。</p>
+<a id="more"></a>
+
+<p>这本书讲了积极性投资者和保守型投资者的投资策略，股票和债券的投资组合，安全边际等等投资理财知识。读完这本书的感觉就是，书里面说的很多人应该都懂，也许还要多读几遍，满满领会。</p>
+]]></content>
+      <categories>
+        <category>电影阅读</category>
+      </categories>
+      <tags>
+        <tag>读书</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>scatter交易missing required accounts</title>
+    <url>/2019/02/18/scatter%E4%BA%A4%E6%98%93missing-required-accounts/</url>
+    <content><![CDATA[<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>使用<code>scatter js sdk</code>发起一笔交易，请求<code>scatter</code>确认时，出现如下错误提示：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Missing required accounts, repull the identity</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><p>需要添加权限选项<code>{ authorization: [account.name@account.authority] }</code>，比如 EOS 转账交易：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">eos.contract(&#39;eosio.token&#39;).then(contract &#x3D;&gt; &#123;</span><br><span class="line">    contract.transfer(</span><br><span class="line">        &#39;fromaccount1&#39;,</span><br><span class="line">        &#39;toaccount111&#39;,</span><br><span class="line">        &#39;1.0000 EOS&#39;,</span><br><span class="line">        &#39;test&#39;,</span><br><span class="line">        &#123; authorization: [&#39;fromaccount1@active&#39;] &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>eosio.token的transfer的memo长度</title>
+    <url>/2019/02/18/eosio-token%E7%9A%84transfer%E7%9A%84memo%E9%95%BF%E5%BA%A6/</url>
+    <content><![CDATA[<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>平时我们进行 EOS 币转账的时候，<code>memo</code>最多可以填多少个汉字、多少个英文字符呢？</p>
+<a id="more"></a>
+
+<p>官方<code>eosio.token</code>合约的<code>transfer</code>方法，<code>memo</code>被断言为长度小于等于<code>256</code>（<code>eosio_assert( memo.size() &lt;= 256, &quot;memo has more than 256 bytes&quot; )</code>），那么作为一名“专业”码农应该觉得可以输入纯英文字符最多<code>256</code>个，纯汉字减半，然鹅在链上跑的时候，并不是酱紫的。</p>
+<h2 id="敲黑板："><a href="#敲黑板：" class="headerlink" title="敲黑板："></a>敲黑板：</h2><p>在链上跑的时候，纯汉字最多可以输入<code>85</code>个，纯英文字符可以输入<code>258</code>个。每个汉字占用<code>length</code>为<code>3</code>。</p>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>transaction declares authority错误</title>
+    <url>/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/</url>
+    <content><![CDATA[<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>push action 或者 transaction 的时候，出现类似以下错误：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">transaction declares authority &#39;&#123;&quot;actor&quot;:&quot;myaccount111&quot;,&quot;permission&quot;:&quot;active&quot;&#125;&#39;, but does not have signatures for it under a provided delay of 0 ms, provided permissions [&#123;&quot;actor&quot;:&quot;myaccount111&quot;,&quot;permission&quot;:&quot;eosio.code&quot;&#125;], and provided keys []</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p>检查部署<code>myaccount111</code>的合约代码，看看是不是使用了内联 action 或 defer ，这需要你的<code>myaccount111</code>具有<code>eosio.code</code>权限</p>
+<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><p>给<code>myaccount111</code>赋予<code>eosio.code</code>权限</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 这里 EOS5RZcioUTeXNWCUehqtSHpzcXEj4auyRQiD3qwsjCQjWqmH8Qgs 是你 myaccount111 的公钥</span><br><span class="line">$: cleos set account permission myaccount111 active &#39;&#123;&quot;threshold&quot;:1, &quot;keys&quot;:[&#123;&quot;key&quot;:&quot;EOS5RZcioUTeXNWCUehqtSHpzcXEj4auyRQiD3qwsjCQjWqmH8Qgs&quot;, &quot;weight&quot;:1&#125;], &quot;accounts&quot;: [&#123;&quot;permission&quot;:&#123;&quot;actor&quot;:&quot;myaccount111&quot;,&quot;permission&quot;:&quot;eosio.code&quot;&#125;,&quot;weight&quot;:1&#125;]&#125;&#39; owner -p myaccount111</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>节点rpc无法访问</title>
+    <url>/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/</url>
+    <content><![CDATA[<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>你通过<code>config.ini</code>配置了<code>http-server-address = 0.0.0.0:8888</code>，并且配置了插件<code>plugin = eosio::http_plugin</code>，假设你的 server 的公开 ip 为<code>12.34.56.78</code>，氮素<code>cleos -u http://12.34.56.78:8888</code>仍然无法访问你的节点 rpc。</p>
+<a id="more"></a>
+
+<h2 id="一些问题："><a href="#一些问题：" class="headerlink" title="一些问题："></a>一些问题：</h2><ul>
+<li>看看你的 server 安全组有没有允许<code>8888</code>端口的访问</li>
+<li>在<code>config.ini</code>中配置<code>http-alias = 12.34.56.78:8888</code>试试看</li>
+<li>然后重启 nodeos</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>eos合约action命名</title>
+    <url>/2019/02/18/eos%E5%90%88%E7%BA%A6action%E5%91%BD%E5%90%8D/</url>
+    <content><![CDATA[<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>EOS 中，合约的<code>action</code>对应合约 C++ 代码中的一个函数，如果你认为这个函数可以像传统 C++ 编码那样命名，那就错了。因为对应合约的<code>action</code>，所以有一些规则限制。</p>
+<a id="more"></a>
+
+<h2 id="出错："><a href="#出错：" class="headerlink" title="出错："></a>出错：</h2><p>如果编译或执行合约的某个<code>action</code>，出现以下提示，说明<code>action</code>对应的函数命名不合规范：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Name should be less than 13 characters and only contains the following symbol .12345abcdefghijklmnopqrstuvwxyz</span><br></pre></td></tr></table></figure>
+
+<h2 id="规范："><a href="#规范：" class="headerlink" title="规范："></a>规范：</h2><p>从<code>出错</code>提示知道，<code>action</code>对应的函数名，长度不能超过<code>12</code>个字符，并且只能由<code>.12345abcdefghijklmnopqrstuvwxyz</code>这些字符组成。</p>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>config.ini中的signature-provider</title>
+    <url>/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/</url>
+    <content><![CDATA[<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>如果你要部署一个 EOSIO 的出块节点，你可能会关心这个问题。如果不是，或者你只是部署一个普通节点，那你不用care这里说的。</p>
+<a id="more"></a>
+
+<h2 id="signature-provider应该填哪对秘钥："><a href="#signature-provider应该填哪对秘钥：" class="headerlink" title="signature-provider应该填哪对秘钥："></a><code>signature-provider</code>应该填哪对秘钥：</h2><p>在节点的配置文件<code>config.ini</code>中，<code>signature-provider</code>应该填哪一对秘钥呢？可能你会和刚开始的我一样，觉得应该填的是出块账号对应的 owner 或 active 的 key ，但其实这是不建议的，因为涉及到安全问题。<br>其实你完全可以通过 <code>cleos create key --to-console</code> 出来一对<code>key</code> ，只要你注册出块节点的时候使用这个<code>key</code>，那么<code>signature-provider</code>你就可以使用这对<code>key</code>。<br>即，只要保证<code>signature-provider</code>用的是注册时的就行，至于注册你用哪个，你爱用哪个用哪个。</p>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>eosio计算ram价格</title>
+    <url>/2019/02/18/eosio%E8%AE%A1%E7%AE%97ram%E4%BB%B7%E6%A0%BC/</url>
+    <content><![CDATA[<h2 id="首先获取多索引表rammarket的数据："><a href="#首先获取多索引表rammarket的数据：" class="headerlink" title="首先获取多索引表rammarket的数据："></a>首先获取多索引表<code>rammarket</code>的数据：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$: cleos -u https:&#x2F;&#x2F;nodes.get-scatter.com:443 get table eosio eosio rammarket</span><br><span class="line">&#123;</span><br><span class="line">  &quot;rows&quot;: [&#123;</span><br><span class="line">      &quot;supply&quot;: &quot;10000000000.0000 RAMCORE&quot;,</span><br><span class="line">      &quot;base&quot;: &#123;</span><br><span class="line">        &quot;balance&quot;: &quot;70910488246 RAM&quot;,</span><br><span class="line">        &quot;weight&quot;: &quot;0.50000000000000000&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;quote&quot;: &#123;</span><br><span class="line">        &quot;balance&quot;: &quot;1722420.0326 EOS&quot;,</span><br><span class="line">        &quot;weight&quot;: &quot;0.50000000000000000&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;more&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="那么n-KB的内存价格为："><a href="#那么n-KB的内存价格为：" class="headerlink" title="那么n KB的内存价格为："></a>那么<code>n KB</code>的内存价格为：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">n KB内存需要的EOS &#x3D; ( n * quote.balance ) &#x2F; ( n + base.balance &#x2F; 1024 )</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>eosio获取账号actions</title>
+    <url>/2019/02/18/eosio%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7actions/</url>
+    <content><![CDATA[<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>有时候我们使用别人的 rpc 地址，<code>get actions</code>的时候返回的是空：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$: cleos -u https:&#x2F;&#x2F;别人的rpc.io get actions myaccount111</span><br><span class="line">#  seq  when                              contract::action &#x3D;&gt; receiver      trx id...   args</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>这是因为，你使用的这个别人的 rpc 地址，他的 nodeos 没有打开<code>filter-on</code>配置，或者他只开了他需要监听的账号和 action ，这个时候，你就要另找 rpc 地址了。</p>
+<h2 id="配置自己的节点："><a href="#配置自己的节点：" class="headerlink" title="配置自己的节点："></a>配置自己的节点：</h2><p>如果你有自己的节点，你想用自己节点的 rpc 查找 actions ，应该怎么配置呢？<br>当然，你可以在 <code>config.ini</code> 配置文件中，设置 <code>filter-on = *</code> ，这样会记录全网的所有账号，以及所有的 actions ，但是你要认识到这需要很大的服务器物理内存。<br>如果你只需要记录账号<code>myaccount111</code>的<code>transfer</code>，你只用这样配置就好了：<code>filter-on = myaccount111::transfer</code>。</p>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>screen</title>
+    <url>/2019/02/06/screen/</url>
+    <content><![CDATA[<h2 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h2><p>当我们远程登录服务器，正在执行某些操作，比如正在编译源代码到60%，如果因为网络等各种原因断开了与服务器的链接，那么编译过程可能会被中断，我们重新链接服务器时需要从从头进行编译。<br>如果执行编译前使用了<code>screen</code>，链接断开时编译工作不会中断，重连后登录之前的<code>screen</code>会话，就可以回到当时的环境。</p>
+<a id="more"></a>
+
+<h2 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h2><ul>
+<li>screen -S XXX：创建名为XXX的后台会话</li>
+<li>screnn -ls：查看所有后台会话</li>
+<li>screen -r XXX：恢复名为XXX的后台会话</li>
+</ul>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html" target="_blank" rel="noopener">http://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>EOSIO笔记</title>
+    <url>/2019/02/02/EOSIO%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="action"><a href="#action" class="headerlink" title="action"></a>action</h2><ul>
+<li>对应的 function 返回值为 void</li>
+<li>命名长度不能超过12位</li>
+<li>命名须由 <code>.12345abcdefghijklmnopqrstuvwxyz</code> 构成</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HomeBrew</title>
+    <url>/2019/02/02/HomeBrew/</url>
+    <content><![CDATA[<h2 id="HomeBrew："><a href="#HomeBrew：" class="headerlink" title="HomeBrew："></a>HomeBrew：</h2><p>macOS下的<code>homebrew</code>相当于Linux下的<code>apt-get</code>，即包管理器</p>
+<a id="more"></a>
+
+<h2 id="包卸载："><a href="#包卸载：" class="headerlink" title="包卸载："></a>包卸载：</h2><p>这里以卸载 <code>boost</code> 为例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$: brew unlink boost</span><br><span class="line">$: brew unpin boost</span><br><span class="line">$: brew uninstall boost</span><br></pre></td></tr></table></figure>
+
+<h2 id="包升级："><a href="#包升级：" class="headerlink" title="包升级："></a>包升级：</h2><p>这里以升级 <code>mongodb</code> 为例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$: brew upgrade mongodb</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看服务："><a href="#查看服务：" class="headerlink" title="查看服务："></a>查看服务：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$: brew services list</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动、停止、重启服务："><a href="#启动、停止、重启服务：" class="headerlink" title="启动、停止、重启服务："></a>启动、停止、重启服务：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$: brew services start&#x2F;stop&#x2F;restart mongodb</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>macOS</tag>
+        <tag>HomeBrew</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>创建一个react native项目</title>
+    <url>/2018/12/08/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAreact-native%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<h2 id="一、打开模拟器（当然也可以使用真机）"><a href="#一、打开模拟器（当然也可以使用真机）" class="headerlink" title="一、打开模拟器（当然也可以使用真机）"></a>一、打开模拟器（当然也可以使用真机）</h2><p>打开任意一个，或者新建一个Android Studio项目，然后启动模拟器。</p>
+<a id="more"></a>
+
+<h2 id="二、新建工程"><a href="#二、新建工程" class="headerlink" title="二、新建工程"></a>二、新建工程</h2><p><code>$: react-native init demo</code></p>
+<h2 id="三、启动工程"><a href="#三、启动工程" class="headerlink" title="三、启动工程"></a>三、启动工程</h2><p><code>$: react-native run-android</code></p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>EOSIO通过插件存储账号余额到Mongo</title>
+    <url>/2018/12/03/EOSIO%E9%80%9A%E8%BF%87%E6%8F%92%E4%BB%B6%E5%AD%98%E5%82%A8%E8%B4%A6%E5%8F%B7%E4%BD%99%E9%A2%9D%E5%88%B0Mongo/</url>
+    <content><![CDATA[<h2 id="通过mongo-db-plugin存储账号余额到mongodb"><a href="#通过mongo-db-plugin存储账号余额到mongodb" class="headerlink" title="通过mongo_db_plugin存储账号余额到mongodb"></a>通过mongo_db_plugin存储账号余额到mongodb</h2><p>我们这里以存储<code>eosio.token</code>的<code>EOS</code>余额为例，思路是在发生<code>transfer</code>的时候，我们捕获该<code>action</code>，然后更新双方的余额。</p>
+<a id="more"></a>
+
+<p>首先，在<code>class mongo_db_plugin_impl</code>中声明我们需要的变量和函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    static const std::string accounts_col;</span><br><span class="line">    static const std::string pub_keys_col;</span><br><span class="line">    static const std::string account_controls_col;</span><br><span class="line">+</span><br><span class="line">+   &#x2F;&#x2F; for get currency balance</span><br><span class="line">+   mongocxx::collection _currency_balance;  &#x2F;&#x2F; mongo集合的handle</span><br><span class="line">+   static const std::string currency_balance_col;  &#x2F;&#x2F; 将存放mongo集合的名称</span><br><span class="line">+   chain_plugin* chain_plug_handle;  &#x2F;&#x2F; chain_plugin 中 get_currency_balance 可以帮助我们获取余额信息</span><br><span class="line">+   void update_currency_balance( const chain::action_trace&amp; );  &#x2F;&#x2F; 我们的操作放到这里进行</span><br></pre></td></tr></table></figure>
+
+<p>给集合取名为<code>currency_balance</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> const std::string mongo_db_plugin_impl::account_controls_col &#x3D; &quot;account_controls&quot;;</span><br><span class="line">+const std::string mongo_db_plugin_impl::currency_balance_col &#x3D; &quot;currency_balance&quot;;  &#x2F;&#x2F; mongo中集合将显示的是这个</span><br></pre></td></tr></table></figure>
+
+<p>在<code>mongo_db_plugin_impl::consume_blocks</code>中初始化<code>handle</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">       _account_controls &#x3D; mongo_conn[db_name][account_controls_col];</span><br><span class="line">+      _currency_balance &#x3D; mongo_conn[db_name][currency_balance_col];</span><br></pre></td></tr></table></figure>
+
+<p>在<code>mongo_db_plugin_impl::init()</code>中给集合定义一个索引</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">             account_controls.create_index( bsoncxx::from_json( R&quot;xxx(&#123; &quot;controlling_account&quot; : 1 &#125;)xxx&quot; ));</span><br><span class="line"></span><br><span class="line">+            &#x2F;&#x2F; currency_balance index</span><br><span class="line">+            auto currency_balance &#x3D; mongo_conn[db_name][currency_balance_col];</span><br><span class="line">+            currency_balance.create_index( bsoncxx::from_json( R&quot;xxx(&#123; &quot;name&quot; : 1 &#125;)xxx&quot; ));  &#x2F;&#x2F; name字段索引为升序</span><br><span class="line">+            currency_balance.create_index( bsoncxx::from_json( R&quot;xxx(&#123; &quot;balance&quot; : -1 &#125;)xxx&quot; ));  &#x2F;&#x2F; balance字段索引为降序</span><br><span class="line">+</span><br><span class="line">          &#125; catch (...) &#123;</span><br><span class="line">             handle_mongo_exception( &quot;create indexes&quot;, __LINE__ );</span><br></pre></td></tr></table></figure>
+
+<p>在<code>mongo_db_plugin::plugin_initialize</code>中实例化<code>chain_plug_handle</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">          auto&amp; chain &#x3D; chain_plug-&gt;chain();</span><br><span class="line">          my-&gt;chain_id.emplace( chain.get_chain_id());</span><br><span class="line"></span><br><span class="line">+         &#x2F;&#x2F; 给 chain_plug_handle 实例化</span><br><span class="line">+         my-&gt;chain_plug_handle &#x3D; chain_plug;</span><br><span class="line">+</span><br><span class="line">          my-&gt;accepted_block_connection.emplace( chain.accepted_block.connect( [&amp;]( const chain::block_state_ptr&amp; bs ) &#123;</span><br><span class="line">             my-&gt;accepted_block( bs );</span><br><span class="line">          &#125; ));</span><br></pre></td></tr></table></figure>
+
+<p>定义我们的<code>update_currency_balance</code>函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+void mongo_db_plugin_impl::update_currency_balance( const chain::action_trace&amp; atrace ) &#123;</span><br><span class="line">+   using namespace bsoncxx::types;</span><br><span class="line">+   using bsoncxx::builder::basic::kvp;</span><br><span class="line">+   using bsoncxx::builder::basic::make_document;</span><br><span class="line">+</span><br><span class="line">+   auto receiver &#x3D; atrace.receipt.receiver;</span><br><span class="line">+   if ( atrace.act.account &#x3D;&#x3D; name(&quot;eosio.token&quot;) &amp;&amp; atrace.act.name &#x3D;&#x3D; name(&quot;transfer&quot;) ) &#123;</span><br><span class="line">+      chain_apis::read_only::get_currency_balance_params params &#x3D; chain_apis::read_only::get_currency_balance_params &#123;</span><br><span class="line">+         .code    &#x3D; name(&quot;eosio.token&quot;),</span><br><span class="line">+         .account &#x3D; receiver,</span><br><span class="line">+         .symbol  &#x3D; &quot;EOS&quot;,</span><br><span class="line">+      &#125;;</span><br><span class="line">+</span><br><span class="line">+      chain_apis::read_only ro_api &#x3D; chain_plug_handle-&gt;get_read_only_api();</span><br><span class="line">+      vector&lt;asset&gt; asserts &#x3D; ro_api.get_currency_balance( params );</span><br><span class="line">+      if ( !asserts.empty() ) &#123;</span><br><span class="line">+         asset balance &#x3D; asserts.at(0);</span><br><span class="line">+         auto now &#x3D; std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</span><br><span class="line">+               std::chrono::microseconds&#123;fc::time_point::now().time_since_epoch().count()&#125; );</span><br><span class="line">+</span><br><span class="line">+         &#x2F;&#x2F; ilog( &quot;$&#123;a&#125;&#39;s balance: $&#123;b&#125;&quot;, (&quot;a&quot;, atrace.receipt.receiver.to_string())(&quot;b&quot;, balance.to_string()) );</span><br><span class="line">+</span><br><span class="line">+         mongocxx::options::update update_opts&#123;&#125;;</span><br><span class="line">+         update_opts.upsert( true );</span><br><span class="line">+</span><br><span class="line">+         const double balance_real &#x3D; balance.to_real();</span><br><span class="line">+         const string receiver_str &#x3D; receiver.to_string();</span><br><span class="line">+</span><br><span class="line">+         auto update &#x3D; make_document(</span><br><span class="line">+            kvp( &quot;$set&quot;, make_document( kvp( &quot;name&quot;, receiver_str),</span><br><span class="line">+                                        kvp( &quot;balance&quot;, balance_real),</span><br><span class="line">+                                        kvp( &quot;createdAt&quot;, b_date&#123;now&#125; ))</span><br><span class="line">+            )</span><br><span class="line">+         );</span><br><span class="line">+</span><br><span class="line">+         try &#123;</span><br><span class="line">+            if( !_currency_balance.update_one( make_document( kvp( &quot;name&quot;, receiver_str )), update.view(), update_opts )) &#123;</span><br><span class="line">+               EOS_ASSERT( false, chain::mongo_db_update_fail, &quot;Failed to insert account $&#123;n&#125;&quot;, (&quot;n&quot;, receiver));</span><br><span class="line">+            &#125;</span><br><span class="line">+         &#125; catch (...) &#123;</span><br><span class="line">+            handle_mongo_exception( &quot;update_currency&quot;, __LINE__ );</span><br><span class="line">+         &#125;</span><br><span class="line">+      &#125;</span><br><span class="line">+   &#125;</span><br><span class="line">+&#125;</span><br><span class="line">+</span><br><span class="line"> mongo_db_plugin_impl::mongo_db_plugin_impl()</span><br><span class="line"> &#123;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>mongodb-wipe</code>的时候，应该删除集合，在<code>mongo_db_plugin_impl::wipe_database</code>添加如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    auto pub_keys &#x3D; mongo_conn[db_name][pub_keys_col];</span><br><span class="line">    auto account_controls &#x3D; mongo_conn[db_name][account_controls_col];</span><br><span class="line">+   auto currency_balance &#x3D; mongo_conn[db_name][currency_balance_col];</span><br><span class="line"></span><br><span class="line">    pub_keys.drop();</span><br><span class="line">    account_controls.drop();</span><br><span class="line">+   currency_balance.drop();</span><br><span class="line">    ilog(&quot;done wipe_database&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>准备好了之后，重新<code>./eosio_build.sh</code>，然后使用该<code>nodeos</code>重启节点(当然重启节点前需要配置好<code>mongo</code>插件，并且<code>sudo mongod</code>启动了<code>mongo</code>服务)。<br>通过<code>shell</code>查看<code>mongo</code>结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ mongo</span><br><span class="line"></span><br><span class="line">&gt; show dbs</span><br><span class="line">EOS     0.093GB</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&gt; use EOS</span><br><span class="line">switched to db EOS</span><br><span class="line"></span><br><span class="line">&gt; show collections</span><br><span class="line">account_controls</span><br><span class="line">accounts</span><br><span class="line">action_traces</span><br><span class="line">block_states</span><br><span class="line">blocks</span><br><span class="line">currency_balance</span><br><span class="line">pub_keys</span><br><span class="line">transaction_traces</span><br><span class="line">transactions</span><br><span class="line">&#x2F;&#x2F; 通过上面show collections可以看到我们自定义的currency_balance集合了</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 按照balance降序显示</span><br><span class="line">&gt; db.currency_balance.find().sort(&#123;balance:-1&#125;).pretty()</span><br><span class="line">&#123;</span><br><span class="line">	&quot;_id&quot; : ObjectId(&quot;5bf684f44549fee6d16a0888&quot;),</span><br><span class="line">	&quot;name&quot; : &quot;eosio.stake&quot;,</span><br><span class="line">	&quot;balance&quot; : 240020654.8,</span><br><span class="line">	&quot;createdAt&quot; : ISODate(&quot;2018-11-22T10:52:39.140Z&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">	&quot;_id&quot; : ObjectId(&quot;5bf684f64549fee6d16a2964&quot;),</span><br><span class="line">	&quot;name&quot; : &quot;eosio.faucet&quot;,</span><br><span class="line">	&quot;balance&quot; : 199999730,</span><br><span class="line">	&quot;createdAt&quot; : ISODate(&quot;2018-11-22T10:51:18.982Z&quot;)</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>EOSIO的Mongo插件的使用</title>
+    <url>/2018/12/03/EOSIO%E7%9A%84Mongo%E6%8F%92%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="eosio提供了mongo插件，实现把数据导到mongo中，从而可以更加灵活的操作数据。"><a href="#eosio提供了mongo插件，实现把数据导到mongo中，从而可以更加灵活的操作数据。" class="headerlink" title="eosio提供了mongo插件，实现把数据导到mongo中，从而可以更加灵活的操作数据。"></a>eosio提供了mongo插件，实现把数据导到mongo中，从而可以更加灵活的操作数据。</h2><h2 id="配置（config-ini）"><a href="#配置（config-ini）" class="headerlink" title="配置（config.ini）"></a>配置（config.ini）</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">plugin &#x3D; eosio::mongo_db_plugin</span><br><span class="line">mongodb-uri &#x3D; mongodb:&#x2F;&#x2F;localhost:27017</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="本地启动mongo"><a href="#本地启动mongo" class="headerlink" title="本地启动mongo"></a>本地启动mongo</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ sudo mongod</span><br></pre></td></tr></table></figure>
+<h2 id="重启nodeos"><a href="#重启nodeos" class="headerlink" title="重启nodeos"></a>重启nodeos</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ nodeos --replay-blockchain --hard-replay-blockchain --mongodb-wipe</span><br></pre></td></tr></table></figure>
+<h2 id="mongo中查询"><a href="#mongo中查询" class="headerlink" title="mongo中查询"></a>mongo中查询</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ mongo</span><br><span class="line">&gt; show dbs</span><br><span class="line">EOS     0.372GB</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&gt; use EOS</span><br><span class="line">switched to db EOS</span><br><span class="line"></span><br><span class="line">&gt; show tables</span><br><span class="line">account_controls</span><br><span class="line">accounts</span><br><span class="line">action_traces</span><br><span class="line">block_states</span><br><span class="line">blocks</span><br><span class="line">pub_keys</span><br><span class="line">transaction_traces</span><br><span class="line">transactions</span><br><span class="line"></span><br><span class="line">&gt; db.accounts.find().pretty()</span><br><span class="line">&#123;</span><br><span class="line">	&quot;_id&quot; : ObjectId(&quot;5bf3cfbf4f6371c75cdc8890&quot;),</span><br><span class="line">	&quot;name&quot; : &quot;superoneiobp&quot;,</span><br><span class="line">	&quot;createdAt&quot; : ISODate(&quot;2018-11-20T09:11:27.309Z&quot;)</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>eosio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MongoDB简单使用</title>
+    <url>/2018/12/03/MongoDB%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="MongoDB简介"><a href="#MongoDB简介" class="headerlink" title="MongoDB简介"></a>MongoDB简介</h2><p>MongoDB是一个基于分布式文件存储，介于关系型和非关系型的数据库。<br>今天我们通过第三方平台（如Google等）可以很轻易地访问和抓取用户数据。用户的个人信息、社交网络、地理位置，用户生成的数据和用户操作日子已经成倍的增加。我们如果要对这些数据挖掘，那SQL数据库已经不适合这些应用了，NoSQL(即No Only SQL，MongoDB就是这种类型的数据库之一)数据库的发展却能很好的处理这些大数据。</p>
+<a id="more"></a>
+<p>MongoDB将数据存储为一个文档，数据结构有键值对(key=&gt;value)组成，类似于JSON对象，MongoDB中叫BSON(即序列化的二进制JSON)。</p>
+<h2 id="MacOS平台安装MongoDB"><a href="#MacOS平台安装MongoDB" class="headerlink" title="MacOS平台安装MongoDB"></a>MacOS平台安装MongoDB</h2><p>官网提供了安装包：<a href="https://www.mongodb.com/download-center#community" target="_blank" rel="noopener">https://www.mongodb.com/download-center#community</a>；<br>也可以通过brew进行安装:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ sudo brew install mongodb</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 安装支持 TLS&#x2F;SSL 命令</span><br><span class="line">$ sudo brew install mongodb --with-openssl</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 安装最新开发版本</span><br><span class="line">$sudo brew install mongodb --devel</span><br></pre></td></tr></table></figure>
+<h2 id="MongoDB操作"><a href="#MongoDB操作" class="headerlink" title="MongoDB操作"></a>MongoDB操作</h2><h4 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 创建一个数据库存储目录</span><br><span class="line">$ sudo mkdir -p &#x2F;data&#x2F;db</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 启动 mongodb，默认数据库目录即为 &#x2F;data&#x2F;db</span><br><span class="line">$ sudo mongod</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 打开另一个终端连接刚启动的mongod服务</span><br><span class="line">$ mongo</span><br></pre></td></tr></table></figure>
+<h4 id="操作-启动mongo连接数据库服务后"><a href="#操作-启动mongo连接数据库服务后" class="headerlink" title="操作(启动mongo连接数据库服务后)"></a>操作(启动mongo连接数据库服务后)</h4><h5 id="显示数据库"><a href="#显示数据库" class="headerlink" title="显示数据库"></a>显示数据库</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 显示所有数据库列表</span><br><span class="line">&gt; show dbs</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 显示当前的数据库或集合</span><br><span class="line">&gt; db</span><br></pre></td></tr></table></figure>
+<h5 id="使用mytest数据库，如果不存在则新建"><a href="#使用mytest数据库，如果不存在则新建" class="headerlink" title="使用mytest数据库，如果不存在则新建"></a>使用mytest数据库，如果不存在则新建</h5><p><code>&gt; use mytest</code></p>
+<h5 id="删除mytest数据库"><a href="#删除mytest数据库" class="headerlink" title="删除mytest数据库"></a>删除mytest数据库</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; use mytest</span><br><span class="line">&gt; db.dropDatabase()</span><br></pre></td></tr></table></figure>
+<h5 id="创建集合"><a href="#创建集合" class="headerlink" title="创建集合"></a>创建集合</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 在test数据库上创建一个叫kk的集合</span><br><span class="line">&gt; use test</span><br><span class="line">&gt; db.createCollection(&quot;kk&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 或者插入数据的时候，也会自动创建集合</span><br><span class="line">&gt; db.kk.insert(&#123;&quot;name&quot; : &quot;hhily&quot;&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="查看集合"><a href="#查看集合" class="headerlink" title="查看集合"></a>查看集合</h5><p><code>&gt; show collections</code></p>
+<h5 id="删除集合"><a href="#删除集合" class="headerlink" title="删除集合"></a>删除集合</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 删除test数据库中叫kk的集合</span><br><span class="line">&gt; use test</span><br><span class="line">&gt; db.kk.drop()</span><br></pre></td></tr></table></figure>
+<h5 id="插入文档"><a href="#插入文档" class="headerlink" title="插入文档"></a>插入文档</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 在runoob数据库col集合中插入一条文档</span><br><span class="line">&gt; use runoob</span><br><span class="line">&gt; db.col.insert(&#123;title: &#39;MongoDB 教程&#39;, </span><br><span class="line">    description: &#39;MongoDB 是一个 Nosql 数据库&#39;,</span><br><span class="line">    by: &#39;菜鸟教程&#39;,</span><br><span class="line">    url: &#39;http:&#x2F;&#x2F;www.runoob.com&#39;,</span><br><span class="line">    tags: [&#39;mongodb&#39;, &#39;database&#39;, &#39;NoSQL&#39;],</span><br><span class="line">    likes: 100</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F; 上面的插入中，如果col集合不存在，将新建</span><br></pre></td></tr></table></figure>
+<h5 id="查询文档"><a href="#查询文档" class="headerlink" title="查询文档"></a>查询文档</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; db.col.find().pretty()</span><br><span class="line">&#x2F;&#x2F; or</span><br><span class="line">&gt; db.col.findOne().pretty()</span><br></pre></td></tr></table></figure>
+<h5 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h5><p><code>&gt; db.col.updateOne({&#39;title&#39;:&#39;MongoDB 教程&#39;},{$set:{&#39;title&#39;:&#39;MongoDB&#39;}})</code></p>
+<h5 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h5><p><code>db.col.deleteMany({&#39;title&#39;:&#39;MongoDB 教程&#39;})</code></p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>eosio的multi_index</title>
+    <url>/2018/06/05/eosio%E7%9A%84multi-index/</url>
+    <content><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ol>
+<li>multi_index是eosio上的数据库管理接口，通过eosio::multi_index智能合约能够写入、读取和修改eosio数据库的数据</li>
+<li>multi_index在eosio中的位置：eos/contracts/eosiolib/multi_index.hpp<a id="more"></a></li>
+<li>eosio::multi_index来源于boost库的boost::multi_index</li>
+<li>eosio::multi_index在概念上和传统数据库的“表(table)”类似，数据“行(rows)”是独立的对象（通常是class对象或struct对象），数据“列(columns)”是对象的成员属性（class或struct的成员属性）</li>
+<li>eosio::multi_index提供和传统数据库的“键(key)”类似的成员属性，用于快速查找对象</li>
+<li>eosio::multi_index支持主键(primary key)，但必须是唯一的无符号64位整型(uint64_t)</li>
+<li>eosio::multi_index按主键排序时，使用升序</li>
+<li>eosio::multi_index允许使用自定义函数作为索引，但它的返回值是受限制的，只能是支持的键类型</li>
+<li>multi_index表允许多索引排序，最多可以使用16个二级索引</li>
+<li>二级索引作为multi_index表构造函数的一部分创建，不支持直接构建</li>
+<li>multi_index迭代器可以双向迭代，即const_iterator或const_reverse_iterator</li>
+</ol>
+<h2 id="创建multi-index表"><a href="#创建multi-index表" class="headerlink" title="创建multi_index表"></a>创建multi_index表</h2><ol>
+<li>使用C++类(class)或结构体(struct)定义对象</li>
+<li>在class或struct中，定义一个const成员函数：primary_key()，返回uint64_t类型的主键值</li>
+<li>确定二级索引（最多支持16个），二级索引不局限于uint64_t，它支持更多类型<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">二级索引支持的键类型：</span><br><span class="line">    idx64：64位无符号整型键</span><br><span class="line">    idx128：128位无符号整型键</span><br><span class="line">    idx256：256位固定大小字典键</span><br><span class="line">    idx_double：双精度浮点键</span><br><span class="line">    idx_long_double：四倍精度浮点键</span><br></pre></td></tr></table></figure></li>
+<li>为每个二级索引定义extractor，即一个函数，用于从Multi-Index表的函数中获取键，这个函数会被indexed_by（后面会讲）用到</li>
+<li>一个完整的multi_index表定义如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;定义address表，i64表示索引使用默认的uint64_t类型</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;@abi table address i64</span><br><span class="line">struct address &#123;</span><br><span class="line">    uint64_t account;</span><br><span class="line">    string name;</span><br><span class="line">    uint64_t phone;</span><br><span class="line">    uint64_t liked;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;定义address表的主键</span><br><span class="line">    uint64_t primary_key() const &#123; return account; &#125;</span><br><span class="line">    &#x2F;&#x2F;定义extractor，二级索引是phone</span><br><span class="line">    uint64_t get_phone() const &#123;return phone; &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;序列化</span><br><span class="line">    EOSLIB_SERIALIZE(address, (account)(name)(phone)(liked))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="使用multi-index表"><a href="#使用multi-index表" class="headerlink" title="使用multi_index表"></a>使用multi_index表</h2><h3 id="（一）-实例化"><a href="#（一）-实例化" class="headerlink" title="（一）.实例化"></a>（一）.实例化</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 第一个参数是表名（即address），第二个参数是表对象的类型（address），其余为可变参数Indices（二级索引），数量不能超过16个</span><br><span class="line">typedef eosio::multi_index&lt; N(address), address, indexed_by&lt;N(phone), const_mem_fun&lt;address, uint64_t, &amp;address::get_phone&gt;&gt;&gt; address_index;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 构造函数，有两个参数uint64_t类型参数：code, scope</span><br><span class="line">&#x2F;&#x2F; code: 拥有这张multi_index表的账户，该账户拥有对合约数据的读写权限</span><br><span class="line">&#x2F;&#x2F; scope: code层级内的范围标识符</span><br><span class="line">address_index addresses(_self, _self);</span><br></pre></td></tr></table></figure>
+
+<h3 id="（二）-表的操作"><a href="#（二）-表的操作" class="headerlink" title="（二）.表的操作"></a>（二）.表的操作</h3><h6 id="1-emplace"><a href="#1-emplace" class="headerlink" title="1. emplace"></a>1. emplace</h6><ul>
+<li>添加一个新对象（row）到表中<br><code>const_iterator emplace( unit64_t payer, Lambda&amp;&amp; constructor )</code></li>
+<li>参数<br>payer：为新对象使用的存储付费的账户<br>constructor：lambda函数，可以让新创建的对象就地初始化</li>
+<li>返回值<br>返回一个新创建的对象的主键迭代器</li>
+<li>前置条件<br>payer是被当前Action授权的有效账户，允许为使用存储付费</li>
+<li>操作结果<br>带有唯一主键的新对象在multi-index表中被创建；<br>这个对象会被序列化，然后写入表中；<br>如果表不存在，则创建表。<br>二级索引被更新，用以引用新添加的对象；<br>如果二级索引表不存在，则创建它们。<br>payer为创建新对象所使用的存储付费；<br>如果multi-index表和二级索引表需要被创建，则payer为表的创建付费。</li>
+<li>异常<br>当前接收者（multi_index的code参数）不是表的拥有者时，抛出异常</li>
+</ul>
+<h6 id="2-erase"><a href="#2-erase" class="headerlink" title="2. erase"></a>2. erase</h6><ul>
+<li>使用主键从表中删除现有对象（两种形式）<br><code>const_iterator erase( const_iterator itr )</code><br><code>void erase( const object_type&amp; obj )</code></li>
+<li>参数<br>itr：指向待删除对象的迭代器<br>obj：待删除对象的引用</li>
+<li>返回值<br>使用itr查找对象时，返回被删除对象之后的对象的指针</li>
+<li>操作结果<br>对象从表中删除，相关的存储被回收；<br>表相关的二级索引被更新；<br>退还被删除对象的payer所支付的存储费用和相关费用。</li>
+<li>异常<br>待删除对象不存在时、Action无权修改表数据时、给定迭代器无效时，抛出异常</li>
+</ul>
+<h6 id="3-modify"><a href="#3-modify" class="headerlink" title="3. modify"></a>3. modify</h6><ul>
+<li>修改表中已存在的对象（两种形式）<br><code>void modify( const_iterator itr, uint64_t payer, Lambda&amp;&amp; updater )</code><br><code>void modify( const object_type &amp;obj, uint64_t payer, Lambda&amp;&amp; updater )</code></li>
+<li>参数<br>itr：指向待更新对象的迭代器<br>obj：待更新对象的引用<br>payer：为更新数据付费的账户，为0表示更新数据的payer和创建时的payer相同<br>updater：用于更新目标对象的lambda函数</li>
+<li>前置条件<br>itr指向的对象，或obj引用的对象是存在的<br>payer是被当前Action授权的有效账户，允许为使用存储付费</li>
+<li>操作结果<br>更新后的对象被序列化，然后替换表中的现有对象；<br>二级索引被更新，被更新对象的主键不变。<br>payer为更新对象所使用的存储付费；<br>如果payer和该对象现有的payer相同，只需要为现有对象和更新对象不同的部分付费，如果差额为负，还会退还费用；<br>如果payer和该对象现有的payer不同，则会退还费用给现有的payer。</li>
+<li>异常<br>无效的前提条件下调用，会抛出异常，并中止执行<br>当前接收者（multi_index的code参数）不是表的拥有者时，抛出异常</li>
+</ul>
+<h6 id="4-get"><a href="#4-get" class="headerlink" title="4. get"></a>4. get</h6><ul>
+<li>使用主键从表中查询已存在的对象<br><code>const object_type&amp; get( uint64_t primary ) const</code></li>
+</ul>
+<ul>
+<li>参数<br>primary：要查询对象的主键值</li>
+<li>返回值<br>包含指定主键的对象的常量引用</li>
+<li>异常<br>没有任何对象与给定的主键匹配时，抛出异常</li>
+</ul>
+<h6 id="5-find"><a href="#5-find" class="headerlink" title="5. find"></a>5. find</h6><ul>
+<li>使用主键从表中查询已存在的对象<br><code>const_iterator find( uint64_t primary ) const</code></li>
+<li>参数<br>primary：要查询对象的主键值</li>
+<li>返回值<br>返回一个查询到的对象的迭代器<br>如果没有查询到指定对象，返回一个end迭代器</li>
+</ul>
+<h3 id="（三）-成员访问"><a href="#（三）-成员访问" class="headerlink" title="（三）.成员访问"></a>（三）.成员访问</h3><ol>
+<li><p>获取拥有主表的账户名<br><code>uint64_t get_code() const</code></p>
+</li>
+<li><p>在code下的范围id（scope id），在该范围内可以找到期望的主表实例<br><code>uint64_t get_scope() const</code></p>
+</li>
+</ol>
+<h3 id="（四）-不支持的C-特性"><a href="#（四）-不支持的C-特性" class="headerlink" title="（四）. 不支持的C++特性"></a>（四）. 不支持的C++特性</h3><ul>
+<li>eosio::multi_index不支持拷贝构造函数（Copy constructor）</li>
+<li>eosio::multi_index不支持赋值运算符（Assignment operator）</li>
+</ul>
+<h3 id="（五）-迭代器"><a href="#（五）-迭代器" class="headerlink" title="（五）.迭代器"></a>（五）.迭代器</h3><p>multi_index迭代器遵循C++迭代器模式，所有迭代器都是双向迭代，即const_iterator或const_reverse_iterator。<br>迭代器可以被间接引用，以提供对multi_index表中对象的访问。</p>
+<ol>
+<li><p>begin &amp; cbegin<br>返回指向对象类型的、从最小主键值开始的迭代器<br><code>const_iterator begin() const</code><br><code>const_iterator cbegin() const</code></p>
+</li>
+<li><p>end &amp; cend<br>返回指向虚拟行的迭代器，代表刚刚过去的最后一行，不能被间接引用；<br>可以向后推进，不能向前推进。<br><code>const_iterator end() const</code><br><code>const_iterator end() const</code></p>
+</li>
+<li><p>rbegin &amp; crbegin<br>返回和begin/cbegin类似的，但反向的迭代器<br><code>const_iterator rbegin() const</code><br><code>const_iterator crbegin() const</code></p>
+</li>
+<li><p>rend &amp; crend<br>返回和end/cend类似的，但反向的迭代器<br><code>const_iterator rend() const</code><br><code>const_iterator crend() const</code></p>
+</li>
+<li><p>lower_bound<br>查找大于等于给定主键值的对象<br><code>const_iterator lower_bound( uint64_t primary ) const</code></p>
+</li>
+<li><p>upper_bound<br>查找大于给定主键值的对象<br><code>const_iterator upper_bound( uint64_t primary ) const</code></p>
+</li>
+<li><p>get_index<br>返回一个适当类型的二级索引<br><code>secondary_index get_index&lt;IndexName&gt;()</code><br><code>secondary_index get_index&lt;IndexName&gt;() const</code></p>
+</li>
+<li><p>iterator_to<br>返回给定对象的迭代器<br><code>const_iterator iterator_to( const object_type&amp; obj ) const</code></p>
+</li>
+<li><p>indexed_by<br>indexed_by结构体用于实例化multi_index表的索引<br>indexed_by在multi_index.hpp中的定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 参数IndexName是索引的名称，这个名称是base32编码后的64位整数，且需要符合EOS命名规范：</span><br><span class="line">&#x2F;&#x2F;     1. 最多13个字符，前12个字符只能是小写字母、0-5、“.”</span><br><span class="line">&#x2F;&#x2F;     2. 如果有第13个字符，则只能是小写字母a-p、“.”</span><br><span class="line">&#x2F;&#x2F; 参数Extractor是一个函数，用于从multi_index表的函数中获取键，返回一个二级索引类型或二级索引类型的引用</span><br><span class="line">template&lt;uint64_t IndexName, typename Extractor&gt;</span><br><span class="line">struct indexed_by &#123;</span><br><span class="line">   enum constants &#123; index_name   &#x3D; IndexName &#125;;</span><br><span class="line">   typedef Extractor secondary_extractor_type;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 推荐使用eosio::const_mem_fun模板，它是boost::multi_index::const_mem_fun的类型别名，例子：</span><br><span class="line">&#x2F;&#x2F; multi\_index表的名字是N(address), N是一个宏，可以把base32编码后的字符串转换为uint64_t</span><br><span class="line">&#x2F;&#x2F; multi\_index表的对象类型是address</span><br><span class="line">&#x2F;&#x2F; multi\_index通过名为N(phone)的二级索引进行检索</span><br><span class="line">&#x2F;&#x2F; const_mem_fun是一个用于address类型的键提取器（key extractor ）</span><br><span class="line">&#x2F;&#x2F; const_mem_fun提取的键类型是uint64_t，通过address::get_phone函数获取键</span><br><span class="line">eosio::multi_index&lt; N(address), address, indexed_by&lt;N(phone), const_mem_fun&lt;address, uint64_t, &amp;address::get_phone&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完整例子</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;@abi action</span><br><span class="line">void likebyphone(uint64_t phone) &#123;</span><br><span class="line">    address_index addresses(_self, _self);</span><br><span class="line"></span><br><span class="line">    auto phone_index &#x3D; addresses.get_index&lt;N(phone)&gt;();</span><br><span class="line">    auto itr &#x3D; phone_index.lower_bound(phone);</span><br><span class="line">    for(; itr !&#x3D; phone_index.end() &amp;&amp; itr-&gt;phone &#x3D;&#x3D; phone; ++itr) &#123;</span><br><span class="line">        phone_index.modify(itr, 0, [&amp;](auto&amp; address)&#123;</span><br><span class="line">            eosio::print(&quot;Liking: &quot;, address.name.c_str(), &quot;\n&quot;);</span><br><span class="line">            address.liked++;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="六-工具函数"><a href="#六-工具函数" class="headerlink" title="(六). 工具函数"></a>(六). 工具函数</h3><ol>
+<li>available_primary_key<br>返回一个可用（未使用）的主键值，用于主键严格自增的表，它不会被设置为自定义值<br><code>uint64_t available_primary_key() const</code></li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://bihu.com/article/328856" target="_blank" rel="noopener">https://bihu.com/article/328856</a></li>
+<li><a href="https://bihu.com/article/334710" target="_blank" rel="noopener">https://bihu.com/article/334710</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>说说eosio.token合约</title>
+    <url>/2018/05/15/%E8%AF%B4%E8%AF%B4eosio-token%E5%90%88%E7%BA%A6/</url>
+    <content><![CDATA[<h1 id="一、eosio-token合约的请用"><a href="#一、eosio-token合约的请用" class="headerlink" title="一、eosio.token合约的请用"></a>一、eosio.token合约的请用</h1><ul>
+<li>使用账户 <em>hily</em> 部署系统的 <em>eosio.token</em> 合约<blockquote>
+<p>$ cleos set contract hily build/contracts/eosio.token -p hily</p>
+</blockquote>
+</li>
+</ul>
+<a id="more"></a>
+
+<ul>
+<li><p>使用账户 <em>hily</em> 创建 <em>HH</em> 币，发行总量100000个</p>
+<blockquote>
+<p>$ cleos push action hily create ‘[“hily”,”100000.0000 HH”,1,1,1]’ -p hily</p>
+</blockquote>
+</li>
+<li><p>向账户 <em>hily</em> 空投100个 <em>HH</em></p>
+<blockquote>
+<p>$ cleos push action hily issue ‘[“hily”,”100.0000 HH”,”memo”]’ -p hily</p>
+</blockquote>
+</li>
+<li><p>查询账户 <em>hily</em> 的余额</p>
+<blockquote>
+<p>$ cleos get table hily hily accounts</p>
+</blockquote>
+</li>
+<li><p>从账户 <em>hily</em> 转账10 <em>HH</em> 给 <em>jay</em></p>
+<blockquote>
+<p>$ cleos  push action hily transfer ‘[“hily”,”jay”,”10.0000 HH”,”memo”]’ -p hily</p>
+</blockquote>
+</li>
+<li><p>查看账户 <em>jay</em> 的余额</p>
+<blockquote>
+<p>$ cleos get table hily jay accounts</p>
+</blockquote>
+</li>
+<li><p>使用 <em>hily</em> 部署 <em>token</em> 合约后，可以像上面一样， <em>hily</em> 自己创建一个 <em>HH</em> 币，同时账户 <em>jay</em> 也可以创建他的 <em>JAY</em> 币</p>
+<blockquote>
+<p>$ cleos push action hily create ‘[“jay”,”10000.0000 JAY”,1,1,1]’ -p hily</p>
+</blockquote>
+</li>
+<li><p>空投 <em>jay</em> 的 <em>JAY</em> 币到 <em>jack</em> 时，要注意命令中各个账户的使用</p>
+<blockquote>
+<p>$ cleos push action hily issue ‘[“jack”,”20.0000 JAY”,”memo”]’ -p jay</p>
+</blockquote>
+</li>
+<li><p>这时查看 <em>jack</em> 账户时，可以看到拥有的 <em>JAY</em> 币余额</p>
+<blockquote>
+<p>$ cleos get table hily jack accounts</p>
+</blockquote>
+</li>
+<li><p>如果 <em>jack</em> 除了拥有 <em>JAY</em> 币外，还有拥有其他币，则上面的命令的结果将会显示 <em>jack</em> 不同的币的余额。</p>
+</li>
+</ul>
+<h1 id="二、问题"><a href="#二、问题" class="headerlink" title="二、问题"></a>二、问题</h1><ul>
+<li>比如上面我们将会发行10000个 <em>JAY</em> 币，并且空投了20个到 <em>jack</em> 账户，那么我们如何获得 <em>JAY</em> 币的剩余发行量（10000 - 20 = 9980）？</li>
+</ul>
+<h1 id="三、eosio-token源码分析"><a href="#三、eosio-token源码分析" class="headerlink" title="三、eosio.token源码分析"></a>三、eosio.token源码分析</h1><p>构造函数：使用 <em>hily</em> 账户部署 <em>token</em> 合约时（ <code>cleos set contract hily build/contracts/eosio.token -p hily</code> ）， <em>hily</em> 将传给 <em>self</em> ，而该 <em>self</em> 传到父类 <em>contract</em> 中时，将会存到到父类的 <em>_self</em> 属性中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">token( account_name self ):contract(self)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>create函数：创建加密币，对应到这个命令 <code>cleos push action hily create &#39;[&quot;hily&quot;,&quot;100000.0000 HH&quot;,1,1,1]&#39; -p hily</code> 。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void token::create( account_name issuer,</span><br><span class="line">                    asset        maximum_supply,</span><br><span class="line">                    uint8_t      issuer_can_freeze,</span><br><span class="line">                    uint8_t      issuer_can_recall,</span><br><span class="line">                    uint8_t      issuer_can_whitelist )</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 这里的 _self 就是部署合约时的 hily ，所以上面的 create 命令需要加上 &quot;-p hily&quot;</span><br><span class="line">    require_auth( _self );</span><br><span class="line"></span><br><span class="line">    auto sym &#x3D; maximum_supply.symbol;</span><br><span class="line">    eosio_assert( sym.is_valid(), &quot;invalid symbol name&quot; ); &#x2F;&#x2F; 这里检查代币符合是否合法，比如上面的&quot;HH&quot;</span><br><span class="line">    eosio_assert( maximum_supply.is_valid(), &quot;invalid supply&quot;);</span><br><span class="line">    eosio_assert( maximum_supply.amount &gt; 0, &quot;max-supply must be positive&quot;);  &#x2F;&#x2F; 这里检查代币的数量必须大于0，比如上面是100000.0000</span><br><span class="line"></span><br><span class="line">    stats statstable( _self, sym.name() );</span><br><span class="line">    auto existing &#x3D; statstable.find( sym.name() );  &#x2F;&#x2F; 根据代币的符号，比如上面命令中的&quot;HH&quot;，在合约中进行查找</span><br><span class="line">    eosio_assert( existing &#x3D;&#x3D; statstable.end(), &quot;token with symbol already exists&quot; );  &#x2F;&#x2F; 保证在这个合约中之前没有创建过这样的代币(&quot;HH&quot;)</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 把参数存放到statstable中</span><br><span class="line">    statstable.emplace( _self, [&amp;]( auto&amp; s ) &#123;</span><br><span class="line">       s.supply.symbol &#x3D; maximum_supply.symbol;</span><br><span class="line">       s.max_supply    &#x3D; maximum_supply;</span><br><span class="line">       s.issuer        &#x3D; issuer;</span><br><span class="line">       s.can_freeze    &#x3D; issuer_can_freeze;</span><br><span class="line">       s.can_recall    &#x3D; issuer_can_recall;</span><br><span class="line">       s.can_whitelist &#x3D; issuer_can_whitelist;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<p>issue：空投或者发币<code>cleos push action hily issue ‘[“jack“,”20.0000 JAY”,”memo”]’ -p jay</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void token::issue( account_name to, asset quantity, string memo )</span><br><span class="line">&#123;</span><br><span class="line">    print( &quot;issue&quot; );</span><br><span class="line">    auto sym &#x3D; quantity.symbol;</span><br><span class="line">    eosio_assert( sym.is_valid(), &quot;invalid symbol name&quot; );  &#x2F;&#x2F; 首先确保正确的代币</span><br><span class="line"></span><br><span class="line">    auto sym_name &#x3D; sym.name();</span><br><span class="line">    stats statstable( _self, sym_name );</span><br><span class="line">    auto existing &#x3D; statstable.find( sym_name );</span><br><span class="line">    eosio_assert( existing !&#x3D; statstable.end(), &quot;token with symbol does not exist, create token before issue&quot; );  &#x2F;&#x2F; 确保该代币，比如&quot;JAY&quot;，是存在的</span><br><span class="line">    const auto&amp; st &#x3D; *existing;</span><br><span class="line"></span><br><span class="line">    require_auth( st.issuer );  &#x2F;&#x2F; 通过代币&quot;JAY&quot;找到对应的发行者是&quot;jay&quot;，所以上面的issue需要加上&quot;-p jay&quot;</span><br><span class="line">    eosio_assert( quantity.is_valid(), &quot;invalid quantity&quot; );</span><br><span class="line">    eosio_assert( quantity.amount &gt; 0, &quot;must issue positive quantity&quot; );</span><br><span class="line"></span><br><span class="line">    eosio_assert( quantity.symbol &#x3D;&#x3D; st.supply.symbol, &quot;symbol precision mismatch&quot; );</span><br><span class="line">    eosio_assert( quantity.amount &lt;&#x3D; st.max_supply.amount - st.supply.amount, &quot;quantity exceeds available supply&quot;);  &#x2F;&#x2F; 确保空投的数量不能超过剩余的可发行量</span><br><span class="line"></span><br><span class="line">    statstable.modify( st, 0, [&amp;]( auto&amp; s ) &#123;</span><br><span class="line">       s.supply +&#x3D; quantity;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 这里有点意思，你会发现在这里jay账户会增加20 JAY，虽然上面的命令是空投20 JAY到jack账户</span><br><span class="line">    add_balance( st.issuer, quantity, st, st.issuer );</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 到这里的时候，因为to是jack，st.issue是jay，所以不相等</span><br><span class="line">    if( to !&#x3D; st.issuer ) &#123;</span><br><span class="line">       &#x2F;&#x2F; 这里call transfer的时候，就会先call sub_balance然后call sub_balance</span><br><span class="line">       &#x2F;&#x2F; 实作就是把jay账户减去20（因为上面加了20到jay，而实际需要加到jack的），然后把jack账户增加20 JAY</span><br><span class="line">       SEND_INLINE_ACTION( *this, transfer, &#123;st.issuer,N(active)&#125;, &#123;st.issuer, to, quantity, memo&#125; );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>transfer：转账<code>cleos push action hily transfer ‘[“jay”,”jack”,”10.0000 HH”,”memo”]’ -p jay</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void token::transfer( account_name from,</span><br><span class="line">                      account_name to,</span><br><span class="line">                      asset        quantity,</span><br><span class="line">                      string       &#x2F;*memo*&#x2F; )</span><br><span class="line">&#123;</span><br><span class="line">    print( &quot;transfer from &quot;, eosio::name&#123;from&#125;, &quot; to &quot;, eosio::name&#123;to&#125;, &quot; &quot;, quantity, &quot;\n&quot; );</span><br><span class="line">    eosio_assert( from !&#x3D; to, &quot;cannot transfer to self&quot; );  &#x2F;&#x2F; 杜绝自己给自己转账，每个人都这么干将会造成EOS拥堵</span><br><span class="line">    require_auth( from );  &#x2F;&#x2F; 在这里就可以知道上面的命令为什么加上&quot;-p jay&quot;了</span><br><span class="line">    eosio_assert( is_account( to ), &quot;to account does not exist&quot;);  &#x2F;&#x2F; 检查账户合法性</span><br><span class="line">    auto sym &#x3D; quantity.symbol.name();</span><br><span class="line">    stats statstable( _self, sym );</span><br><span class="line">    const auto&amp; st &#x3D; statstable.get( sym );</span><br><span class="line"></span><br><span class="line">    require_recipient( from );</span><br><span class="line">    require_recipient( to );</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 检查转账的数量和代币正常性</span><br><span class="line">    eosio_assert( quantity.is_valid(), &quot;invalid quantity&quot; );</span><br><span class="line">    eosio_assert( quantity.amount &gt; 0, &quot;must transfer positive quantity&quot; );</span><br><span class="line">    eosio_assert( quantity.symbol &#x3D;&#x3D; st.supply.symbol, &quot;symbol precision mismatch&quot; );</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 从from账户中减去指定的币额并加到to账户</span><br><span class="line">    sub_balance( from, quantity, st );</span><br><span class="line">    add_balance( to, quantity, st, from );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nodeos与config.ini</title>
+    <url>/2018/05/08/nodeos%E4%B8%8Econfig-ini/</url>
+    <content><![CDATA[<p>可能我们会通过这样的命令启动eos节点：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ nodeos -e -p eosio --plugin eosio::wallet_api_plugin --plugin eosio::chain_api_plugin --plugin eosio::account_history_api_plugin</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果不想每次启动都输入这么多参数，则可以通过配置对应的config.ini文件：</p>
+<ul>
+<li>“-e”对应的修改config.ini文件中<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Enable block production, even if the chain is stale. (eosio::producer_plugin)</span><br><span class="line">enable-stale-production &#x3D; true</span><br></pre></td></tr></table></figure></li>
+<li>“-p eosio”对应<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># ID of producer controlled by this node (e.g. inita; may specify multiple times) (eosio::producer_plugin)</span><br><span class="line">producer-name &#x3D; eosio</span><br></pre></td></tr></table></figure></li>
+<li>“–plugin eosio::wallet_api_plugin –plugin eosio::chain_api_plugin –plugin eosio::account_history_api_plugin”对应<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Plugin(s) to enable, may be specified multiple times</span><br><span class="line">plugin &#x3D; eosio::producer_plugin</span><br><span class="line">plugin &#x3D; eosio::wallet_api_plugin</span><br><span class="line">plugin &#x3D; eosio::chain_api_plugin</span><br><span class="line">plugin &#x3D; eosio::account_history_api_plugin</span><br><span class="line">plugin &#x3D; eosio::http_plugin</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>配置好config文件，以后启动节点只需要nodeos命令就好了，不需要参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ nodeos</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合约编写部署和执行</title>
+    <url>/2018/05/07/%E5%90%88%E7%BA%A6%E7%BC%96%E5%86%99%E9%83%A8%E7%BD%B2%E5%92%8C%E6%89%A7%E8%A1%8C/</url>
+    <content><![CDATA[<p>假设你已经安装了EOSIO并且启动了nodeos。</p>
+<h2 id="创建钱包"><a href="#创建钱包" class="headerlink" title="创建钱包"></a>创建钱包</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos wallet create -n mywallet</span><br><span class="line">Creating wallet: mywallet</span><br><span class="line">Save password to use in the future to unlock this wallet.</span><br><span class="line">Without password imported keys will not be retrievable.</span><br><span class="line">&quot;PW5KTrGBhmMeDAZxM69PgZxcHXaT2aaebFRWriZq5PDshPUaowpJF&quot;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>使用钱包之前，需要解锁钱包：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos wallet unlock --password PW5KTrGBhmMeDAZxM69PgZxcHXaT2aaebFRWriZq5PDshPUaowpJF</span><br><span class="line">Unlocked: default</span><br></pre></td></tr></table></figure>
+<p>上面的命令你的密码将会记录到shell历史中，更安全的，你可以通过下面的方法解锁：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos wallet unlock</span><br><span class="line">password:</span><br></pre></td></tr></table></figure>
+<p>你不使用它的时候，锁定它是一个良好的习惯：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos wallet lock</span><br><span class="line">Locked: default</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bios关键的系统合约"><a href="#Bios关键的系统合约" class="headerlink" title="Bios关键的系统合约"></a>Bios关键的系统合约</h2><p>EOS相当于一个操作系统，而Bios就是这个系统的引导。进入到EOSIO的source code root目录下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos set contract eosio build&#x2F;contracts&#x2F;eosio.bios -p eosio</span><br><span class="line">Reading WAST...</span><br><span class="line">Assembling WASM...</span><br><span class="line">Publishing contract...</span><br><span class="line">executed transaction: 414cf0dc7740d22474992779b2416b0eabdbc91522c16521307dd682051af083  4068 bytes  10000 cycles</span><br><span class="line">#         eosio &lt;&#x3D; eosio::setcode               &#123;&quot;account&quot;:&quot;eosio&quot;,&quot;vmtype&quot;:0,&quot;vmversion&quot;:0,&quot;code&quot;:&quot;0061736d0100000001ab011960037f7e7f0060057f7e7e7e...</span><br><span class="line">#         eosio &lt;&#x3D; eosio::setabi                &#123;&quot;account&quot;:&quot;eosio&quot;,&quot;abi&quot;:&#123;&quot;types&quot;:[],&quot;structs&quot;:[&#123;&quot;name&quot;:&quot;set_account_limits&quot;,&quot;base&quot;:&quot;&quot;,&quot;fields&quot;:[&#123;&quot;n...</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建账户"><a href="#创建账户" class="headerlink" title="创建账户"></a>创建账户</h2><p>首先需要为账户创建一个key：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos create key</span><br><span class="line">Private key: 5JiconQnk5WTpAbX5zcfkgXHhuki6Yy2U2zYKQmL5ovLUKprANN</span><br><span class="line">Public key: EOS6oPBCtWDzeRBxFMHZebxTgHFFybYqurt8GLwMSHabEkZk4tYku</span><br></pre></td></tr></table></figure>
+<p>然后把key导入钱包：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos wallet import 5JiconQnk5WTpAbX5zcfkgXHhuki6Yy2U2zYKQmL5ovLUKprANN -n mywallet</span><br><span class="line">imported private key for: EOS6oPBCtWDzeRBxFMHZebxTgHFFybYqurt8GLwMSHabEkZk4tYku</span><br></pre></td></tr></table></figure>
+<p>通过该钱包创建两个账户 <em>tester1</em> 和 <em>tester2</em> ：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos create account eosio tester1 EOS6oPBCtWDzeRBxFMHZebxTgHFFybYqurt8GLwMSHabEkZk4tYku EOS6oPBCtWDzeRBxFMHZebxTgHFFybYqurt8GLwMSHabEkZk4tYku</span><br><span class="line">executed transaction: 49b5aad108995ce096a840f2537376ae4cfadc57e06af7b1f435ae4e291991d7  352 bytes  102400 cycles</span><br><span class="line">#         eosio &lt;&#x3D; eosio::newaccount            &#123;&quot;creator&quot;:&quot;eosio&quot;,&quot;name&quot;:&quot;tester1&quot;,&quot;owner&quot;:&#123;&quot;threshold&quot;:1,&quot;keys&quot;:[&#123;&quot;key&quot;:&quot;EOS6oPBCtWDzeRBxFMHZebxTg...</span><br></pre></td></tr></table></figure>
+<p>同理，把”tester1”改为”tester2”即可创建 <em>tester2</em> 账户。</p>
+<h2 id="一个简单的合约"><a href="#一个简单的合约" class="headerlink" title="一个简单的合约"></a>一个简单的合约</h2><p>建立一个文件夹命名为hello，并且建立一个hello.cpp文件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ mkdir hello</span><br><span class="line">$ cd hello</span><br><span class="line">$ touch hello.cpp</span><br></pre></td></tr></table></figure>
+<p>hello.cpp中输入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;eosiolib&#x2F;eosio.hpp&gt;</span><br><span class="line">#include &lt;eosiolib&#x2F;print.hpp&gt;</span><br><span class="line">using namespace eosio;</span><br><span class="line"></span><br><span class="line">class hello : public eosio::contract &#123;</span><br><span class="line">  public:</span><br><span class="line">      using contract::contract;</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F;&#x2F; @abi action</span><br><span class="line">      void hi( account_name user ) &#123;</span><br><span class="line">         print( &quot;Hello, &quot;, name&#123;user&#125; );</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">EOSIO_ABI( hello, (hi) )</span><br></pre></td></tr></table></figure>
+<p>编译出wast和abi文件，过程中可能会出现warning，可以暂时不需要理会：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ eosiocpp -o hello.wast hello.cpp</span><br><span class="line">$ eosiocpp -g hello.abi hello.cpp</span><br></pre></td></tr></table></figure>
+<p>接下来通过下面命令部署合约：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos set contract tester1 ..&#x2F;hello -p tester1</span><br></pre></td></tr></table></figure>
+<p>现在，我们试着运行一下合约：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cleos push action tester1 hi &#39;[&quot;tester2&quot;]&#39; -p tester2</span><br><span class="line">executed transaction: 28d92256c8ffd8b0255be324e4596b7c745f50f85722d0c4400471bc184b9a16  244 bytes  1000 cycles</span><br><span class="line">#    tester1 &lt;&#x3D; tester1::hi               &#123;&quot;user&quot;:&quot;tester2&quot;&#125;</span><br><span class="line">&gt;&gt; Hello, tester2</span><br></pre></td></tr></table></figure>
+<p>“-p tester2”表示赋予 <em>tester2</em> 权限。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/EOSIO/eos/wiki" target="_blank" rel="noopener">https://github.com/EOSIO/eos/wiki</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>EOSIO宪法草案</title>
+    <url>/2018/05/03/EOSIO%E5%AE%AA%E6%B3%95%E8%8D%89%E6%A1%88/</url>
+    <content><![CDATA[<ul>
+<li><p><a href="https://forums.eosgo.io/discussion/424/design-principles-of-my-v0-1-draft-eos-io-constitution" target="_blank" rel="noopener">设计原则</a></p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/432/article-i-v0-1-draft-eos-io-constitution-no-lying" target="_blank" rel="noopener">第一条–不说谎</a>（EOS用户不得因为利益故意伪造或进行误导性陈述，这种行为将是违宪的并且将是可控告的）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/595/article-ii-v0-3-0-draft-eos-io-constitution-property-rights" target="_blank" rel="noopener">第二条–产权</a>（EOS将是一个有产权定义的区块链或社区，在链上或仲裁程序的范围内简历个人不可侵犯的财产权）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/630/article-iii-v0-3-0-draft-eos-io-constitution-arbitration" target="_blank" rel="noopener">第三条–仲裁</a>（EOS将提供一个“治理区块链”，通过有约束力的仲裁解决纠纷）</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<ul>
+<li><a href="https://forums.eosgo.io/discussion/646/article-iv-v0-3-0-draft-eos-io-constitution-no-buying-or-selling-of-votes" target="_blank" rel="noopener">第四条–选民独立</a>（令牌持有者可以选择块生产者，选民选举必须公平公正，不得因为某些利益而选择不恰当的块生产者）</li>
+</ul>
+<ul>
+<li><p><a href="https://forums.eosgo.io/discussion/650/article-v-v0-3-0-draft-eos-io-constitution-no-owner-or-fiduciary" target="_blank" rel="noopener">第五条–无业主或受托人</a>（EOS不属于任何人或任何组织，EOS只忠于EOS宪法）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/651/article-vi-v0-3-0-draft-eos-io-constitution-10-ownership-cap" target="_blank" rel="noopener">第六条–10%所以权上限</a>（因为EOS不属于任何人或组织，也为了不被大户控制，任何成员或受益人权益均不得超过已发行代币的10％）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/718/article-vii-v0-3-0-draft-eos-io-constitution-agreement-to-penalties" target="_blank" rel="noopener">第七条–处罚协议</a>（会员应该同意对于违反宪法的处罚）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/719/article-viii-v0-3-0-draft-eos-io-constitution-block-producer-agreement" target="_blank" rel="noopener">第八条–区块生产协议</a>（将会被设计为一个要么同意它要么离开它的协议，记录着会员希望生产者做的事情和不应该做的事情，未同意该协议前不得作为生产者）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/745/article-ix-v0-3-0-draft-eos-io-constitution-establishes-arbitration-forums" target="_blank" rel="noopener">第九条–设立仲裁论坛</a>（仲裁员需要在非常严格的约束力下行使权力，并且描述了一个仲裁法庭的组成和被授权审理案件的过程）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/746/article-x-v0-3-0-draft-eos-io-constitution-arbitrator-standards" target="_blank" rel="noopener">第十条–仲裁员标准</a>（成为仲裁员的最低标准）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/747/article-xi-v0-3-0-draft-eos-io-constitution-developers-and-smart-contract-licenses" target="_blank" rel="noopener">第十一条–开发人员和智能合同许可</a>（提供智能合约的成员都是开发人员，应通过许可证来提供他们的合约，并且给合约指定一个仲裁法庭）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/748/article-xii-v0-3-0-draft-eos-io-constitution-multilingual-contracts" target="_blank" rel="noopener">第十二条–多种语言合同</a>（如有纠纷，多语言合约应指明主导语言，如果作者没有指定，则由处理纠纷的仲裁员选择）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/749/article-xiii-v0-3-0-draft-eos-io-constitution-developers-responsible-for-non-member-access" target="_blank" rel="noopener">第十三条–负责非会员访问的开发者</a>（由于开发者可以通过他的应用程序向非成员提供服务和链上互动，因此开发者应担全责保证非成员的互动是符合宪法的）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/750/article-xiv-v0-3-0-draft-eos-io-constitution-no-positive-rights" target="_blank" rel="noopener">第十四条–没有正面的权利</a>（宪法指出不会为任何成员或成员之间创建积极权利）</p>
+</li>
+<li><p><a href="https://forums.eosgo.io/discussion/751/article-xv-v0-3-0-draft-eos-io-constitution-default-arbitration-forum-named" target="_blank" rel="noopener">第十五条–默认仲裁论坛命名</a>（为没有明确指定仲裁法庭来处理纠纷的合约指定默认仲裁法庭）</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Setting Up A Local Environment Of EOS.IO</title>
+    <url>/2018/05/03/Setting-Up-A-Local-Environment-Of-EOS-IO/</url>
+    <content><![CDATA[<p>eos.io的本地环境的搭建主要是参考eos.io在GitHub的<a href="https://github.com/EOSIO/eos/wiki/Local-Environment" target="_blank" rel="noopener">Wiki</a>，同时记录一下搭建过程中遇到的坑。<a id="more"></a></p>
+<h2 id="Getting-the-Code"><a href="#Getting-the-Code" class="headerlink" title="Getting the Code"></a>Getting the Code</h2><p>首先需要获得eos.io的source code，通过以下的命令clone到本地：<br><code>git clone https://github.com/EOSIO/eos --recursive</code><br>命令行的<em>–recursive</em>这个flag确保克隆eos仓库和它的子模块，如果clone时没有使用这个flag，则通过下面的命令也可以取得子模块：<br><code>git submodule update --init --recursive</code></p>
+<h2 id="Building-EOSIO"><a href="#Building-EOSIO" class="headerlink" title="Building EOSIO"></a>Building EOSIO</h2><h4 id="Automated-build-script"><a href="#Automated-build-script" class="headerlink" title="Automated build script"></a>Automated build script</h4><p>最简单的方法是使用eos的自动编译脚本，自动编译脚本支持以下的系统：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. Amazon 2017.09 and higher.</span><br><span class="line">2. Centos 7.</span><br><span class="line">3. Fedora 25 and higher (Fedora 27 recommended).</span><br><span class="line">4. Mint 18.</span><br><span class="line">5. Ubuntu 16.04 (Ubuntu 16.10 recommended).</span><br><span class="line">6. MacOS Darwin 10.12 and higher (MacOS 10.13.x recommended).</span><br></pre></td></tr></table></figure>
+<h4 id="System-Requirements-all-platforms"><a href="#System-Requirements-all-platforms" class="headerlink" title="System Requirements (all platforms)"></a>System Requirements (all platforms)</h4><p>同时，所有的操作平台，需要满足：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. 8GB的可用内存</span><br><span class="line">2. 20GB的可用磁盘</span><br></pre></td></tr></table></figure>
+<p>如果内存不满足，脚本将会给出提示并且终止当前编译。</p>
+<h4 id="Run-the-build-script"><a href="#Run-the-build-script" class="headerlink" title="Run the build script"></a>Run the build script</h4><p><code>cd eos</code><br><code>./eosio_build.sh</code><br>脚本会check系统的环境，如果某些依赖不存在，脚本会提示进行安装。<br>如下是博主在macOS Darwin 10.13.4上运行脚本后出现的依赖不存在情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Checking dependencies.</span><br><span class="line">Checking automake ... 		 automake NOT found.</span><br><span class="line">Checking Libtool ... 		 Libtool NOT found.</span><br><span class="line">Checking OpenSSL ... 		 OpenSSL NOT found.</span><br><span class="line">Checking llvm ... 		 llvm NOT found.</span><br><span class="line">Checking wget ... 		 wget NOT found.</span><br><span class="line">Checking CMake ... 		 CMake NOT found.</span><br><span class="line">Checking GMP ... 		 GMP NOT found.</span><br><span class="line">Checking gettext ... 		 gettext NOT found.</span><br><span class="line">Checking MongoDB ... 		 MongoDB NOT found.</span><br><span class="line">Checking Doxygen ... 		 Doxygen NOT found.</span><br><span class="line">Checking Graphviz ... 		 Graphviz NOT found.</span><br><span class="line">Checking LCOV ... 		 LCOV NOT found.</span><br><span class="line">Checking Python3 ... 		 python3 NOT found.</span><br><span class="line"></span><br><span class="line">The following dependencies are required to install EOSIO.</span><br><span class="line"></span><br><span class="line">1. automake</span><br><span class="line">2. Libtool</span><br><span class="line">3. OpenSSL</span><br><span class="line">4. llvm</span><br><span class="line">5. wget</span><br><span class="line">6. CMake</span><br><span class="line">7. GMP</span><br><span class="line">8. gettext</span><br><span class="line">9. MongoDB</span><br><span class="line">10. Doxygen</span><br><span class="line">11. Graphviz</span><br><span class="line">12. LCOV</span><br><span class="line">13. Python 3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Do you wish to install these packages?</span><br><span class="line">1) Yes</span><br><span class="line">2) No</span><br><span class="line">#?</span><br></pre></td></tr></table></figure>
+<p>build seccess将会出现以下画面：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> _______  _______  _______ _________ _______</span><br><span class="line">(  ____ \(  ___  )(  ____ \\__   __&#x2F;(  ___  )</span><br><span class="line">| (    \&#x2F;| (   ) || (    \&#x2F;   ) (   | (   ) |</span><br><span class="line">| (__    | |   | || (_____    | |   | |   | |</span><br><span class="line">|  __)   | |   | |(_____  )   | |   | |   | |</span><br><span class="line">| (      | |   | |      ) |   | |   | |   | |</span><br><span class="line">| (____&#x2F;\| (___) |&#x2F;\____) |___) (___| (___) |</span><br><span class="line">(_______&#x2F;(_______)\_______)\_______&#x2F;(_______)</span><br><span class="line"></span><br><span class="line">EOS.IO has been successfully built. 1:6:15</span><br><span class="line"></span><br><span class="line">To verify your installation run the following commands:</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;bin&#x2F;mongod -f &#x2F;usr&#x2F;local&#x2F;etc&#x2F;mongod.conf &amp;</span><br><span class="line">cd &#x2F;Users&#x2F;lauyearh&#x2F;Blockchain&#x2F;EOS&#x2F;eos&#x2F;build; make test</span><br><span class="line"></span><br><span class="line">For more information:</span><br><span class="line">EOS.IO website: https:&#x2F;&#x2F;eos.io</span><br><span class="line">EOS.IO Telegram channel @ https:&#x2F;&#x2F;t.me&#x2F;EOSProject</span><br><span class="line">EOS.IO resources: https:&#x2F;&#x2F;eos.io&#x2F;resources&#x2F;</span><br><span class="line">EOS.IO wiki: https:&#x2F;&#x2F;github.com&#x2F;EOSIO&#x2F;eos&#x2F;wiki</span><br></pre></td></tr></table></figure>
+<h4 id="Build-validation"><a href="#Build-validation" class="headerlink" title="Build validation"></a>Build validation</h4><p>可以通过一组测试用例，验证你的编译。<br>如果是在Linux平台：<br><code>~/opt/mongodb/bin/mongod -f ~/opt/mongodb/mongod.conf &amp;</code><br>如果是在macOS:<br><code>/usr/local/bin/mongod -f /usr/local/etc/mongod.conf &amp;</code><br>然后执行以下命令，不管在Linux还是macOS：<br><code>cd build</code><br><code>make test</code><br>最后出现这样的提示说明测试通过：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">100% tests passed, 0 tests failed out of 33</span><br><span class="line"></span><br><span class="line">Total Test time (real) &#x3D; 806.70 sec</span><br></pre></td></tr></table></figure>
+<h4 id="Install-the-executables"><a href="#Install-the-executables" class="headerlink" title="Install the executables"></a>Install the executables</h4><p>通过安装可执行档案，可以在系统中方便操作eos，相当于把cmd写到PATH变量中，但是其实是把内容安装到/usr/local：<br><code>cd build</code><br><code>sudo make install</code></p>
+<h2 id="Creating-and-Launching-a-Single-Node-Testnet"><a href="#Creating-and-Launching-a-Single-Node-Testnet" class="headerlink" title="Creating and Launching a Single Node Testnet"></a>Creating and Launching a Single Node Testnet</h2><p>运行下面的命令，将启动一个简单的节点：<br><code>cd build/programs/nodeos</code><br><code>./nodeos -e -p eosio --plugin eosio::wallet_api_plugin --plugin eosio::chain_api_plugin --plugin eosio::account_history_api_plugin</code><br>这个时候，默认的config路径，在macOS上是<em>$HOME/Library/Application Support/eosio/nodeos/config</em>，里面包含<em>config.ini</em>和<em>genesis.json</em>两个文件。当然，你也可以在启动nodeos时通过<em>--config-dir</em>指定<em>config</em>路径，并且需要建立ini和json两个文件。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>博主build时用的是macOS，同时系统配置满足要求，使用自动编译脚本的时候没遇到什么坑，顺利build通过。Source code是<em>master</em> branch，commit id是<em>19227c9b0a095683c1df3668c110cef2d91cbb15</em>。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/EOSIO/eos/wiki/Local-Environment" target="_blank" rel="noopener">https://github.com/EOSIO/eos/wiki/Local-Environment</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>说说以太猫</title>
+    <url>/2018/04/27/%E8%AF%B4%E8%AF%B4%E4%BB%A5%E5%A4%AA%E7%8C%AB/</url>
+    <content><![CDATA[<p>随着区块链的热门，基于以太坊的第一个有代表性的游戏项目出现了，这就是CryptoKitties，中文名谜恋猫。<a id="more"></a></p>
+<p>类似于QQ宠物，谜恋猫需要喂养，可以进行交配并繁育处下一代猫咪。基于256色域作为基因图谱，部署到以太坊上，每一只猫都是独一无二的（颜色、形状等）。谜恋猫最初由背后团队发布500000只作为拍卖，称为初代（GEN 0）猫，然后这些猫交配繁育就会出现GEN 1，GEN 2等。如果你账户下有多只猫，那么可以让他们繁育，然后进行拍卖。当然GEN 0猫是最贵的，一些稀有属性的品种，比如繁育速度快、冷却时间（繁育后需要休息一段时间再进行下一次繁育）短、颜色或形状奇特的猫也是比较贵的，最贵的一只猫卖到了12万美金，真是名副其实的钻石猫。</p>
+<p>最开始发布的时候，以太猫的火热程度甚至一度造成以太坊网络的拥堵，而最开始的撸猫党，也是发了一笔横财。天价的猫咪不确定是不是背后团队有炒作，但是不可否认人家没有ICO照样把钱给募了，也许这就是站在风口，猫也会飞。</p>
+<p>现在热火慢慢消退，抱着撸猫大发一笔的就要谨慎了。CryptoKitties的官网是<a href="https://www.cryptokitties.co/" target="_blank" rel="noopener">https://www.cryptokitties.co</a>，想要开始撸猫日常，需要使用Chrome、Firefox或Brave（区块链浏览器）浏览器，并且可以访问Google应用商店，因为需要安装MateMask，相当于一个浏览器钱包插件，使用这个钱包插件并且登录你的钱包，就可以进行撸猫操作了（当然，你的钱包不能是瘪的，要有以太币或者其他货币，你也可以使用美金买入一些货币）。</p>
+<p>最后，撸猫需谨慎，小撸怡情，大撸伤身，强撸灰飞烟灭。</p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>chrome无法访问google而safari可以</title>
+    <url>/2018/04/27/chrome%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEgoogle%E8%80%8Csafari%E5%8F%AF%E4%BB%A5/</url>
+    <content><![CDATA[<p>最近在macOS上遇到一个问题，在App Store上安装了一款叫VPN Plus的VPN应用之后，使用Safari确实是可以访问Google和YouTube等网站了，但是用Chrome却无法访问，这是弄啥咧。<a id="more"></a></p>
+<p>在网上搜索，有说使用Google的DNS，<code>8.8.8.8</code>或<code>8.8.8.4</code>，有说需要设置Chrome的Https访问，也有说关掉Chrome的QUIC，不过试过之后，这些方法对我的问题都不能解决。然后我把Chrome设为默认浏览器，依然还是不能打开。</p>
+<p>后来，我换了一款VPN应用，WiseVPN，居然神奇的Chrome和Safari都能访问了。这是什么原因嘛谁能给我解释一下。</p>
+<p>So，如果你也遇到了同样的问题，不妨换一款VPN应用试一下。</p>
+<p>最后想说一下，WiseVPN打开网页的速度比VPN Plus要快一些，而且如果你是访问的国内的网站他会识别，不会像连接VPN Plus一样如果你访问百度可能还会打不开。（此处非软文^_^）</p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>有关EOS</title>
+    <url>/2018/04/25/%E6%9C%89%E5%85%B3EOS/</url>
+    <content><![CDATA[<h3 id="区块链3-0"><a href="#区块链3-0" class="headerlink" title="区块链3.0"></a>区块链3.0</h3><p>比特币和以太坊分别是第一代、第二代区块链的代表，而EOS则是第三代区块链中比较有意思的一个，当然超级账本也属于第三代区块链。<a id="more"></a><br>以太坊的功能很丰富，但它仍然还是一个PoW系统，能做的仍然有限，目前以太坊最佳的应用就是作为ICO的基础平台，一个用于取代风投的平台。而EOS采用的是DPoS，同时EOS的CTO，Dan正是DPoS的发明者。使用DPoS的EOS每秒大概能处理100万笔交易，这远远大于以太坊每秒大概50多笔的处理交易性能，而且有别于以太坊中，每一笔交易需要消耗一定的Gas，EOS的交易则是完全不用付出资费的。<br>相信EOS逐步稳定之后，将会是区块链3.0中一个有代表性的项目。</p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>打开Ethereum Wallet找不到ipc文件</title>
+    <url>/2018/04/24/%E6%89%93%E5%BC%80Ethereum-Wallet%E6%89%BE%E4%B8%8D%E5%88%B0ipc%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>在启动Ethereum Wallet之前，不管是通过鼠标双击还是通过命令行启动，如果没有启动节点客户端geth的话，则在启动Ethereum Wallet的时候会默认启动一个geth，该默认geth的datadir在macOS上为$HOME/Library/Ethereum，geth启动的时候会生成一个ipc文件，路径在对应的datadir下，因为Ethereum Wallet通过rpc方式和geth通信。<a id="more"></a><br>那么问题来了，如果启动Ethereum Wallet前，手动启动了一个geth，这时候启动Ethereum Wallet的话将不会再启一个geth，并且会去$HOME/Library/Ethereum下找一个ipc文件，那么如果你手动启动的geth使用”–datadir”指定了一个路径，并且该路径不是$HOME/Library/Ethereum，Ethereum Wallet将找不到节点，没法做同步，日子中或控制台将提示$HOME/Library/Ethereum下找不到ipc文件。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>网上有不同的解决方法，下面的是博主在macOS上试过可用的。<br>这里假设手动启动geth时，通过”–datadir”指定的路径是$HOME/Library/Ethereum/ethprivate1，则首先进入Ethereum Wallet的安装目录：<br><code>cd /Applications/Ethereum Wallet.app/Contents/MacOS</code><br>然后通过命令启动Ethereum Wallet，并且通过”–rpc”指定ipc文件的路径：<br><code>./Ethereum\ Wallet --rpc $HOME/Library/Ethereum/ethprivate1/geth.ipc</code></p>
+<p><strong>And the end, good luck to you!</strong></p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ethereum私有网络的搭建</title>
+    <url>/2018/04/22/Ethereum%E7%A7%81%E6%9C%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h2 id="以太坊网络"><a href="#以太坊网络" class="headerlink" title="以太坊网络"></a>以太坊网络</h2><p>以太坊节点网络分为公网、测试网络、私有网络。私有网络是自己搭建的测试网络，类似于一个局域网。以下将通过在macOS上搭建一个私有网络作为示范。</p>
+<a id="more"></a>
+
+<h2 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h2><h4 id="安装节点客户端"><a href="#安装节点客户端" class="headerlink" title="安装节点客户端"></a>安装节点客户端</h4><p>首先默认macOS上已经安装了geth客户端</p>
+<h4 id="创建创世区块"><a href="#创建创世区块" class="headerlink" title="创建创世区块"></a>创建创世区块</h4><p>新建一个json文件并命名为genesis.json，然后输入如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;config&quot;: &#123;</span><br><span class="line">    &quot;chainId&quot;: 15,</span><br><span class="line">    &quot;homesteadBlock&quot;: 0,</span><br><span class="line">    &quot;eip155Block&quot;: 0,</span><br><span class="line">    &quot;eip158Block&quot;: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;difficulty&quot;: &quot;200000000&quot;,</span><br><span class="line">  &quot;gasLimit&quot;: &quot;2100000&quot;,</span><br><span class="line">  &quot;alloc&quot;:</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;7df9a875a174b3bc565e6424a0050ebc1b2d1d82&quot;: &#123; &quot;balance&quot;: &quot;300000&quot; &#125;,</span><br><span class="line">    &quot;f41c74c9ae680c1aa78f42e5647a62f353b7bdde&quot;: &#123; &quot;balance&quot;: &quot;400000&quot; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="初始化节点"><a href="#初始化节点" class="headerlink" title="初始化节点"></a>初始化节点</h4><p><code>geth --datadir &quot;./&quot; init genesis.json</code></p>
+<h4 id="启动节点"><a href="#启动节点" class="headerlink" title="启动节点"></a>启动节点</h4><p><code>geth --datadir &quot;./&quot; --networkid 15 --rpc console --identity &quot;ep1&quot;</code><br>这样子一个节点就创建并启动了，如果需要创建多个节点，则分别新建目录，并把上面的json文件拷贝过去（同一私有网络创世区块要相同），在每个目录里面执行初始化命令。启动多个节点的时候则需要区分端口号，否则会冲突，但是网络号需要一样，比如在另外两个终端中：<br><code>geth --datadir &quot;./&quot; --networkid 15 --rpc console --port 30304 --rpcport 8546 --identity &quot;ep2&quot;</code><br><code>geth --datadir &quot;./&quot; --networkid 15 --rpc console --port 30305 --rpcport 8547 --identity &quot;ep3&quot;</code><br>如此下来，就启动了3个节点，分别是ep1、ep2、ep3。</p>
+<h4 id="节点互连"><a href="#节点互连" class="headerlink" title="节点互连"></a>节点互连</h4><p>节点启动的时候，可能只是一个独立的节点，其他节点没有被发现，这时候可以手动添加。首先需要知道节点信息，比如在上面的ep2节点终端中输入 <code>admin.nodeInfo.enode</code>获得该节点的enode信息。<br>接着切到ep1终端，通过 <code>admin.addPeer(刚才那串enode信息)</code>添加节点，添加完后，执行 <code>admin.peers</code>就可以发现ep1已经连接到ep2节点了</p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Blockchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《湄公河行动》</title>
+    <url>/2016/10/15/%E3%80%8A%E6%B9%84%E5%85%AC%E6%B2%B3%E8%A1%8C%E5%8A%A8%E3%80%8B/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Windows7(64bit) Install Android Studio</title>
+    <url>/2016/10/06/Windows7-64bit-Install-Android-Studio/</url>
+    <content><![CDATA[<h2 id="北京："><a href="#北京：" class="headerlink" title="北京："></a>北京：</h2><p>&emsp;&emsp;作为一个Android开发的菜鸟，以前用的都是Eclipse，后来听说Android Studio比Eclipse逼格高，刚好前段时间重装了系统，把以前的软件都卸了，主要还是本着装一下B的精神，这次尝试安装Android Studio玩玩。首先系统是64位的win7，所以下面安装的东西都是基于win7 64bit的。</p>
+<a id="more"></a>
+
+<h2 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h2><ul>
+<li><strong>JDK</strong></li>
+</ul>
+<p>&emsp;&emsp;在正式安装Android Studio前需要先安装JDK。到<a href="https://www.oracle.com/index.html" target="_blank" rel="noopener">官网</a>上去下载JDK（如果有墙，自备梯子），这里下载最新的JDK 8u102。下载完成后像安装正常软件一样双击安装，安装完成，可以点击”<a href="http://docs.oracle.com/javase/8/docs/" target="_blank" rel="noopener">后续步骤</a>“查看开发文档。<br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/down_jdk_01.png" alt="image"></p>
+<p>接下来需要配置环境变量。打开”我的电脑-&gt;属性-&gt;高级系统设置-&gt;环境变量”，在系统变量中：</p>
+<blockquote>
+<ul>
+<li>添加JAVA_HOME：安装JDK的目录，我的为”D:\Program Files\Java\jdk1.8.0_102”</li>
+<li>添加CLASSPATH：”.;%JAVA_HOME%\lib\tools.jar;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\bin;”（注意前面有’.’号）</li>
+<li>编辑Path：在前面加上”.;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;”（注意前面有’.’号）</li>
+</ul>
+</blockquote>
+<p><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/jdk_edt_01.png" alt="image"><br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/jdk_edt_02.png" alt="image"><br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/jdk_edt_03.png" alt="image"><br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/jdk_edt_04.png" alt="image"></p>
+<p>&emsp;&emsp;配置完在命令行下输入”java -version”，如果出现下面的信息则说明配置正确（务必配置正确，否则Android Studio启动不起来）<br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/jdk_edt_05.png" alt="image"></p>
+<ul>
+<li><strong>Android Studio</strong></li>
+</ul>
+<p>&emsp;&emsp;建议到<a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">官网</a>上直接用网页下载，不要用迅雷，至于为什么，听说是避免发生”<a href="https://www.zhihu.com/question/35721299" target="_blank" rel="noopener">XCodeGhost</a>“事件。这里下的是最新的<em>android-studio-bundle-145.3276617-windows.exe</em><br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/android_studio_01.png" alt="image"></p>
+<p>下载完成后，双击进行安装，当然可以参考<a href="https://developer.android.com/studio/install.html" target="_blank" rel="noopener">官网的安装教程</a><br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/sdk_path.png" alt="image"></p>
+<p>&emsp;&emsp;安装完成后，如果电脑没有翻墙，建议先不要勾选<em>Start Android Studio</em>，点击<em>Finish</em>完成安装，然后在安装目录的<em>bin</em>文件夹下找到<em>idea.properties</em>，在后面添加”disable.android.first.run=true”，这是设置打开Android Studio后不联网检测</p>
+<p>&emsp;&emsp;第一次打开Android Studio，首先会让你是否导入配置文件，可根据自身情况选择，点击<em>OK</em>，等待安装SDK，安装需要一段时间，耐心等待。安装完成如下<br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/install_finish_01.png" alt="image"></p>
+<p>配置SDK环境,点击<em>Configue-&gt;Project Defaults-&gt;Project Structure</em><br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/install_finish_02.png" alt="image"></p>
+<p>配置编码为UTF-8,点击<em>Configue-&gt;Project Defaults-&gt;Settings</em>。And then，开始Android Studio之旅吧<br><img src="http://ocww00tfq.bkt.clouddn.com/android_studio/settings_utf8.png" alt="image"></p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><ul>
+<li><a href="http://blog.csdn.net/zhoujn90/article/details/8957713" target="_blank" rel="noopener">http://blog.csdn.net/zhoujn90/article/details/8957713</a></li>
+<li><a href="http://www.2cto.com/kf/201604/500642.html" target="_blank" rel="noopener">http://www.2cto.com/kf/201604/500642.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《奇幻森林》</title>
+    <url>/2016/09/24/%E3%80%8A%E5%A5%87%E5%B9%BB%E6%A3%AE%E6%9E%97%E3%80%8B/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>电影阅读</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Ubuntu14.04 Install Wine</title>
+    <url>/2016/09/11/Ubuntu14-04-Install-Wine/</url>
+    <content><![CDATA[<h2 id="What-is-the-wine"><a href="#What-is-the-wine" class="headerlink" title="What is the wine"></a>What is the wine</h2><p>wine(Wine Is Not an Emulator)是一款开源的，免费的Windows程序加速器，能够让多种POSIX-compliant操作系统（如Linux，Mac OSX及BSD等）运行Windows应用程序的兼容层，它不是模拟器，也不是虚拟机，它是运用API转换技术做出Linux和Windows相对应的函数DLL以运行Windows程序。</p>
+<a id="more"></a>
+
+<h2 id="How-to-install"><a href="#How-to-install" class="headerlink" title="How to install"></a>How to install</h2><p>Ubuntu安装wine可以通过<em>apt-get install</em>的方式，也可以通过编译源码进行安装。<br>通过<em>apt-get install</em>的方式安装简单快捷（<a href="https://wiki.winehq.org/Ubuntu" target="_blank" rel="noopener">Here</a>），但是通过编译源码安装兼容性和稳定性更好。不喜欢唱歌的屌丝不是好水手，所以下面看看怎么通过编译源码的方式安装wine（如果是64位ubuntu,如果安装不成功可以使用<em>apt-get install</em>的方法，不努力一下怎么知道什么叫绝望呢）</p>
+<ul>
+<li>从<a href="https://www.winehq.org/" target="_blank" rel="noopener">官网</a>上下载源码包，目前最新的稳定版是<a href="https://www.winehq.org/announce/1.8.4" target="_blank" rel="noopener">1.8.4</a></li>
+<li>下载后解压<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tar -jxvf wine-1.8.4.tar.bz2</span><br><span class="line">cd wine-1.8.4&#x2F;</span><br></pre></td></tr></table></figure>
+打开README可以看到，可以执行<em>./tools/wineinstall</em>进行快速安装<br><img src="http://ocww00tfq.bkt.clouddn.com/install/wine/quickstart" alt="quickstart"><br>或者执行下面的步骤进行安装<br><img src="http://ocww00tfq.bkt.clouddn.com/install/wine/compilation" alt="图片"></li>
+<li>不走寻常路，看一下非快速安装，首先执行<em>sudo ./configure</em>检查环境，直到出现”configure: Finished.  Do ‘make’ to compile Wine.”</li>
+<li>执行<em>make</em>,这一步时间可能有点久，这时候可以喝杯68年中石油，耐心等待</li>
+<li>最后出现”Wine build complete.”，那么恭喜你，编译成功了</li>
+<li>接着执行<em>make install</em>进行安装</li>
+<li>安装完成后，根据README提示，执行<em>winecfg</em>进行配置，打开过程中提示有些东西没有安装，点击install即可</li>
+<li>怎么运行程序呢：README中有说明<br><img src="http://ocww00tfq.bkt.clouddn.com/install/wine/running" alt="running"></li>
+</ul>
+<blockquote>
+<p><strong>踩坑日记（执行./configure后的错误和解决方案）：</strong></p>
+<ul>
+<li>error: Cannot build a 32-bit program, you need to install 32-bit development libraries</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.&#x2F;configure --enable-win64</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>error: no suitable flex found. Please install the ‘flex’ package</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install flex</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>error: no suitable bison found. Please install the ‘bison’ package</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install bison</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>error: X 64-bit development files not found……</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install xorg-dev libx11-dev</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>哪里错误补哪里，麻麻再也不用担心我的学习啦——步步高补错机</p>
+</blockquote>
+<h2 id="So…"><a href="#So…" class="headerlink" title="So…"></a>So…</h2><p>对于喜欢使用Linux的筒子，总有一个纠结就是很多应用没有Linux版本。有了wine，在Linux上也能执行大多数Windows的程序了，再也不用纠结在Linux和Windows之间切换来切换去了（此处可以有掌声。。。）<br>另外，可以参考<a href="https://wiki.winehq.org/Building_Biarch_Wine_On_Ubuntu" target="_blank" rel="noopener">wine官网的build过程</a></p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>wine</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《穹顶之下》</title>
+    <url>/2016/09/10/%E3%80%8A%E7%A9%B9%E9%A1%B6%E4%B9%8B%E4%B8%8B%E3%80%8B/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>电影阅读</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>《看见》</title>
+    <url>/2016/09/10/%E3%80%8A%E7%9C%8B%E8%A7%81%E3%80%8B/</url>
+    <content><![CDATA[<p>作者： 柴静:</p>
+]]></content>
+      <categories>
+        <category>电影阅读</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>《还没长大就老了》</title>
+    <url>/2016/09/10/%E3%80%8A%E8%BF%98%E6%B2%A1%E9%95%BF%E5%A4%A7%E5%B0%B1%E8%80%81%E4%BA%86%E3%80%8B/</url>
+    <content><![CDATA[<p>作者： 朱冰</p>
+]]></content>
+      <categories>
+        <category>电影阅读</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>苹果2016秋季发布会</title>
+    <url>/2016/09/10/%E8%8B%B9%E6%9E%9C2016%E7%A7%8B%E5%AD%A3%E5%8F%91%E5%B8%83%E4%BC%9A/</url>
+    <content><![CDATA[<blockquote>
+<p><strong>Note：</strong>以下评论，纯属个人观点</p>
+</blockquote>
+<p>发布会的开始，是库克在车上和另外两个大叔唱歌，看着一脸便秘的库克，尴尬症都犯了，可能是为了接下来演讲苹果的音乐应用做铺垫吧</p>
+<a id="more"></a>
+
+<p><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/2" alt="图片"><br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/3" alt="图片"></p>
+<blockquote>
+<p>整个发布会大概为：介绍苹果平台上增加和升级的应用；Apple Watch；Iphone；Airpods耳机</p>
+</blockquote>
+<h2 id="App-Store里的应用："><a href="#App-Store里的应用：" class="headerlink" title="App Store里的应用："></a>App Store里的应用：</h2><p>比较深刻的是<em>超级玛丽奥</em>，现场请来了任天堂的宫本茂。宫大叔讲了几句很日本的英语后，决定请个翻译自己讲回日语(对于看惯了等讲完了再翻译，这个翻译还没等宫大叔讲完，就开始翻译了，好像提前知道宫大叔讲的内容似的赶脚）<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/4" alt="图片"><br>来张特写<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/5" alt="图片"><br>更新的超级玛丽奥增加了对战的模式</p>
+<h2 id="Apple-Watch："><a href="#Apple-Watch：" class="headerlink" title="Apple Watch："></a>Apple Watch：</h2><p>个人比较感兴趣的是它的语音和消息提示功能，但据网上所说，Apple Watch的Siri就是个鸡肋。</p>
+<ul>
+<li>这次的Watch内置了GPS模块，更方便对于运动轨迹的定位和地图导航。</li>
+<li>增加、优化了应用的控制</li>
+<li>防水级别从一代的溅水提升到现在的游泳级别<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/watch_1" alt="图片"></li>
+</ul>
+<h2 id="Iphone："><a href="#Iphone：" class="headerlink" title="Iphone："></a>Iphone：</h2><p>看点：</p>
+<ul>
+<li>提升防水级别</li>
+<li>home键改为固态触感式，用人话说就是其实是按不下去的，但是给你一个按下去的感觉，可能是为了节约空间和防水吧</li>
+<li>取消3.5mm耳机插口，改为Lighting接口，原来的耳机可以搭配一个转接口继续使用，不过想一边充电一边听歌，就要看一下深圳华强北有没有这个零件了</li>
+<li>7升级广角摄像头，7plus增加一个长焦镜头，也就是双镜头，增加背景模糊化功能（这个国产早就有了，还有更高级的美图、美颜）<br>对于这样的Iphone7网友们好像并不卖帐，发布会还没结束，吐曹会就召开了<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/iphone_7" alt="图片"><br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/iphone_8" alt="图片"><br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/iphone_9" alt="图片"><br>网友已经开破一切<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/iphone_A" alt="图片"><br>看到这样的吐曹，乔帮主都要气活了</li>
+</ul>
+<h2 id="AirPods耳机："><a href="#AirPods耳机：" class="headerlink" title="AirPods耳机："></a>AirPods耳机：</h2><p>这个真不明白和蓝牙有多大区别，不就是无线耳机吗。继Iphone被玩坏后，AirPods也彻底沦陷。<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/airpods_1" alt="图片"><br>还没开卖就用上了（从EarPod到AirPod的锐变）<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/airpods_2" alt="图片"><br>以后的工作就是捡耳机，毕竟一副150美刀<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/airpods_3" alt="图片"><br>这货充电一次可用5小时，关键充电盒子还得另外充电，不带多两个充电宝都不敢出门<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/airpods_4" alt="图片"><br>在不久的将来，请相信万能的某宝将会出现“左耳换右耳 右耳换左耳”的热搜<br><img src="http://ocww00tfq.bkt.clouddn.com/conference/apple/2016/airpods_5" alt="图片"></p>
+<h2 id="巴拉巴拉："><a href="#巴拉巴拉：" class="headerlink" title="巴拉巴拉："></a>巴拉巴拉：</h2><p>整个发布会，公布了很多有关数字的，比如App Store的下载量，Iphone卖了多少台，音乐应用的用户有多少，米果人是不是很喜欢用数字说话啊。。。<br>苹果手表搭配了不同的表带，各个表带价格还不一样；iphone提供了不同颜色的款式，这次还搞了个“高级黑”。这些“创新”感觉并不能带来很大的惊喜，说是创新，其实这所谓了创新很多国产手机都走在前面了，可能这对于苹果自己来说是个创新吧。库克也许是个运营好手，但越来越感觉苹果已没有乔帮主时代的工匠精神了（好吧，毕竟库克不在技术这一块），甚至现在开始向Android阵营取经了。<br>这次的发布会可以说不痛不痒，并不能打动很多人的神经。先观望一下，看看网友到手使用后有什么感受再决定要不要入手一部（哥一枚穷屌，哥入手走的是24期分期，贼伤心。。。）</p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>一叶轻舟</title>
+    <url>/2016/09/10/%E4%B8%80%E5%8F%B6%E8%BD%BB%E8%88%9F/</url>
+    <content><![CDATA[<blockquote>
+<p>死要面子活受罪</p>
+<ul>
+<li>September 11, 2016 12:20 AM</li>
+</ul>
+</blockquote>
+<!--partition-->
+
+<blockquote>
+<p>月盈则亏</p>
+<ul>
+<li>September 11, 2016 12:20 AM</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+
+<blockquote>
+<p>要做事，先做人</p>
+<ul>
+<li>September 10, 2016 10:59 PM</li>
+</ul>
+</blockquote>
+<!--partition-->
+
+<blockquote>
+<p>随兴而起，随遇而安</p>
+<ul>
+<li>September 10, 2016 9:07 AM</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MarkDown语法</title>
+    <url>/2016/09/04/MarkDown%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="结果显示（由于GitHub不支持某些语法，所以有些格式不能显示出来）："><a href="#结果显示（由于GitHub不支持某些语法，所以有些格式不能显示出来）：" class="headerlink" title="结果显示（由于GitHub不支持某些语法，所以有些格式不能显示出来）："></a>结果显示（由于GitHub不支持某些语法，所以有些格式不能显示出来）：</h2><h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><a id="more"></a>
+
+<h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><p><strong>加粗</strong></p>
+<p><em>斜体</em></p>
+<p><code>inline code</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">fenced code</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>blockquote</p>
+</blockquote>
+<ol>
+<li>Order List</li>
+</ol>
+<ul>
+<li>Unorder List</li>
+</ul>
+<hr>
+<p>page break</p>
+<hr>
+<p>section break</p>
+<hr>
+<p>sentence break</p>
+<p><del>strikethrough</del></p>
+<p>++underline++</p>
+<ul>
+<li><input disabled="" type="checkbox"> task list</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>column</th>
+<th>column</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>one</td>
+<td>two</td>
+</tr>
+</tbody></table>
+<p>==highlight==</p>
+<p>@<a href="www.baidu.com">embedding</a></p>
+<p>$$<br>math block<br>$$</p>
+<p>$$$math inline$$$</p>
+<!--comment-->
+
+<p>[TOC]</p>
+<p><a href="http://www.baidu.com" target="_blank" rel="noopener">链接（百度）</a></p>
+<p><img src="http://ocww00tfq.bkt.clouddn.com/image/png/%E6%8A%A0%E5%A5%BD%E7%9A%84%E7%9A%AE%E5%8D%A1%E4%B8%98.png" alt="图片"></p>
+<p><a href="footnotesreference">^footnotes_id</a></p>
+<h2 id="对应的md文件："><a href="#对应的md文件：" class="headerlink" title="对应的md文件："></a>对应的md文件：</h2><p><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/MarkDown_0" alt="MarkDown_0"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/MarkDown_1" alt="MarkDown_1"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/MarkDown_2" alt="MarkDown_2"></p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>MarkDown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何利用GitHub Pages和Hexo快速搭建个人博客</title>
+    <url>/2016/09/03/%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8GitHub%20Pages%E5%92%8CHexo%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="为什么是GitHub-Pages："><a href="#为什么是GitHub-Pages：" class="headerlink" title="为什么是GitHub Pages："></a>为什么是GitHub Pages：</h2><p>GitHub Pages提供建立静态的站点，非常适合个人主页、博客等不需要太多动态交互、不太需要数据库支持的网站，而且GitHub上有很多模板和主题，不需要太专业的知识就可以快速搭建一个网站，同时可以用Git管理我们的代码，上传到GitHub托管，最主要还是。。。。。。GitHub Pages免费。</p>
+<a id="more"></a>
+
+<h2 id="两种模式："><a href="#两种模式：" class="headerlink" title="两种模式："></a>两种模式：</h2><ol>
+<li>User/Organization 个人或公司站点<ul>
+<li>每个GitHub账户只能建一个</li>
+<li>资源命名必须为：username/username.github.io</li>
+<li>远程仓库的master分支被用来构建和发布页面</li>
+</ul>
+</li>
+<li>Project Pages 项目站点<ul>
+<li>ph-pages分支用于构建和发布页面</li>
+<li>多个项目可以建立多个站点</li>
+</ul>
+</li>
+</ol>
+<h2 id="系统环境配置："><a href="#系统环境配置：" class="headerlink" title="系统环境配置："></a>系统环境配置：</h2><ul>
+<li>安装Git：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure></li>
+<li>安装Hexo：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>Note:</p>
+<ul>
+<li>安装Hexo出现“this failure might be due to the use of legacy binary node”，执行一下”sudo apt-get install nodejs-legacy“然后重新安装</li>
+<li>也可以使用Jekyll，Hexo和Jekyll都是生成静态网页的工具，只是听说Hexo渲染比Jekyll好，主题多、切换方便</li>
+</ul>
+</blockquote>
+<h2 id="搭建步骤："><a href="#搭建步骤：" class="headerlink" title="搭建步骤："></a>搭建步骤：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir GitHubPages</span><br><span class="line">cd GitHubPages</span><br><span class="line">hexo init HexoBlog</span><br><span class="line">cd HexoBlog</span><br><span class="line">hexo generate</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>此时用浏览器打开<em><a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a></em>可以看到一篇内置的Blog了</p>
+<blockquote>
+<p>Note:</p>
+<ul>
+<li>hexo generate/g：生成静态文件，会在当前目录下生成一个新的叫做public的文件夹</li>
+<li>hexo server/s：启动本地web服务，用于博客的预览</li>
+<li>hexo deploy/d：部署博客到远端（比如github, heroku等平台）</li>
+<li>hexo clean：清理，包括public文件夹</li>
+</ul>
+</blockquote>
+<h2 id="部署到GitHub-Pages："><a href="#部署到GitHub-Pages：" class="headerlink" title="部署到GitHub Pages："></a>部署到GitHub Pages：</h2><ul>
+<li><p>在GitHub上建立站点：<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_0" alt="github_0"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_1" alt="github_1"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/github_2" alt="github_2"></p>
+</li>
+<li><p>配置本地站点的_config.yml：<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/_config_deply" alt="_config_deply"></p>
+</li>
+<li><p>部署到GitHub Pages：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd GitHubPages&#x2F;HexoBlog</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>踩坑提醒：需要提前安装一个扩展：<br>npm install hexo-deployer-git –save</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>部署成功如下，此时在浏览器输入<em><a href="http://lucienlau.github.io">http://lucienlau.github.io</a></em>可以访问页面了<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/hexo_deploy_success" alt="hexo_deploy_success"></li>
+</ul>
+<h2 id="新建博客："><a href="#新建博客：" class="headerlink" title="新建博客："></a>新建博客：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new &quot;blogName&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Note</strong>:这种方式建立的页面会显示在主页上，新建博客文章也是用的这种方式，默认会在站点的source/_post目录下生成”blogName.md”文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new page &quot;pageName&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Note</strong>:这种方式建立的是一个新的页面，会在站点source文件夹下生成一个”pageName”文件夹，可以用这种方式建立一个新的”about”页面，然后把about链接链到这里</p>
+</blockquote>
+<h2 id="MarkDown编辑器："><a href="#MarkDown编辑器：" class="headerlink" title="MarkDown编辑器："></a>MarkDown编辑器：</h2><p>这种方式搭建的博客，很多时候都是用markdown写博文，这里介绍两款比较好用的markdown编辑器</p>
+<ul>
+<li><a href="http://pad.haroopress.com/user.html" target="_blank" rel="noopener">haroopad</a>：左边编辑右边预览，有markdown语法的提示，支持Windows、Linux、Mac等平台，这篇博文就是用haroopad完成的</li>
+<li><a href="https://stackedit.io/" target="_blank" rel="noopener">StackEdit</a>：一款在线的markdown编辑器，有markdown语法提示，能导出为pdf、md、html格式文件，支持同步到google drive</li>
+</ul>
+<h2 id="主题设置："><a href="#主题设置：" class="headerlink" title="主题设置："></a>主题设置：</h2><p>hexo init生成的默认主题是landscape，以设置<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">yilia</a>主题为例（<a href="https://github.com/hexojs/hexo/wiki/Themes" target="_blank" rel="noopener">更多主题</a>）：</p>
+<ul>
+<li>主题下载：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;litten&#x2F;hexo-theme-yilia.git themes&#x2F;yilia</span><br></pre></td></tr></table></figure></li>
+<li>配置：<br>打开站点下的_config.yml文件，找到theme标签，改为yilia</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong>:yilia主题issue<a href="https://github.com/litten/hexo-theme-yilia/issues" target="_blank" rel="noopener">请看这里</a></p>
+</blockquote>
+<h2 id="文章摘要："><a href="#文章摘要：" class="headerlink" title="文章摘要："></a>文章摘要：</h2><p>在需要显示摘要的地方添加：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">以上是摘要</span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line">以下是余下全文</span><br></pre></td></tr></table></figure>
+<p>more以上是文章摘要，在主页显示，more以下内容点击”more”链接才显示（如果不添加摘要，主页将会显示文章的全部内容）</p>
+<h2 id="网站图标："><a href="#网站图标：" class="headerlink" title="网站图标："></a>网站图标：</h2><p>制作一个ico图标，命名为favicon.ico并放到工程根目录即站点source目录下。可以在<a href="http://www.faviconer.com/" target="_blank" rel="noopener">Faviconer</a>制作ico图标，国内有<a href="http://www.bitbug.net/" target="_blank" rel="noopener">比特虫</a></p>
+<h2 id="域名绑定："><a href="#域名绑定：" class="headerlink" title="域名绑定："></a>域名绑定：</h2><ul>
+<li>打开终端，ping lucienlau.github.io，得到ip</li>
+<li>申请域名并添加域名解析，记录类型选择A，记录值填刚得到的ip</li>
+<li>在站点source文件夹下建立CNAME文件，写上自己的域名，然后部署到GitHub Pages</li>
+<li>几分钟后，应该可以通过自己的域名访问博客了</li>
+</ul>
+<h2 id="设置自己的评论系统："><a href="#设置自己的评论系统：" class="headerlink" title="设置自己的评论系统："></a>设置自己的评论系统：</h2><p>由于这是静态网站，评论系统需要用第三方的，以<a href="http://duoshuo.com/" target="_blank" rel="noopener">多说</a>为例：</p>
+<ul>
+<li><p>注册多说并安装<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/duoshuo_0" alt="duoshuo_0"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/duoshuo_1" alt="duoshuo_1"></p>
+</li>
+<li><p>打开主题下的_config.yml配置文件，找到”duoshuo”标签，改为”test1”，原来的可能是”true”，其实不是”true”或”false”，是作者的就叫”true”</p>
+</li>
+</ul>
+<h2 id="网站访问统计："><a href="#网站访问统计：" class="headerlink" title="网站访问统计："></a>网站访问统计：</h2><p>评论有“多说”，计数有“<a href="http://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜</a>”。不蒜子目前还没开放注册，不过仍然可以使用，只需两行代码。比如要在页脚靠左显示访问情况，则修改主题下的layout/_partial/footer.ejs文件（<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="noopener">更多设置</a>）<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/footer_left" alt="footer_left"></p>
+<h2 id="设置博客音乐："><a href="#设置博客音乐：" class="headerlink" title="设置博客音乐："></a>设置博客音乐：</h2><ul>
+<li><p>登录网易云音乐web版，选择歌曲并按提示生成外链（有的歌有版权，不能生成外链，想选一首周杰伦的，发现由于有版权保护不能生成外链）<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/music163_0" alt="music163_0"><br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/music163_1" alt="music163_1"></p>
+</li>
+<li><p>选择需要插入的位置，比如页脚靠右，则修改主题下的layout/_partial/footer.ejs<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/footer_right" alt="footer_right"></p>
+</li>
+</ul>
+<h2 id="使用图床："><a href="#使用图床：" class="headerlink" title="使用图床："></a>使用图床：</h2><p>图床其实就是存放图片等的地方，GitHub提供的空间有限，可以把一些图片等放到别的地方，以<a href="http://www.qiniu.com/" target="_blank" rel="noopener">七牛云</a>为例，注册七牛云，上传图片，七牛云会为每张图片提供一个外链，然后在需要显示图片的地方插入链接即可</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><em><a href="http://sunwhut.com/2015/10/30/buildBlog/" target="_blank" rel="noopener">http://sunwhut.com/2015/10/30/buildBlog/</a></em></li>
+<li><em><a href="http://jiji262.github.io/2016/04/15/2016-04-15-hexo-github-pages-blog/" target="_blank" rel="noopener">http://jiji262.github.io/2016/04/15/2016-04-15-hexo-github-pages-blog/</a></em></li>
+<li><em><a href="http://ibruce.info/2013/11/22/hexo-your-blog/" target="_blank" rel="noopener">http://ibruce.info/2013/11/22/hexo-your-blog/</a></em></li>
+<li><em><a href="http://fupinyou.com/2016/02/19/%E4%BD%BF%E7%94%A8hexo-github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" target="_blank" rel="noopener">http://fupinyou.com/2016/02/19/%E4%BD%BF%E7%94%A8hexo-github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</a></em></li>
+<li><em><a href="http://blog.csdn.net/hitwhylz/article/details/42646197" target="_blank" rel="noopener">http://blog.csdn.net/hitwhylz/article/details/42646197</a></em></li>
+<li><em><a href="http://www.cnblogs.com/purediy/archive/2013/03/07/2948892.html" target="_blank" rel="noopener">http://www.cnblogs.com/purediy/archive/2013/03/07/2948892.html</a></em></li>
+</ul>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>yilia</tag>
+      </tags>
+  </entry>
+</search>

@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>哼哼哈嘻</title>
+  <icon>https://www.gravatar.com/avatar/76d29697754f8c598230ae589229d075</icon>
+  <subtitle>勿忘初心，保持平常心，从心出发</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://lucienlau.github.io/"/>
+  <updated>2020-01-01T10:30:54.000Z</updated>
+  <id>http://lucienlau.github.io/</id>
+  
+  <author>
+    <name>留叶</name>
+    <email>137042952@qq.com</email>
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Golang Context</title>
+    <link href="http://lucienlau.github.io/2020/01/01/Golang-Context/"/>
+    <id>http://lucienlau.github.io/2020/01/01/Golang-Context/</id>
+    <published>2020-01-01T10:30:54.000Z</published>
+    <updated>2020-01-01T10:30:54.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h2&gt;&lt;p&gt;相比在参数中传递用于控制流程的自定义管道变量，&lt;code&gt;Context&lt;/code&gt;可以更方便地串联、管理多个&lt;code&gt;Goroutine&lt;/code&gt;，在大型项目中发挥着重要的作用。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+      <category term="Golang" scheme="http://lucienlau.github.io/tags/Golang/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++碎碎念</title>
+    <link href="http://lucienlau.github.io/2019/11/25/C-%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    <id>http://lucienlau.github.io/2019/11/25/C-%E7%A2%8E%E7%A2%8E%E5%BF%B5/</id>
+    <published>2019-11-25T10:22:52.000Z</published>
+    <updated>2019-11-25T10:22:52.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;头文件中ifndef-define-endif的作用&quot;&gt;&lt;a href=&quot;#头文件中ifndef-define-endif的作用&quot; class=&quot;headerlink&quot; title=&quot;头文件中ifndef/define/endif的作用&quot;&gt;&lt;/a&gt;头文件中&lt;code&gt;ifndef/define/endif&lt;/code&gt;的作用&lt;/h3&gt;&lt;p&gt;保证即使头文件被包含多次，也只定义一次，起到预编译保护作用。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>《简单实现自己的监听器模式》</title>
+    <link href="http://lucienlau.github.io/2019/11/25/%E3%80%8A%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%8B/"/>
+    <id>http://lucienlau.github.io/2019/11/25/%E3%80%8A%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%8B/</id>
+    <published>2019-11-25T04:57:09.000Z</published>
+    <updated>2019-11-25T04:57:09.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;实现监听器模式，不使用&lt;code&gt;EventEmitter&lt;/code&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Object.create(null)和{}</title>
+    <link href="http://lucienlau.github.io/2019/11/25/Object-create-null-%E5%92%8C/"/>
+    <id>http://lucienlau.github.io/2019/11/25/Object-create-null-%E5%92%8C/</id>
+    <published>2019-11-25T03:10:00.000Z</published>
+    <updated>2019-11-25T03:10:00.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;let a = {}&lt;/code&gt;和&lt;code&gt;let b = Object.create(null)&lt;/code&gt;有什么区别呢？&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>js实现继承</title>
+    <link href="http://lucienlau.github.io/2019/11/24/js%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF/"/>
+    <id>http://lucienlau.github.io/2019/11/24/js%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF/</id>
+    <published>2019-11-24T09:18:23.000Z</published>
+    <updated>2019-11-24T09:18:23.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一、js继承问题&quot;&gt;&lt;a href=&quot;#一、js继承问题&quot; class=&quot;headerlink&quot; title=&quot;一、js继承问题&quot;&gt;&lt;/a&gt;一、&lt;code&gt;js&lt;/code&gt;继承问题&lt;/h2&gt;&lt;p&gt;&lt;code&gt;es6&lt;/code&gt;引入了&lt;code&gt;class&lt;/code&gt;和&lt;code&gt;extends&lt;/code&gt;，从而可以像&lt;code&gt;c++&lt;/code&gt;那样理解继承，但本质上这只是一个语法糖。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>js的bind函数</title>
+    <link href="http://lucienlau.github.io/2019/11/23/js%E7%9A%84bind%E5%87%BD%E6%95%B0/"/>
+    <id>http://lucienlau.github.io/2019/11/23/js%E7%9A%84bind%E5%87%BD%E6%95%B0/</id>
+    <published>2019-11-23T10:24:05.000Z</published>
+    <updated>2019-11-23T10:24:05.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;由&lt;code&gt;Function.prototype.bind()&lt;/code&gt;，所以&lt;code&gt;bind()&lt;/code&gt;是函数或方法的一个属性。&lt;code&gt;bind()&lt;/code&gt;将创建一个新的函数，调用&lt;code&gt;bind()&lt;/code&gt;的时候，新函数的&lt;code&gt;this&lt;/code&gt;被&lt;code&gt;bind()&lt;/code&gt;的第一个参数指定，&lt;code&gt;bind()&lt;/code&gt;的其余参数将作为新函数的参数供调用时使用。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>js的with关键字</title>
+    <link href="http://lucienlau.github.io/2019/11/23/js%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/"/>
+    <id>http://lucienlau.github.io/2019/11/23/js%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/</id>
+    <published>2019-11-23T07:22:39.000Z</published>
+    <updated>2019-11-23T07:22:39.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;let obj &amp;#x3D; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	a: &amp;#39;aaa&amp;#39;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	b: &amp;#39;bbb&amp;#39;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	c: &amp;#39;ccc&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;console.log(obj.a, obj.b, obj.c);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;&amp;#x2F; 使用 with&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;with (obj) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	console.log(a, b, c);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JS的call方法</title>
+    <link href="http://lucienlau.github.io/2019/11/23/JS%E7%9A%84call%E6%96%B9%E6%B3%95/"/>
+    <id>http://lucienlau.github.io/2019/11/23/JS%E7%9A%84call%E6%96%B9%E6%B3%95/</id>
+    <published>2019-11-22T17:39:43.000Z</published>
+    <updated>2019-11-22T17:39:43.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;&lt;code&gt;foo.call(this, args...)&lt;/code&gt;，指明&lt;code&gt;foo&lt;/code&gt;函数或方法的&lt;code&gt;this&lt;/code&gt;和参数，然后运行&lt;code&gt;foo&lt;/code&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JS原型和原型链</title>
+    <link href="http://lucienlau.github.io/2019/11/22/JS%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/"/>
+    <id>http://lucienlau.github.io/2019/11/22/JS%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/</id>
+    <published>2019-11-22T15:23:07.000Z</published>
+    <updated>2019-11-22T15:23:07.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;有时代码敲得再多，项目做的再多，面试时还是会被一些简单的问题难倒&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>《伟大的博弈》读后</title>
+    <link href="http://lucienlau.github.io/2019/11/15/%E3%80%8A%E4%BC%9F%E5%A4%A7%E7%9A%84%E5%8D%9A%E5%BC%88%E3%80%8B%E8%AF%BB%E5%90%8E/"/>
+    <id>http://lucienlau.github.io/2019/11/15/%E3%80%8A%E4%BC%9F%E5%A4%A7%E7%9A%84%E5%8D%9A%E5%BC%88%E3%80%8B%E8%AF%BB%E5%90%8E/</id>
+    <published>2019-11-15T13:31:47.000Z</published>
+    <updated>2019-11-15T13:31:47.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;《伟大的博弈》讲的是华尔街的历史，讲述了华尔街从无到有，讲述了华尔街经历的战乱、灾难、成长，讲述了资本市场的腥风血雨、跌宕起伏。长投学堂的小熊老师说看完这本书，你对我们A股股市的波动就不会感到惊讶，因为和华尔街相比，A股的波动真的算不上波动了。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="电影阅读" scheme="http://lucienlau.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="读书" scheme="http://lucienlau.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《聪明的投资者》读后</title>
+    <link href="http://lucienlau.github.io/2019/11/10/%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85%E3%80%8B%E8%AF%BB%E5%90%8E/"/>
+    <id>http://lucienlau.github.io/2019/11/10/%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85%E3%80%8B%E8%AF%BB%E5%90%8E/</id>
+    <published>2019-11-10T14:30:58.000Z</published>
+    <updated>2019-11-10T14:30:58.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;《聪明的投资者》是巴菲特的老师格雷厄姆出的一本书，巴菲特据说很少向别人推荐什么书，可能是很多书不能入他老人家的法眼吧，却唯独这一本是他非常推崇的。这本书也是长投学堂的小熊老师说读了很多次的书。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="电影阅读" scheme="http://lucienlau.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="读书" scheme="http://lucienlau.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>scatter交易missing required accounts</title>
+    <link href="http://lucienlau.github.io/2019/02/18/scatter%E4%BA%A4%E6%98%93missing-required-accounts/"/>
+    <id>http://lucienlau.github.io/2019/02/18/scatter%E4%BA%A4%E6%98%93missing-required-accounts/</id>
+    <published>2019-02-18T07:39:23.000Z</published>
+    <updated>2019-02-18T07:39:23.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;使用&lt;code&gt;scatter js sdk&lt;/code&gt;发起一笔交易，请求&lt;code&gt;scatter&lt;/code&gt;确认时，出现如下错误提示：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Missing required accounts, repull the identity&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>eosio.token的transfer的memo长度</title>
+    <link href="http://lucienlau.github.io/2019/02/18/eosio-token%E7%9A%84transfer%E7%9A%84memo%E9%95%BF%E5%BA%A6/"/>
+    <id>http://lucienlau.github.io/2019/02/18/eosio-token%E7%9A%84transfer%E7%9A%84memo%E9%95%BF%E5%BA%A6/</id>
+    <published>2019-02-18T07:07:12.000Z</published>
+    <updated>2019-02-18T07:07:12.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;平时我们进行 EOS 币转账的时候，&lt;code&gt;memo&lt;/code&gt;最多可以填多少个汉字、多少个英文字符呢？&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>transaction declares authority错误</title>
+    <link href="http://lucienlau.github.io/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/"/>
+    <id>http://lucienlau.github.io/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/</id>
+    <published>2019-02-18T06:09:32.000Z</published>
+    <updated>2019-02-18T06:09:32.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;push action 或者 transaction 的时候，出现类似以下错误：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;transaction declares authority &amp;#39;&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;active&amp;quot;&amp;#125;&amp;#39;, but does not have signatures for it under a provided delay of 0 ms, provided permissions [&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;eosio.code&amp;quot;&amp;#125;], and provided keys []&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>节点rpc无法访问</title>
+    <link href="http://lucienlau.github.io/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/"/>
+    <id>http://lucienlau.github.io/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/</id>
+    <published>2019-02-18T05:39:45.000Z</published>
+    <updated>2019-02-18T05:39:45.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;你通过&lt;code&gt;config.ini&lt;/code&gt;配置了&lt;code&gt;http-server-address = 0.0.0.0:8888&lt;/code&gt;，并且配置了插件&lt;code&gt;plugin = eosio::http_plugin&lt;/code&gt;，假设你的 server 的公开 ip 为&lt;code&gt;12.34.56.78&lt;/code&gt;，氮素&lt;code&gt;cleos -u http://12.34.56.78:8888&lt;/code&gt;仍然无法访问你的节点 rpc。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>eos合约action命名</title>
+    <link href="http://lucienlau.github.io/2019/02/18/eos%E5%90%88%E7%BA%A6action%E5%91%BD%E5%90%8D/"/>
+    <id>http://lucienlau.github.io/2019/02/18/eos%E5%90%88%E7%BA%A6action%E5%91%BD%E5%90%8D/</id>
+    <published>2019-02-18T03:53:32.000Z</published>
+    <updated>2019-02-18T03:53:32.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;EOS 中，合约的&lt;code&gt;action&lt;/code&gt;对应合约 C++ 代码中的一个函数，如果你认为这个函数可以像传统 C++ 编码那样命名，那就错了。因为对应合约的&lt;code&gt;action&lt;/code&gt;，所以有一些规则限制。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>config.ini中的signature-provider</title>
+    <link href="http://lucienlau.github.io/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/"/>
+    <id>http://lucienlau.github.io/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/</id>
+    <published>2019-02-18T03:30:25.000Z</published>
+    <updated>2019-02-18T03:30:25.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;如果你要部署一个 EOSIO 的出块节点，你可能会关心这个问题。如果不是，或者你只是部署一个普通节点，那你不用care这里说的。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>eosio计算ram价格</title>
+    <link href="http://lucienlau.github.io/2019/02/18/eosio%E8%AE%A1%E7%AE%97ram%E4%BB%B7%E6%A0%BC/"/>
+    <id>http://lucienlau.github.io/2019/02/18/eosio%E8%AE%A1%E7%AE%97ram%E4%BB%B7%E6%A0%BC/</id>
+    <published>2019-02-18T03:02:19.000Z</published>
+    <updated>2019-02-18T03:02:19.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;首先获取多索引表rammarket的数据：&quot;&gt;&lt;a href=&quot;#首先获取多索引表rammarket的数据：&quot; class=&quot;headerlink&quot; title=&quot;首先获取多索引表rammarket的数据：&quot;&gt;&lt;/a&gt;首先获取多索引表&lt;code&gt;rammarket&lt;/code&gt;的数据：&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$: cleos -u https:&amp;#x2F;&amp;#x2F;nodes.get-scatter.com:443 get table eosio eosio rammarket&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;quot;rows&amp;quot;: [&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;quot;supply&amp;quot;: &amp;quot;10000000000.0000 RAMCORE&amp;quot;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;quot;base&amp;quot;: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;quot;balance&amp;quot;: &amp;quot;70910488246 RAM&amp;quot;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;quot;weight&amp;quot;: &amp;quot;0.50000000000000000&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;quot;quote&amp;quot;: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;quot;balance&amp;quot;: &amp;quot;1722420.0326 EOS&amp;quot;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;quot;weight&amp;quot;: &amp;quot;0.50000000000000000&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ],&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;quot;more&amp;quot;: false&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>eosio获取账号actions</title>
+    <link href="http://lucienlau.github.io/2019/02/18/eosio%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7actions/"/>
+    <id>http://lucienlau.github.io/2019/02/18/eosio%E8%8E%B7%E5%8F%96%E8%B4%A6%E5%8F%B7actions/</id>
+    <published>2019-02-18T02:33:21.000Z</published>
+    <updated>2019-02-18T02:33:21.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;有时候我们使用别人的 rpc 地址，&lt;code&gt;get actions&lt;/code&gt;的时候返回的是空：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$: cleos -u https:&amp;#x2F;&amp;#x2F;别人的rpc.io get actions myaccount111&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#  seq  when                              contract::action &amp;#x3D;&amp;gt; receiver      trx id...   args&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&amp;#x3D;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>screen</title>
+    <link href="http://lucienlau.github.io/2019/02/06/screen/"/>
+    <id>http://lucienlau.github.io/2019/02/06/screen/</id>
+    <published>2019-02-06T14:15:16.000Z</published>
+    <updated>2019-02-06T14:15:16.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介：&quot;&gt;&lt;a href=&quot;#简介：&quot; class=&quot;headerlink&quot; title=&quot;简介：&quot;&gt;&lt;/a&gt;简介：&lt;/h2&gt;&lt;p&gt;当我们远程登录服务器，正在执行某些操作，比如正在编译源代码到60%，如果因为网络等各种原因断开了与服务器的链接，那么编译过程可能会被中断，我们重新链接服务器时需要从从头进行编译。&lt;br&gt;如果执行编译前使用了&lt;code&gt;screen&lt;/code&gt;，链接断开时编译工作不会中断，重连后登录之前的&lt;code&gt;screen&lt;/code&gt;会话，就可以回到当时的环境。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
