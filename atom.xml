@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://lucienlau.github.io/"/>
-  <updated>2020-01-01T10:30:54.000Z</updated>
+  <updated>2020-01-08T14:04:02.000Z</updated>
   <id>http://lucienlau.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《正见》</title>
+    <link href="http://lucienlau.github.io/2020/01/08/%E3%80%8A%E6%AD%A3%E8%A7%81%E3%80%8B/"/>
+    <id>http://lucienlau.github.io/2020/01/08/%E3%80%8A%E6%AD%A3%E8%A7%81%E3%80%8B/</id>
+    <published>2020-01-08T14:04:02.000Z</published>
+    <updated>2020-01-08T14:04:02.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;说些什么&quot;&gt;&lt;a href=&quot;#说些什么&quot; class=&quot;headerlink&quot; title=&quot;说些什么&quot;&gt;&lt;/a&gt;说些什么&lt;/h2&gt;&lt;p&gt;大佬分享的一本书，也许大概可能是自己境界不够，看得有点绕，看完有点云里雾里。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="电影阅读" scheme="http://lucienlau.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
+    
+    
+      <category term="读书" scheme="http://lucienlau.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>为什么要用Context(上下文)</title>
@@ -383,23 +404,6 @@
     
     
       <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>screen</title>
-    <link href="http://lucienlau.github.io/2019/02/06/screen/"/>
-    <id>http://lucienlau.github.io/2019/02/06/screen/</id>
-    <published>2019-02-06T14:15:16.000Z</published>
-    <updated>2019-02-06T14:15:16.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;简介：&quot;&gt;&lt;a href=&quot;#简介：&quot; class=&quot;headerlink&quot; title=&quot;简介：&quot;&gt;&lt;/a&gt;简介：&lt;/h2&gt;&lt;p&gt;当我们远程登录服务器，正在执行某些操作，比如正在编译源代码到60%，如果因为网络等各种原因断开了与服务器的链接，那么编译过程可能会被中断，我们重新链接服务器时需要从从头进行编译。&lt;br&gt;如果执行编译前使用了&lt;code&gt;screen&lt;/code&gt;，链接断开时编译工作不会中断，重连后登录之前的&lt;code&gt;screen&lt;/code&gt;会话，就可以回到当时的环境。&lt;/p&gt;
-    
-    </summary>
-    
-    
     
   </entry>
   

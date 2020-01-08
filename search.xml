@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>《正见》</title>
+    <url>/2020/01/08/%E3%80%8A%E6%AD%A3%E8%A7%81%E3%80%8B/</url>
+    <content><![CDATA[<h2 id="说些什么"><a href="#说些什么" class="headerlink" title="说些什么"></a>说些什么</h2><p>大佬分享的一本书，也许大概可能是自己境界不够，看得有点绕，看完有点云里雾里。</p>
+<a id="more"></a>
+
+<h2 id="封面"><a href="#封面" class="headerlink" title="封面"></a>封面</h2><p><img src="/imgss/fengmian_zhengjian.jpg" alt="封面"></p>
+]]></content>
+      <categories>
+        <category>电影阅读</category>
+      </categories>
+      <tags>
+        <tag>读书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>为什么要用Context(上下文)</title>
     <url>/2020/01/01/Golang-Context/</url>
     <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>相比在参数中传递用于控制流程的自定义管道变量，<code>Context</code>可以更方便地串联、管理多个<code>Goroutine</code>，在大型项目中发挥着重要的作用。</p>
