@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>为什么使用reflect</title>
+    <url>/2020/01/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8reflect/</url>
+    <content><![CDATA[<h2 id="前情"><a href="#前情" class="headerlink" title="前情"></a>前情</h2><p>Golang是一门静态语言，也就决定了一般情况下不能在程序运行中改变其行为。好在Golang也是一门面向反射的语言，通过反射机制，可以弥补这部分不足。</p>
+<a id="more"></a>
+
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>借用维基百科的一段话：</p>
+<blockquote>
+<p>在计算机学中，反射（英语：reflection）是指计算机程序在运行时（runtime）可以访问、检测和修改它本身状态或行为的一种能力。用比喻来说，反射就是程序在运行的时候能够“观察”并且修改自己的行为。</p>
+</blockquote>
+<h2 id="Go中的反射"><a href="#Go中的反射" class="headerlink" title="Go中的反射"></a>Go中的反射</h2><p><code>reflect</code>是Go的反射包。一个对象包含的最主要信息就是名称和值(key, value)，知道了名称和值，那么等于知道了对象的所有。</p>
+<p><code>reflect</code>中有两个重要的对象：</p>
+<ul>
+<li>type Value struct</li>
+<li>type Type interface</li>
+</ul>
+<p>我们平时用到的<code>reflect</code>基本上都是围绕<code>Type</code>和<code>Value</code>。<code>reflect</code>提供可以获得这两个对象的方法：</p>
+<ul>
+<li>func TypeOf(i interface{}) Type</li>
+<li>func ValueOf(i interface{}) Value</li>
+</ul>
+<p>得到<code>Value</code>和<code>Type</code>实例后，<code>Value</code>和<code>Type</code>提供很多方法供我们操作。</p>
+<p>举例来说，我们可以通过<code>reflect</code>获取运行中某个变量是struct、interface还是func等类型，也可以获取变量的字段和值。</p>
+<p>总之，通过<code>reflect</code>我们可以获取一个对象的一切，如果是struct，我们可以知道它的所有字段和值；如果是func，我们可以知道参数列表，然后构造一个函数，然后运行。</p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>Golang</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>《正见》</title>
     <url>/2020/01/08/%E3%80%8A%E6%AD%A3%E8%A7%81%E3%80%8B/</url>
     <content><![CDATA[<h2 id="说些什么"><a href="#说些什么" class="headerlink" title="说些什么"></a>说些什么</h2><p>大佬分享的一本书，也许大概可能是自己境界不够，看得有点绕，看完有点云里雾里。</p>
