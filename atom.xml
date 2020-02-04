@@ -5,9 +5,9 @@
   <subtitle>勿忘初心，保持平常心，从心出发</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://lucienlau.github.io/"/>
+  <link href="https://damonlau27.github.io/"/>
   <updated>2020-01-09T12:41:13.000Z</updated>
-  <id>http://lucienlau.github.io/</id>
+  <id>https://damonlau27.github.io/</id>
   
   <author>
     <name>留叶</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>为什么使用reflect</title>
-    <link href="http://lucienlau.github.io/2020/01/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8reflect/"/>
-    <id>http://lucienlau.github.io/2020/01/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8reflect/</id>
+    <link href="https://damonlau27.github.io/2020/01/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8reflect/"/>
+    <id>https://damonlau27.github.io/2020/01/09/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8reflect/</id>
     <published>2020-01-09T12:41:13.000Z</published>
     <updated>2020-01-09T12:41:13.000Z</updated>
     
@@ -30,17 +30,17 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
-      <category term="Golang" scheme="http://lucienlau.github.io/tags/Golang/"/>
+      <category term="Golang" scheme="https://damonlau27.github.io/tags/Golang/"/>
     
   </entry>
   
   <entry>
     <title>《正见》</title>
-    <link href="http://lucienlau.github.io/2020/01/08/%E3%80%8A%E6%AD%A3%E8%A7%81%E3%80%8B/"/>
-    <id>http://lucienlau.github.io/2020/01/08/%E3%80%8A%E6%AD%A3%E8%A7%81%E3%80%8B/</id>
+    <link href="https://damonlau27.github.io/2020/01/08/%E3%80%8A%E6%AD%A3%E8%A7%81%E3%80%8B/"/>
+    <id>https://damonlau27.github.io/2020/01/08/%E3%80%8A%E6%AD%A3%E8%A7%81%E3%80%8B/</id>
     <published>2020-01-08T14:04:02.000Z</published>
     <updated>2020-01-08T14:04:02.000Z</updated>
     
@@ -51,17 +51,17 @@
     </summary>
     
     
-      <category term="电影阅读" scheme="http://lucienlau.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
+      <category term="电影阅读" scheme="https://damonlau27.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
     
     
-      <category term="读书" scheme="http://lucienlau.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
+      <category term="读书" scheme="https://damonlau27.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
     
   </entry>
   
   <entry>
     <title>为什么要用Context(上下文)</title>
-    <link href="http://lucienlau.github.io/2020/01/01/Golang-Context/"/>
-    <id>http://lucienlau.github.io/2020/01/01/Golang-Context/</id>
+    <link href="https://damonlau27.github.io/2020/01/01/Golang-Context/"/>
+    <id>https://damonlau27.github.io/2020/01/01/Golang-Context/</id>
     <published>2020-01-01T10:30:54.000Z</published>
     <updated>2020-01-01T10:30:54.000Z</updated>
     
@@ -72,17 +72,17 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
-      <category term="Golang" scheme="http://lucienlau.github.io/tags/Golang/"/>
+      <category term="Golang" scheme="https://damonlau27.github.io/tags/Golang/"/>
     
   </entry>
   
   <entry>
     <title>C++碎碎念</title>
-    <link href="http://lucienlau.github.io/2019/11/25/C-%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
-    <id>http://lucienlau.github.io/2019/11/25/C-%E7%A2%8E%E7%A2%8E%E5%BF%B5/</id>
+    <link href="https://damonlau27.github.io/2019/11/25/C-%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    <id>https://damonlau27.github.io/2019/11/25/C-%E7%A2%8E%E7%A2%8E%E5%BF%B5/</id>
     <published>2019-11-25T10:22:52.000Z</published>
     <updated>2019-11-25T10:22:52.000Z</updated>
     
@@ -93,15 +93,15 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
   </entry>
   
   <entry>
     <title>《简单实现自己的监听器模式》</title>
-    <link href="http://lucienlau.github.io/2019/11/25/%E3%80%8A%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%8B/"/>
-    <id>http://lucienlau.github.io/2019/11/25/%E3%80%8A%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%8B/</id>
+    <link href="https://damonlau27.github.io/2019/11/25/%E3%80%8A%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%8B/"/>
+    <id>https://damonlau27.github.io/2019/11/25/%E3%80%8A%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8%E6%A8%A1%E5%BC%8F%E3%80%8B/</id>
     <published>2019-11-25T04:57:09.000Z</published>
     <updated>2019-11-25T04:57:09.000Z</updated>
     
@@ -112,15 +112,15 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
   </entry>
   
   <entry>
     <title>Object.create(null)和{}</title>
-    <link href="http://lucienlau.github.io/2019/11/25/Object-create-null-%E5%92%8C/"/>
-    <id>http://lucienlau.github.io/2019/11/25/Object-create-null-%E5%92%8C/</id>
+    <link href="https://damonlau27.github.io/2019/11/25/Object-create-null-%E5%92%8C/"/>
+    <id>https://damonlau27.github.io/2019/11/25/Object-create-null-%E5%92%8C/</id>
     <published>2019-11-25T03:10:00.000Z</published>
     <updated>2019-11-25T03:10:00.000Z</updated>
     
@@ -131,15 +131,15 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
   </entry>
   
   <entry>
     <title>js实现继承</title>
-    <link href="http://lucienlau.github.io/2019/11/24/js%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF/"/>
-    <id>http://lucienlau.github.io/2019/11/24/js%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF/</id>
+    <link href="https://damonlau27.github.io/2019/11/24/js%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF/"/>
+    <id>https://damonlau27.github.io/2019/11/24/js%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF/</id>
     <published>2019-11-24T09:18:23.000Z</published>
     <updated>2019-11-24T09:18:23.000Z</updated>
     
@@ -150,15 +150,15 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
   </entry>
   
   <entry>
     <title>js的bind函数</title>
-    <link href="http://lucienlau.github.io/2019/11/23/js%E7%9A%84bind%E5%87%BD%E6%95%B0/"/>
-    <id>http://lucienlau.github.io/2019/11/23/js%E7%9A%84bind%E5%87%BD%E6%95%B0/</id>
+    <link href="https://damonlau27.github.io/2019/11/23/js%E7%9A%84bind%E5%87%BD%E6%95%B0/"/>
+    <id>https://damonlau27.github.io/2019/11/23/js%E7%9A%84bind%E5%87%BD%E6%95%B0/</id>
     <published>2019-11-23T10:24:05.000Z</published>
     <updated>2019-11-23T10:24:05.000Z</updated>
     
@@ -169,15 +169,15 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
   </entry>
   
   <entry>
     <title>js的with关键字</title>
-    <link href="http://lucienlau.github.io/2019/11/23/js%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/"/>
-    <id>http://lucienlau.github.io/2019/11/23/js%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/</id>
+    <link href="https://damonlau27.github.io/2019/11/23/js%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/"/>
+    <id>https://damonlau27.github.io/2019/11/23/js%E7%9A%84with%E5%85%B3%E9%94%AE%E5%AD%97/</id>
     <published>2019-11-23T07:22:39.000Z</published>
     <updated>2019-11-23T07:22:39.000Z</updated>
     
@@ -188,15 +188,15 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
   </entry>
   
   <entry>
     <title>JS的call方法</title>
-    <link href="http://lucienlau.github.io/2019/11/23/JS%E7%9A%84call%E6%96%B9%E6%B3%95/"/>
-    <id>http://lucienlau.github.io/2019/11/23/JS%E7%9A%84call%E6%96%B9%E6%B3%95/</id>
+    <link href="https://damonlau27.github.io/2019/11/23/JS%E7%9A%84call%E6%96%B9%E6%B3%95/"/>
+    <id>https://damonlau27.github.io/2019/11/23/JS%E7%9A%84call%E6%96%B9%E6%B3%95/</id>
     <published>2019-11-22T17:39:43.000Z</published>
     <updated>2019-11-22T17:39:43.000Z</updated>
     
@@ -207,15 +207,15 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
   </entry>
   
   <entry>
     <title>JS原型和原型链</title>
-    <link href="http://lucienlau.github.io/2019/11/22/JS%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/"/>
-    <id>http://lucienlau.github.io/2019/11/22/JS%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/</id>
+    <link href="https://damonlau27.github.io/2019/11/22/JS%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/"/>
+    <id>https://damonlau27.github.io/2019/11/22/JS%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/</id>
     <published>2019-11-22T15:23:07.000Z</published>
     <updated>2019-11-22T15:23:07.000Z</updated>
     
@@ -226,15 +226,15 @@
     </summary>
     
     
-      <category term="攻城狮那些事儿" scheme="http://lucienlau.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
     
     
   </entry>
   
   <entry>
     <title>《伟大的博弈》读后</title>
-    <link href="http://lucienlau.github.io/2019/11/15/%E3%80%8A%E4%BC%9F%E5%A4%A7%E7%9A%84%E5%8D%9A%E5%BC%88%E3%80%8B%E8%AF%BB%E5%90%8E/"/>
-    <id>http://lucienlau.github.io/2019/11/15/%E3%80%8A%E4%BC%9F%E5%A4%A7%E7%9A%84%E5%8D%9A%E5%BC%88%E3%80%8B%E8%AF%BB%E5%90%8E/</id>
+    <link href="https://damonlau27.github.io/2019/11/15/%E3%80%8A%E4%BC%9F%E5%A4%A7%E7%9A%84%E5%8D%9A%E5%BC%88%E3%80%8B%E8%AF%BB%E5%90%8E/"/>
+    <id>https://damonlau27.github.io/2019/11/15/%E3%80%8A%E4%BC%9F%E5%A4%A7%E7%9A%84%E5%8D%9A%E5%BC%88%E3%80%8B%E8%AF%BB%E5%90%8E/</id>
     <published>2019-11-15T13:31:47.000Z</published>
     <updated>2019-11-15T13:31:47.000Z</updated>
     
@@ -245,17 +245,17 @@
     </summary>
     
     
-      <category term="电影阅读" scheme="http://lucienlau.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
+      <category term="电影阅读" scheme="https://damonlau27.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
     
     
-      <category term="读书" scheme="http://lucienlau.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
+      <category term="读书" scheme="https://damonlau27.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
     
   </entry>
   
   <entry>
     <title>《聪明的投资者》读后</title>
-    <link href="http://lucienlau.github.io/2019/11/10/%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85%E3%80%8B%E8%AF%BB%E5%90%8E/"/>
-    <id>http://lucienlau.github.io/2019/11/10/%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85%E3%80%8B%E8%AF%BB%E5%90%8E/</id>
+    <link href="https://damonlau27.github.io/2019/11/10/%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85%E3%80%8B%E8%AF%BB%E5%90%8E/"/>
+    <id>https://damonlau27.github.io/2019/11/10/%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85%E3%80%8B%E8%AF%BB%E5%90%8E/</id>
     <published>2019-11-10T14:30:58.000Z</published>
     <updated>2019-11-10T14:30:58.000Z</updated>
     
@@ -266,17 +266,17 @@
     </summary>
     
     
-      <category term="电影阅读" scheme="http://lucienlau.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
+      <category term="电影阅读" scheme="https://damonlau27.github.io/categories/%E7%94%B5%E5%BD%B1%E9%98%85%E8%AF%BB/"/>
     
     
-      <category term="读书" scheme="http://lucienlau.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
+      <category term="读书" scheme="https://damonlau27.github.io/tags/%E8%AF%BB%E4%B9%A6/"/>
     
   </entry>
   
   <entry>
     <title>scatter交易missing required accounts</title>
-    <link href="http://lucienlau.github.io/2019/02/18/scatter%E4%BA%A4%E6%98%93missing-required-accounts/"/>
-    <id>http://lucienlau.github.io/2019/02/18/scatter%E4%BA%A4%E6%98%93missing-required-accounts/</id>
+    <link href="https://damonlau27.github.io/2019/02/18/scatter%E4%BA%A4%E6%98%93missing-required-accounts/"/>
+    <id>https://damonlau27.github.io/2019/02/18/scatter%E4%BA%A4%E6%98%93missing-required-accounts/</id>
     <published>2019-02-18T07:39:23.000Z</published>
     <updated>2019-02-18T07:39:23.000Z</updated>
     
@@ -289,14 +289,14 @@
     
     
     
-      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
     
   </entry>
   
   <entry>
     <title>eosio.token的transfer的memo长度</title>
-    <link href="http://lucienlau.github.io/2019/02/18/eosio-token%E7%9A%84transfer%E7%9A%84memo%E9%95%BF%E5%BA%A6/"/>
-    <id>http://lucienlau.github.io/2019/02/18/eosio-token%E7%9A%84transfer%E7%9A%84memo%E9%95%BF%E5%BA%A6/</id>
+    <link href="https://damonlau27.github.io/2019/02/18/eosio-token%E7%9A%84transfer%E7%9A%84memo%E9%95%BF%E5%BA%A6/"/>
+    <id>https://damonlau27.github.io/2019/02/18/eosio-token%E7%9A%84transfer%E7%9A%84memo%E9%95%BF%E5%BA%A6/</id>
     <published>2019-02-18T07:07:12.000Z</published>
     <updated>2019-02-18T07:07:12.000Z</updated>
     
@@ -308,14 +308,14 @@
     
     
     
-      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
     
   </entry>
   
   <entry>
     <title>transaction declares authority错误</title>
-    <link href="http://lucienlau.github.io/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/"/>
-    <id>http://lucienlau.github.io/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/</id>
+    <link href="https://damonlau27.github.io/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/"/>
+    <id>https://damonlau27.github.io/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/</id>
     <published>2019-02-18T06:09:32.000Z</published>
     <updated>2019-02-18T06:09:32.000Z</updated>
     
@@ -328,14 +328,14 @@
     
     
     
-      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
     
   </entry>
   
   <entry>
     <title>节点rpc无法访问</title>
-    <link href="http://lucienlau.github.io/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/"/>
-    <id>http://lucienlau.github.io/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/</id>
+    <link href="https://damonlau27.github.io/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/"/>
+    <id>https://damonlau27.github.io/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/</id>
     <published>2019-02-18T05:39:45.000Z</published>
     <updated>2019-02-18T05:39:45.000Z</updated>
     
@@ -347,14 +347,14 @@
     
     
     
-      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
     
   </entry>
   
   <entry>
     <title>eos合约action命名</title>
-    <link href="http://lucienlau.github.io/2019/02/18/eos%E5%90%88%E7%BA%A6action%E5%91%BD%E5%90%8D/"/>
-    <id>http://lucienlau.github.io/2019/02/18/eos%E5%90%88%E7%BA%A6action%E5%91%BD%E5%90%8D/</id>
+    <link href="https://damonlau27.github.io/2019/02/18/eos%E5%90%88%E7%BA%A6action%E5%91%BD%E5%90%8D/"/>
+    <id>https://damonlau27.github.io/2019/02/18/eos%E5%90%88%E7%BA%A6action%E5%91%BD%E5%90%8D/</id>
     <published>2019-02-18T03:53:32.000Z</published>
     <updated>2019-02-18T03:53:32.000Z</updated>
     
@@ -366,14 +366,14 @@
     
     
     
-      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
     
   </entry>
   
   <entry>
     <title>config.ini中的signature-provider</title>
-    <link href="http://lucienlau.github.io/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/"/>
-    <id>http://lucienlau.github.io/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/</id>
+    <link href="https://damonlau27.github.io/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/"/>
+    <id>https://damonlau27.github.io/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/</id>
     <published>2019-02-18T03:30:25.000Z</published>
     <updated>2019-02-18T03:30:25.000Z</updated>
     
@@ -385,14 +385,14 @@
     
     
     
-      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
     
   </entry>
   
   <entry>
     <title>eosio计算ram价格</title>
-    <link href="http://lucienlau.github.io/2019/02/18/eosio%E8%AE%A1%E7%AE%97ram%E4%BB%B7%E6%A0%BC/"/>
-    <id>http://lucienlau.github.io/2019/02/18/eosio%E8%AE%A1%E7%AE%97ram%E4%BB%B7%E6%A0%BC/</id>
+    <link href="https://damonlau27.github.io/2019/02/18/eosio%E8%AE%A1%E7%AE%97ram%E4%BB%B7%E6%A0%BC/"/>
+    <id>https://damonlau27.github.io/2019/02/18/eosio%E8%AE%A1%E7%AE%97ram%E4%BB%B7%E6%A0%BC/</id>
     <published>2019-02-18T03:02:19.000Z</published>
     <updated>2019-02-18T03:02:19.000Z</updated>
     
@@ -404,7 +404,7 @@
     
     
     
-      <category term="eosio" scheme="http://lucienlau.github.io/tags/eosio/"/>
+      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
     
   </entry>
   

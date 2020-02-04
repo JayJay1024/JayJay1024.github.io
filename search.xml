@@ -1280,7 +1280,7 @@
 </li>
 </ul>
 <ul>
-<li>部署成功如下，此时在浏览器输入<em><a href="http://lucienlau.github.io">http://lucienlau.github.io</a></em>可以访问页面了<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/hexo_deploy_success" alt="hexo_deploy_success"></li>
+<li>部署成功如下，此时在浏览器输入<em><a href="http://lucienlau.github.io" target="_blank" rel="noopener">http://lucienlau.github.io</a></em>可以访问页面了<br><img src="http://ocww00tfq.bkt.clouddn.com/image/jpg/hexo_deploy_success" alt="hexo_deploy_success"></li>
 </ul>
 <h2 id="新建博客："><a href="#新建博客：" class="headerlink" title="新建博客："></a>新建博客：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new &quot;blogName&quot;</span><br></pre></td></tr></table></figure>
 <blockquote>
