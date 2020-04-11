@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://damonlau27.github.io/"/>
-  <updated>2020-02-15T13:49:47.000Z</updated>
+  <updated>2020-04-11T13:08:16.000Z</updated>
   <id>https://damonlau27.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>react+typescript+jest踩坑</title>
+    <link href="https://damonlau27.github.io/2020/04/11/react-typescript-jest%E8%B8%A9%E5%9D%91/"/>
+    <id>https://damonlau27.github.io/2020/04/11/react-typescript-jest%E8%B8%A9%E5%9D%91/</id>
+    <published>2020-04-11T13:08:16.000Z</published>
+    <updated>2020-04-11T13:08:16.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;使用Typescript和一些配置&quot;&gt;&lt;a href=&quot;#使用Typescript和一些配置&quot; class=&quot;headerlink&quot; title=&quot;使用Typescript和一些配置&quot;&gt;&lt;/a&gt;使用Typescript和一些配置&lt;/h2&gt;&lt;h4 id=&quot;package-json&quot;&gt;&lt;a href=&quot;#package-json&quot; class=&quot;headerlink&quot; title=&quot;package.json&quot;&gt;&lt;/a&gt;package.json&lt;/h4&gt;&lt;p&gt;&lt;code&gt;babelConfig&lt;/code&gt; 用于告诉 ts-jest 是否使用 babel 。false不使用，true会查找 babel 配置文件，如 babel.config.json ，也可以配置某个具体的值。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;identity-obj-proxy&lt;/code&gt;用于jest mock css module&lt;/p&gt;
+&lt;p&gt;tsx 使用 babel-jest transform 遇到无法解析，后来改为使用 ts-jest 能解决问题&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>《滚雪球--巴菲特和他的财富人生》</title>
@@ -382,25 +403,6 @@
     <summary type="html">
     
       &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;EOS 中，合约的&lt;code&gt;action&lt;/code&gt;对应合约 C++ 代码中的一个函数，如果你认为这个函数可以像传统 C++ 编码那样命名，那就错了。因为对应合约的&lt;code&gt;action&lt;/code&gt;，所以有一些规则限制。&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>config.ini中的signature-provider</title>
-    <link href="https://damonlau27.github.io/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/"/>
-    <id>https://damonlau27.github.io/2019/02/18/config-ini%E4%B8%AD%E7%9A%84signature-provider/</id>
-    <published>2019-02-18T03:30:25.000Z</published>
-    <updated>2019-02-18T03:30:25.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;如果你要部署一个 EOSIO 的出块节点，你可能会关心这个问题。如果不是，或者你只是部署一个普通节点，那你不用care这里说的。&lt;/p&gt;
     
     </summary>
     
