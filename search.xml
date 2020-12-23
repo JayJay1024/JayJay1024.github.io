@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>jsx react-jsx error</title>
+    <url>/2020/12/23/jsx-react-jsx-error/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>通过<code>yarn create react-app antd-demo-ts --template typescript</code>创建项目，使用VSCode打开项目提示错误：</p>
+<a id="more"></a>
+
+<p><img src="/imgss/react-jsx-error-01.png" alt="png"><br><img src="/imgss/react-jsx-error-02.png" alt="png"></p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>VSCode使用的Typescript版本问题</p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>VSCode选择使用工作区的版本</p>
+<p><img src="/imgss/react-jsx-error-03.png" alt="png"><br><img src="/imgss/react-jsx-error-04.png" alt="png"><br><img src="/imgss/react-jsx-error-05.png" alt="png"><br><img src="/imgss/react-jsx-error-06.png" alt="png"></p>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+  </entry>
+  <entry>
     <title>react+typescript+jest踩坑</title>
     <url>/2020/04/11/react-typescript-jest%E8%B8%A9%E5%9D%91/</url>
     <content><![CDATA[<h2 id="使用Typescript和一些配置"><a href="#使用Typescript和一些配置" class="headerlink" title="使用Typescript和一些配置"></a>使用Typescript和一些配置</h2><h4 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h4><p><code>babelConfig</code> 用于告诉 ts-jest 是否使用 babel 。false不使用，true会查找 babel 配置文件，如 babel.config.json ，也可以配置某个具体的值。</p>
