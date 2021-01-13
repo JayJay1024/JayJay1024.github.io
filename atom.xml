@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://damonlau27.github.io/"/>
-  <updated>2021-01-13T03:18:41.000Z</updated>
+  <updated>2021-01-13T05:46:32.000Z</updated>
   <id>https://damonlau27.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>React Testing</title>
+    <link href="https://damonlau27.github.io/2021/01/13/React-Testing/"/>
+    <id>https://damonlau27.github.io/2021/01/13/React-Testing/</id>
+    <published>2021-01-13T05:46:32.000Z</published>
+    <updated>2021-01-13T05:46:32.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot; class=&quot;headerlink&quot; title=&quot;描述&quot;&gt;&lt;/a&gt;描述&lt;/h2&gt;&lt;h4 id=&quot;Tools&quot;&gt;&lt;a href=&quot;#Tools&quot; class=&quot;headerlink&quot; title=&quot;Tools&quot;&gt;&lt;/a&gt;Tools&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://facebook.github.io/jest/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Jest&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://testing-library.com/react&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;React Testing Library&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;总步骤&quot;&gt;&lt;a href=&quot;#总步骤&quot; class=&quot;headerlink&quot; title=&quot;总步骤&quot;&gt;&lt;/a&gt;总步骤&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;通过&lt;code&gt;render&lt;/code&gt;等渲染函数，渲染一个组件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Queries&lt;/code&gt;等查询、获取组件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Expect&lt;/code&gt;断言渲染结果、状态值&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+      <category term="React" scheme="https://damonlau27.github.io/tags/React/"/>
+    
+  </entry>
   
   <entry>
     <title>Hooks Redux</title>
@@ -385,26 +414,6 @@
     <summary type="html">
     
       &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;平时我们进行 EOS 币转账的时候，&lt;code&gt;memo&lt;/code&gt;最多可以填多少个汉字、多少个英文字符呢？&lt;/p&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>transaction declares authority错误</title>
-    <link href="https://damonlau27.github.io/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/"/>
-    <id>https://damonlau27.github.io/2019/02/18/transaction-declares-authority%E9%94%99%E8%AF%AF/</id>
-    <published>2019-02-18T06:09:32.000Z</published>
-    <updated>2019-02-18T06:09:32.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;push action 或者 transaction 的时候，出现类似以下错误：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;transaction declares authority &amp;#39;&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;active&amp;quot;&amp;#125;&amp;#39;, but does not have signatures for it under a provided delay of 0 ms, provided permissions [&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;eosio.code&amp;quot;&amp;#125;], and provided keys []&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     

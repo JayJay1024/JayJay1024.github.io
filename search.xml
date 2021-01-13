@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>React Testing</title>
+    <url>/2021/01/13/React-Testing/</url>
+    <content><![CDATA[<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><h4 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h4><ul>
+<li><a href="https://facebook.github.io/jest/" target="_blank" rel="noopener">Jest</a></li>
+<li><a href="https://testing-library.com/react" target="_blank" rel="noopener">React Testing Library</a></li>
+</ul>
+<h4 id="总步骤"><a href="#总步骤" class="headerlink" title="总步骤"></a>总步骤</h4><ol>
+<li>通过<code>render</code>等渲染函数，渲染一个组件</li>
+<li><code>Queries</code>等查询、获取组件</li>
+<li><code>Expect</code>断言渲染结果、状态值</li>
+</ol>
+<a id="more"></a>
+
+<h4 id="一些行为"><a href="#一些行为" class="headerlink" title="一些行为"></a>一些行为</h4><ul>
+<li>对模块、函数、时间进行Mock</li>
+<li><code>beforeEach</code>等函数对环境进行设置、清除</li>
+<li><code>act</code>等函数等待渲染完成，以便对确定完成的结果进行断言</li>
+<li><code>fireEvent</code>发送时间，如点击事件</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://reactjs.org/docs/testing-recipes.html" target="_blank" rel="noopener">https://reactjs.org/docs/testing-recipes.html</a></li>
+<li><a href="https://testing-library.com/" target="_blank" rel="noopener">https://testing-library.com/</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>攻城狮那些事儿</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hooks Redux</title>
     <url>/2021/01/13/Hooks-Redux/</url>
     <content><![CDATA[<h2 id="Top-Level-File"><a href="#Top-Level-File" class="headerlink" title="Top Level File"></a>Top Level File</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; Provider &#125; from &#39;react-redux&#39;;</span><br><span class="line">import store from &#39;&lt;path of store file&gt;&#39;;</span><br><span class="line"></span><br><span class="line">export type RootState &#x3D; ReturnType&lt;typeof store.getState&gt;;</span><br><span class="line"></span><br><span class="line">&lt;Provider store&#x3D;&#123;store&#125;&gt;</span><br><span class="line">    &lt;App &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;Provider&gt;</span><br></pre></td></tr></table></figure>
