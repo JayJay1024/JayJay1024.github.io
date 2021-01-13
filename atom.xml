@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://damonlau27.github.io/"/>
-  <updated>2020-12-23T08:15:47.000Z</updated>
+  <updated>2021-01-13T03:18:41.000Z</updated>
   <id>https://damonlau27.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hooks Redux</title>
+    <link href="https://damonlau27.github.io/2021/01/13/Hooks-Redux/"/>
+    <id>https://damonlau27.github.io/2021/01/13/Hooks-Redux/</id>
+    <published>2021-01-13T03:18:41.000Z</published>
+    <updated>2021-01-13T03:18:41.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Top-Level-File&quot;&gt;&lt;a href=&quot;#Top-Level-File&quot; class=&quot;headerlink&quot; title=&quot;Top Level File&quot;&gt;&lt;/a&gt;Top Level File&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;import &amp;#123; Provider &amp;#125; from &amp;#39;react-redux&amp;#39;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;import store from &amp;#39;&amp;lt;path of store file&amp;gt;&amp;#39;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;export type RootState &amp;#x3D; ReturnType&amp;lt;typeof store.getState&amp;gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;Provider store&amp;#x3D;&amp;#123;store&amp;#125;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;lt;App &amp;#x2F;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;&amp;#x2F;Provider&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="攻城狮那些事儿" scheme="https://damonlau27.github.io/categories/%E6%94%BB%E5%9F%8E%E7%8B%AE%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
+    
+    
+      <category term="Redux" scheme="https://damonlau27.github.io/tags/Redux/"/>
+    
+  </entry>
   
   <entry>
     <title>jsx react-jsx error</title>
@@ -384,25 +405,6 @@
     
       &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;push action 或者 transaction 的时候，出现类似以下错误：&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;transaction declares authority &amp;#39;&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;active&amp;quot;&amp;#125;&amp;#39;, but does not have signatures for it under a provided delay of 0 ms, provided permissions [&amp;#123;&amp;quot;actor&amp;quot;:&amp;quot;myaccount111&amp;quot;,&amp;quot;permission&amp;quot;:&amp;quot;eosio.code&amp;quot;&amp;#125;], and provided keys []&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-    
-      <category term="eosio" scheme="https://damonlau27.github.io/tags/eosio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>节点rpc无法访问</title>
-    <link href="https://damonlau27.github.io/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/"/>
-    <id>https://damonlau27.github.io/2019/02/18/%E8%8A%82%E7%82%B9rpc%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE/</id>
-    <published>2019-02-18T05:39:45.000Z</published>
-    <updated>2019-02-18T05:39:45.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;概述：&quot;&gt;&lt;a href=&quot;#概述：&quot; class=&quot;headerlink&quot; title=&quot;概述：&quot;&gt;&lt;/a&gt;概述：&lt;/h2&gt;&lt;p&gt;你通过&lt;code&gt;config.ini&lt;/code&gt;配置了&lt;code&gt;http-server-address = 0.0.0.0:8888&lt;/code&gt;，并且配置了插件&lt;code&gt;plugin = eosio::http_plugin&lt;/code&gt;，假设你的 server 的公开 ip 为&lt;code&gt;12.34.56.78&lt;/code&gt;，氮素&lt;code&gt;cleos -u http://12.34.56.78:8888&lt;/code&gt;仍然无法访问你的节点 rpc。&lt;/p&gt;
     
     </summary>
     
